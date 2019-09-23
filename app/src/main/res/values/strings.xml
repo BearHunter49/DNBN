@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">동네방네</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="menu_live">Live</string>
+    <string name="menu_vod">VOD</string>
+    <string name="menu_schedule">편성표</string>
+    <string name="view_all">전체보기</string>
+    <string name="testimgurl">https://file.namu.moe/file/14227fd88b4493f2746fe3f47d06acb6ccbbe13b600cfded0ecee1b08e2765fcfa1ecb1be45d7b936c956e69167be31c29151de75de83b69233b79620e0bfa22c2ed9f2ce8c0b2df527a66cae2bbd99e</string>
+    <string name="testplayurl">https://sywblelzxjjjqz.data.mediastore.ap-northeast-2.amazonaws.com/Test/main.m3u8</string>
+</resources>

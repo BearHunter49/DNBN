@@ -1,0 +1,279 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:layout_width="match_parent" android:layout_height="match_parent"
+                android:background="@color/bg"
+                tools:context=".fragment.HomeFragment">
+
+    <ProgressBar android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:id="@+id/progressBar1"
+                 style="?android:attr/progressBarStyleLarge"
+                 android:layout_centerHorizontal="true"
+                 android:layout_centerVertical="true"
+                 android:visibility="gone"/>
+
+    <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/nestedScrollView">
+
+        <LinearLayout
+                android:layout_width="match_parent" android:layout_height="match_parent"
+                android:orientation="vertical">
+
+            <RelativeLayout
+                    android:layout_width="match_parent" android:layout_height="wrap_content"
+                    android:id="@+id/lytSlider">
+
+                <androidx.viewpager.widget.ViewPager
+                        android:layout_width="match_parent"
+                        android:layout_height="300dp"
+                        android:id="@+id/viewPager"/>
+
+                <me.relex.circleindicator.CircleIndicator
+                        android:layout_width="wrap_content"
+                        android:layout_height="30dp"
+                        android:id="@+id/indicator_unselected_background"
+                        android:layout_alignParentBottom="true"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginEnd="20dp"
+                        android:paddingBottom="20dp"
+                        app:ci_drawable="@drawable/step_select_circle"
+                        app:ci_drawable_unselected="@drawable/step_unselect_circle"
+                        app:ci_height="5dp"
+                        app:ci_width="5dp">
+                </me.relex.circleindicator.CircleIndicator>
+
+            </RelativeLayout>
+
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                          android:id="@+id/lytHomeLive"
+                          android:layout_marginTop="10dp"
+                          android:orientation="vertical">
+
+                <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="10dp"
+                        android:layout_marginStart="10dp">
+
+                    <View
+                            android:id="@+id/viewRecent"
+                            android:layout_width="2dp"
+                            android:layout_height="30dp"
+                            android:layout_alignParentStart="true"
+                            android:background="@color/yellow"/>
+
+                    <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginEnd="10dp"
+                            android:layout_marginStart="10dp"
+                            android:layout_toEndOf="@+id/viewRecent"
+                            android:layout_toStartOf="@+id/textLiveViewAll"
+                            android:gravity="start">
+
+                        <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/menu_live"
+                                android:textColor="@color/white"
+                                android:textSize="15sp"/>
+
+                    </LinearLayout>
+
+                    <TextView
+                            android:id="@+id/textLiveViewAll"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:text="@string/view_all"
+                            android:textColor="@color/yellow"
+                            android:textSize="12sp"/>
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginTop="10dp">
+
+                    <com.bosphere.fadingedgelayout.FadingEdgeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:id="@+id/feLive"
+                            app:fel_edge="right"
+                            app:fel_size_right="80dp">
+
+                        <androidx.recyclerview.widget.RecyclerView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:id="@+id/rv_live">
+                        </androidx.recyclerview.widget.RecyclerView>
+
+                    </com.bosphere.fadingedgelayout.FadingEdgeLayout>
+
+                </RelativeLayout>
+            </LinearLayout>
+
+            <LinearLayout android:layout_width="match_parent"
+                          android:layout_height="wrap_content"
+                          android:id="@+id/lytHomeVOD"
+                          android:layout_marginTop="10dp"
+                          android:orientation="vertical">
+
+                <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="10dp"
+                        android:layout_marginStart="10dp">
+
+                    <View
+                            android:id="@+id/viewVOD"
+                            android:layout_width="2dp"
+                            android:layout_height="30dp"
+                            android:layout_alignParentStart="true"
+                            android:background="@color/yellow"/>
+
+                    <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginEnd="10dp"
+                            android:layout_marginStart="10dp"
+                            android:layout_toEndOf="@+id/viewVOD"
+                            android:layout_toStartOf="@+id/textVODViewAll"
+                            android:gravity="start">
+
+                        <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/menu_vod"
+                                android:textColor="@color/white"
+                                android:textSize="15sp"/>
+
+                    </LinearLayout>
+
+                    <TextView
+                            android:id="@+id/textVODViewAll"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:text="@string/view_all"
+                            android:textColor="@color/yellow"
+                            android:textSize="12sp"/>
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginTop="10dp">
+
+                    <com.bosphere.fadingedgelayout.FadingEdgeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:id="@+id/feVOD"
+                            app:fel_edge="right"
+                            app:fel_size_right="80dp">
+
+                        <androidx.recyclerview.widget.RecyclerView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:id="@+id/rv_vod">
+                        </androidx.recyclerview.widget.RecyclerView>
+
+                    </com.bosphere.fadingedgelayout.FadingEdgeLayout>
+
+                </RelativeLayout>
+            </LinearLayout>
+
+            <LinearLayout android:layout_width="match_parent"
+                          android:layout_height="wrap_content"
+                          android:id="@+id/lytHomeSchedule"
+                          android:layout_marginTop="10dp"
+                          android:orientation="vertical">
+
+                <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="10dp"
+                        android:layout_marginStart="10dp">
+
+                    <View
+                            android:id="@+id/viewSchedule"
+                            android:layout_width="2dp"
+                            android:layout_height="30dp"
+                            android:layout_alignParentStart="true"
+                            android:background="@color/yellow"/>
+
+                    <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginEnd="10dp"
+                            android:layout_marginStart="10dp"
+                            android:layout_toEndOf="@+id/viewSchedule"
+                            android:layout_toStartOf="@+id/textVODViewAll"
+                            android:gravity="start">
+
+                        <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/menu_schedule"
+                                android:textColor="@color/white"
+                                android:textSize="15sp"/>
+
+                    </LinearLayout>
+
+                    <TextView
+                            android:id="@+id/textScheduleViewAll"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:text="@string/view_all"
+                            android:textColor="@color/yellow"
+                            android:textSize="12sp"/>
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginTop="10dp">
+
+                    <com.bosphere.fadingedgelayout.FadingEdgeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:id="@+id/feSchedule"
+                            app:fel_edge="right"
+                            app:fel_size_right="80dp">
+
+                        <androidx.recyclerview.widget.RecyclerView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:id="@+id/rv_schedule">
+                        </androidx.recyclerview.widget.RecyclerView>
+
+                    </com.bosphere.fadingedgelayout.FadingEdgeLayout>
+
+                </RelativeLayout>
+            </LinearLayout>
+
+
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+
+</RelativeLayout>
