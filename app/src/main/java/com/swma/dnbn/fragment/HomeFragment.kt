@@ -73,7 +73,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun displayData() {
-        
+
     }
 
 
