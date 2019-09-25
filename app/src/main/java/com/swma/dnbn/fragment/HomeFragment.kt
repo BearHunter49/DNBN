@@ -7,11 +7,17 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.swma.dnbn.R
+import com.swma.dnbn.adapter.HomeLiveAdapter
+import com.swma.dnbn.adapter.HomeScheduleAdapter
+import com.swma.dnbn.adapter.HomeVODAdapter
+import com.swma.dnbn.adapter.SlideAdapter
 import com.swma.dnbn.item.ItemLive
 import com.swma.dnbn.item.ItemSchedule
+import com.swma.dnbn.item.ItemSlide
 import com.swma.dnbn.item.ItemVOD
-import com.swma.dnbn.util.IsRTL
-import kotlinx.android.synthetic.main.fragment_home.*
+import kotlinx.android.synthetic.main.fragment_home.view.*
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 
 
 class HomeFragment : Fragment() {
@@ -19,35 +25,41 @@ class HomeFragment : Fragment() {
     lateinit var liveList: ArrayList<ItemLive>
     lateinit var vodList: ArrayList<ItemVOD>
     lateinit var scheduleList: ArrayList<ItemSchedule>
+    lateinit var slideList: ArrayList<ItemSlide>
+    lateinit var rootView: View
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val rootView = inflater.inflate(R.layout.fragment_home, container, false)
+        rootView = inflater.inflate(R.layout.fragment_home, container, false)
 
-        IsRTL.changeShadowInRtl(requireActivity(), feLive)
-        IsRTL.changeShadowInRtl(requireActivity(), feVOD)
-        IsRTL.changeShadowInRtl(requireActivity(), feSchedule)
+//        IsRTL.changeShadowInRtl(requireActivity(), rootView.feLive)
+//        IsRTL.changeShadowInRtl(requireActivity(), rootView.feVOD)
+//        IsRTL.changeShadowInRtl(requireActivity(), rootView.feSchedule)
 
-        // recyclerView
-        rv_live.apply {
-            setHasFixedSize(true)
-            layoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
-            focusable = View.NOT_FOCUSABLE
+        rootView.apply {
+
+            // recyclerView
+            rv_live.apply {
+                setHasFixedSize(true)
+                layoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
+                focusable = View.NOT_FOCUSABLE
+            }
+
+            rv_vod.apply {
+                setHasFixedSize(true)
+                layoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
+                focusable = View.NOT_FOCUSABLE
+            }
+
+            rv_schedule.apply {
+                setHasFixedSize(true)
+                layoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
+                focusable = View.NOT_FOCUSABLE
+            }
         }
 
-        rv_vod.apply {
-            setHasFixedSize(true)
-            layoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
-            focusable = View.NOT_FOCUSABLE
-        }
-
-        rv_schedule.apply {
-            setHasFixedSize(true)
-            layoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
-            focusable = View.NOT_FOCUSABLE
-        }
 
         getHome()
 
@@ -58,21 +70,78 @@ class HomeFragment : Fragment() {
     // Home Fragment 만들기
     private fun getHome() {
         // Retrofit2 로 HTTP 통신 하기
+        // 데이터 넣기
         //
-        //
-        liveList.add(ItemLive("1", "TestTitle", getString(R.string.testimgurl), "Food", getString(R.string.testplayurl),
-            "bearhunter", "1010"))
+        slideList = ArrayList()
+        liveList = ArrayList()
+        vodList = ArrayList()
+        scheduleList = ArrayList()
 
-        vodList.add(ItemVOD("1", "TestTitle", getString(R.string.testimgurl), "Food", "http://cdnapi.kaltura.com/p/1878761/sp/187876100/playManifest/entryId/1_usagz19w/flavorIds/1_5spqkazq,1_nslowvhp,1_boih5aji,1_qahc37ag/format/applehttp/protocol/http/a.m3u8",
-            "foodhunter", "2020", "TestTestTest"))
+        slideList.add(ItemSlide("1", "올 신상품", "10,000", "7,900", "http://optimal.inven.co.kr/upload/2017/09/23/bbs/i14062904077.jpg"))
+        slideList.add(ItemSlide("1", "올 신상품", "10,000", "7,900", "http://optimal.inven.co.kr/upload/2017/09/23/bbs/i14062904077.jpg"))
+        slideList.add(ItemSlide("1", "올 신상품", "10,000", "7,900", "http://optimal.inven.co.kr/upload/2017/09/23/bbs/i14062904077.jpg"))
 
-        scheduleList.add(ItemSchedule("1", "bearhunter", "2020", "20190923"))
+        liveList.add(ItemLive("1", "작년 신상품", getString(R.string.testimgurl), "Food", getString(R.string.testplayurl),
+            "100", "1010"))
+        liveList.add(ItemLive("1", "작년 신상품", getString(R.string.testimgurl), "Food", getString(R.string.testplayurl),
+            "100", "1010"))
+        liveList.add(ItemLive("1", "작년 신상품", getString(R.string.testimgurl), "Food", getString(R.string.testplayurl),
+            "100", "1010"))
+
+        vodList.add(ItemVOD("1", "내일 신상품", getString(R.string.testimgurl), "Food", "http://cdnapi.kaltura.com/p/1878761/sp/187876100/playManifest/entryId/1_usagz19w/flavorIds/1_5spqkazq,1_nslowvhp,1_boih5aji,1_qahc37ag/format/applehttp/protocol/http/a.m3u8",
+            "120", "2020", "TestTestTest"))
+        vodList.add(ItemVOD("1", "내일 신상품", getString(R.string.testimgurl), "Food", "http://cdnapi.kaltura.com/p/1878761/sp/187876100/playManifest/entryId/1_usagz19w/flavorIds/1_5spqkazq,1_nslowvhp,1_boih5aji,1_qahc37ag/format/applehttp/protocol/http/a.m3u8",
+            "120", "2020", "TestTestTest"))
+        vodList.add(ItemVOD("1", "내일 신상품", getString(R.string.testimgurl), "Food", "http://cdnapi.kaltura.com/p/1878761/sp/187876100/playManifest/entryId/1_usagz19w/flavorIds/1_5spqkazq,1_nslowvhp,1_boih5aji,1_qahc37ag/format/applehttp/protocol/http/a.m3u8",
+            "120", "2020", "TestTestTest"))
+
+        scheduleList.add(ItemSchedule("1", "내년 신상품", "100", "bearhunter", "2020", "오늘 저녁 7:15",
+            "http://optimal.inven.co.kr/upload/2015/02/24/bbs/i1617629232.jpg"))
+        scheduleList.add(ItemSchedule("1", "내년 신상품", "100", "bearhunter", "2020", "오늘 저녁 7:15",
+            "http://optimal.inven.co.kr/upload/2015/02/24/bbs/i1617629232.jpg"))
+        scheduleList.add(ItemSchedule("1", "내년 신상품", "100", "bearhunter", "2020", "오늘 저녁 7:15",
+            "http://optimal.inven.co.kr/upload/2015/02/24/bbs/i1617629232.jpg"))
+
 
         displayData()
-
     }
 
+    // RV 어댑터 붙이기
     private fun displayData() {
+
+        rootView.apply {
+
+            // 배너 슬라이드
+            viewPager.adapter = SlideAdapter(requireActivity(), slideList)
+            indicator_unselected_background.setViewPager(viewPager)
+
+            // Live
+            if (liveList.isEmpty()){
+                lytHomeLive.visibility = View.GONE
+            }else {
+                rv_live.adapter = HomeLiveAdapter(requireActivity(), liveList)
+            }
+
+            // VOD
+            if (vodList.isEmpty()){
+                lytHomeVOD.visibility = View.GONE
+            }else {
+                rv_vod.adapter = HomeVODAdapter(requireActivity(), vodList)
+            }
+
+            // 편성표
+            if (scheduleList.isEmpty()){
+                lytHomeSchedule.visibility = View.GONE
+            }else {
+                rv_schedule.adapter = HomeScheduleAdapter(requireActivity(), scheduleList)
+            }
+
+
+            // 편성표 날짜 설정
+            textToday.text = LocalDate.now().format(DateTimeFormatter.ofPattern("MM월 dd일"))
+        }
+
+
 
     }
 

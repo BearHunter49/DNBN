@@ -222,6 +222,7 @@
                             android:layout_marginStart="10dp"
                             android:layout_toEndOf="@+id/viewSchedule"
                             android:layout_toStartOf="@+id/textScheduleViewAll"
+                            android:orientation="horizontal"
                             android:gravity="start">
 
                         <TextView
@@ -230,6 +231,16 @@
                                 android:text="@string/menu_schedule"
                                 android:textColor="@color/white"
                                 android:textSize="15sp"/>
+
+                        <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:id="@+id/textToday"
+                                android:textColor="@color/white"
+                                android:gravity="center_horizontal"
+                                android:textStyle="bold"
+                                android:textSize="13sp"
+                        />
 
                     </LinearLayout>
 
@@ -250,6 +261,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="10dp"
                         android:layout_marginTop="10dp">
+
 
                     <com.bosphere.fadingedgelayout.FadingEdgeLayout
                             android:layout_width="match_parent"
