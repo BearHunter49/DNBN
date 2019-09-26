@@ -18,9 +18,43 @@
             android:layout_height="0dp"
             android:id="@+id/Container"
             app:layout_constraintTop_toBottomOf="@+id/toolbar_main"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"/>
+            app:layout_constraintBottom_toTopOf="@+id/lytTab"/>
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:id="@+id/lytTab"
+            android:background="@color/bg"
+            android:padding="10dp"
+            app:layout_constraintBottom_toBottomOf="parent">
+
+        <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/home_64_orange"
+                android:id="@+id/imgHome"
+                android:layout_weight="1"
+        />
+
+        <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/shop_64_white"
+                android:id="@+id/imgShopping"
+                android:layout_weight="1"
+        />
+
+        <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/user_64_white"
+                android:id="@+id/imgUser"
+                android:layout_weight="1"
+        />
+
+
+    </LinearLayout>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

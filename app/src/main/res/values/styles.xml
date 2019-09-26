@@ -7,6 +7,14 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:statusBarColor">#000000</item>
+    </style>
+
+    <style name="TabTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorPrimary">@color/bg</item>                                <!-- 배경 -->
+        <item name="android:textColorPrimary">@color/yellow</item>       <!-- 탭바 선택된 텍스트 -->
+        <item name="android:textColorSecondary">#7E7E7E</item>     <!-- 탭바 텍스트 -->
+        <item name="colorAccent">@color/yellow</item>                    <!-- 하단 움직이는 바 색-->
     </style>
 
 </resources>

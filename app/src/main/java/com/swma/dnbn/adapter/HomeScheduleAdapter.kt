@@ -23,7 +23,7 @@ class HomeScheduleAdapter(private val context: Context, private val items:ArrayL
         items[position].let { item ->
             with(holder){
                 title.text = item.scheduleTitle
-                user.text = item.scheduleUserId
+                user.text = item.scheduleUserName
                 // 2019년9월25일23시25분00초 형식
 //                val index = item.scheduleDate.indexOf("일")
                 date.text = item.scheduleDate

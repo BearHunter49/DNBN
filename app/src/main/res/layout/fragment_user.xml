@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/bg"
+                tools:context=".fragment.UserFragment">
+
+    <androidx.core.widget.NestedScrollView
+            android:id="@+id/userNestedScrollView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        <LinearLayout
+                android:orientation="vertical"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+            <RelativeLayout android:layout_width="match_parent"
+                            android:layout_height="80dp"
+                            android:layout_marginTop="5dp">
+
+                <LinearLayout android:layout_width="wrap_content"
+                              android:layout_height="wrap_content"
+                              android:orientation="vertical"
+                              android:layout_centerVertical="true"
+                              android:id="@+id/lytUserProfile">
+
+                    <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="베어헌터"
+                            android:id="@+id/textUserName"
+                            android:textColor="@color/white"
+                            android:textStyle="bold"
+                            android:textSize="18sp"
+                    />
+
+                    <TextView android:layout_width="wrap_content"
+                              android:layout_height="wrap_content"
+                              android:id="@+id/textUserFollower"
+                              android:text="팔로잉 0"
+                              android:textColor="@color/white"
+                              android:textSize="13sp"/>
+
+                </LinearLayout>
+
+                <ImageView android:layout_width="wrap_content"
+                           android:layout_height="wrap_content"
+                           android:id="@+id/imgUserProfile"
+                           android:contentDescription="@string/app_name"
+                           android:layout_alignParentEnd="true"
+                           android:layout_centerVertical="true"
+                           android:src="@drawable/lamg_thunder"/>
+
+
+            </RelativeLayout>
+
+            <com.google.android.material.appbar.AppBarLayout
+                    android:id="@+id/appBarLayout"
+                    android:layout_marginTop="20dp"
+                    android:theme="@style/TabTheme"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                <com.google.android.material.tabs.TabLayout
+                        android:id="@+id/tabLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="70dp"
+                >
+
+                </com.google.android.material.tabs.TabLayout>
+
+            </com.google.android.material.appbar.AppBarLayout>
+
+            <androidx.viewpager.widget.ViewPager
+                    android:id="@+id/userViewPager"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+            </androidx.viewpager.widget.ViewPager>
+
+
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+</RelativeLayout>
