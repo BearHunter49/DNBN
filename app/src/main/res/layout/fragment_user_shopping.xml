@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/bg"
+                tools:context=".fragment.UserShoppingFragment">
+
+    <androidx.core.widget.NestedScrollView
+            android:id="@+id/userNestedScrollView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        <RelativeLayout android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+
+            <TextView android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:textSize="13sp"
+                      android:text="나의 쇼핑정보"
+                      android:id="@+id/textMyShop"
+                      android:layout_marginTop="10dp"
+                      android:textColor="@color/intro_circle_un_select"/>
+
+
+            <RelativeLayout android:layout_width="match_parent"
+                            android:layout_below="@+id/textMyShop"
+                            android:background="@color/dark_gray"
+                            android:id="@+id/lytUserOrder"
+                            android:layout_marginTop="10dp"
+                            android:layout_height="50dp">
+
+                <TextView android:layout_width="wrap_content"
+                          android:textColor="@color/white"
+                          android:text="주문 배송 조회"
+                          android:textStyle="bold"
+                          android:layout_centerVertical="true"
+                          android:layout_marginStart="10dp"
+                          android:textSize="14sp"
+                          android:layout_height="wrap_content"/>
+
+                <ImageView
+                        android:layout_width="50dp"
+                        android:layout_height="30dp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/right_arrow"/>
+            </RelativeLayout>
+
+            <RelativeLayout android:layout_width="match_parent"
+                            android:layout_below="@+id/lytUserOrder"
+                            android:background="@color/dark_gray"
+                            android:layout_marginTop="2dp"
+                            android:id="@+id/lytUserReview"
+                            android:layout_height="50dp">
+
+                <TextView android:layout_width="wrap_content"
+                          android:textColor="@color/white"
+                          android:text="상품 후기 내역"
+                          android:textStyle="bold"
+                          android:layout_centerVertical="true"
+                          android:layout_marginStart="10dp"
+                          android:textSize="14sp"
+                          android:layout_height="wrap_content"/>
+
+                <ImageView
+                        android:layout_width="50dp"
+                        android:layout_height="30dp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/right_arrow"/>
+            </RelativeLayout>
+
+            <RelativeLayout android:layout_width="match_parent"
+                            android:layout_below="@+id/lytUserReview"
+                            android:background="@color/dark_gray"
+                            android:layout_marginTop="2dp"
+                            android:id="@+id/lytUserReport"
+                            android:layout_height="50dp">
+
+                <TextView android:layout_width="wrap_content"
+                          android:textColor="@color/white"
+                          android:text="1:1 문의 내역"
+                          android:textStyle="bold"
+                          android:layout_centerVertical="true"
+                          android:layout_marginStart="10dp"
+                          android:textSize="14sp"
+                          android:layout_height="wrap_content"/>
+
+                <ImageView
+                        android:layout_width="50dp"
+                        android:layout_height="30dp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/right_arrow"/>
+            </RelativeLayout>
+
+            <TextView android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:text="서비스 안내"
+                      android:id="@+id/textService"
+                      android:textSize="13sp"
+                      android:layout_marginTop="10dp"
+                      android:layout_below="@+id/lytUserReport"
+                      android:textColor="@color/intro_circle_un_select"/>
+
+
+            <RelativeLayout android:layout_width="match_parent"
+                            android:layout_below="@+id/textService"
+                            android:background="@color/dark_gray"
+                            android:id="@+id/lytUserNews"
+                            android:layout_marginTop="10dp"
+                            android:layout_height="50dp">
+
+                <TextView android:layout_width="wrap_content"
+                          android:textColor="@color/white"
+                          android:text="공지사항"
+                          android:textStyle="bold"
+                          android:layout_centerVertical="true"
+                          android:layout_marginStart="10dp"
+                          android:textSize="14sp"
+                          android:layout_height="wrap_content"/>
+
+                <ImageView
+                        android:layout_width="50dp"
+                        android:layout_height="30dp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/right_arrow"/>
+            </RelativeLayout>
+
+            <RelativeLayout android:layout_width="match_parent"
+                            android:layout_below="@+id/lytUserNews"
+                            android:background="@color/dark_gray"
+                            android:layout_marginTop="2dp"
+                            android:id="@+id/lytUserQue"
+                            android:layout_height="50dp">
+
+                <TextView android:layout_width="wrap_content"
+                          android:textColor="@color/white"
+                          android:text="자주 묻는 질문"
+                          android:textStyle="bold"
+                          android:layout_centerVertical="true"
+                          android:layout_marginStart="10dp"
+                          android:textSize="14sp"
+                          android:layout_height="wrap_content"/>
+
+                <ImageView
+                        android:layout_width="50dp"
+                        android:layout_height="30dp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/right_arrow"/>
+            </RelativeLayout>
+
+            <RelativeLayout android:layout_width="match_parent"
+                            android:layout_below="@+id/lytUserQue"
+                            android:background="@color/dark_gray"
+                            android:layout_marginTop="2dp"
+                            android:id="@+id/lytUserMoonE"
+                            android:layout_height="50dp">
+
+                <TextView android:layout_width="wrap_content"
+                          android:textColor="@color/white"
+                          android:text="문의하기"
+                          android:textStyle="bold"
+                          android:layout_centerVertical="true"
+                          android:layout_marginStart="10dp"
+                          android:textSize="14sp"
+                          android:layout_height="wrap_content"/>
+
+                <ImageView
+                        android:layout_width="50dp"
+                        android:layout_height="30dp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/right_arrow"/>
+            </RelativeLayout>
+
+            <ImageView
+                    android:layout_below="@+id/lytUserMoonE"
+                    android:layout_width="30dp"
+                    android:id="@+id/imgKakao"
+                    android:layout_marginTop="20dp"
+                    android:src="@drawable/kakao_talk"
+                    android:layout_height="30dp"/>
+
+            <TextView
+                    android:text="카카오톡으로 문의하기"
+                    android:textColor="@color/white"
+                    android:textSize="14sp"
+                    android:layout_below="@+id/lytUserMoonE"
+                    android:layout_toRightOf="@+id/imgKakao"
+                    android:layout_marginTop="25dp"
+                    android:layout_marginStart="15dp"
+                    android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+
+            <Button
+                    android:background="@drawable/roundbutton"
+                    android:textColor="@color/white"
+                    android:text="방송하기"
+                    android:id="@+id/btn_broadcast"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/imgKakao"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginBottom="100dp"
+            />
+
+
+
+        </RelativeLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+
+</RelativeLayout>

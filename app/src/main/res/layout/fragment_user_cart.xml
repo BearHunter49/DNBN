@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/bg"
+                tools:context=".fragment.UserCartFragment">
+    <androidx.core.widget.NestedScrollView android:layout_width="match_parent"
+                                           android:layout_height="match_parent">
+
+        <RelativeLayout android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+            <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_cart"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+            </androidx.recyclerview.widget.RecyclerView>
+
+            <View
+                    android:layout_width="match_parent"
+                    android:layout_margin="15dp"
+                    android:layout_height="3dp"
+                    android:id="@+id/viewCart"
+                    android:layout_below="@+id/rv_cart"
+                    android:background="@color/yellow"/>
+
+            <RelativeLayout
+                    android:orientation="horizontal"
+                    android:id="@+id/lytCartPrice"
+                    android:layout_below="@+id/viewCart"
+                    android:layout_width="match_parent"
+                    android:layout_margin="15dp"
+                    android:layout_height="50dp">
+
+                <TextView
+                        android:text="총 금액"
+                        android:textColor="@color/white"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        android:layout_centerVertical="true"
+                        android:layout_alignParentStart="true"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                <TextView
+                        android:id="@+id/textTotalPrice"
+                        android:layout_alignParentEnd="true"
+                        android:textColor="@color/white"
+                        android:textSize="17sp"
+                        android:layout_centerVertical="true"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+            </RelativeLayout>
+
+            <TextView
+                    android:layout_below="@+id/lytCartPrice"
+                    android:layout_alignParentEnd="true"
+                    android:textColor="@color/blue"
+                    android:textSize="17sp"
+                    android:layout_marginEnd="15dp"
+                    android:id="@+id/btn_totalBuy"
+                    android:text="전체 구매"
+                    android:layout_marginBottom="20dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+
+
+        </RelativeLayout>
+    </androidx.core.widget.NestedScrollView>
+</RelativeLayout>

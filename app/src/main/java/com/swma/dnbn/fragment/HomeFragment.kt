@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.swma.dnbn.R
 import com.swma.dnbn.adapter.HomeLiveAdapter
@@ -63,11 +64,22 @@ class HomeFragment : Fragment() {
                 layoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
                 focusable = View.NOT_FOCUSABLE
             }
+
+            // 클릭 리스너
+            textLiveViewAll.setOnClickListener {
+                Toast.makeText(context, "Live 전체보기", Toast.LENGTH_SHORT).show()
+            }
+            textVODViewAll.setOnClickListener {
+                Toast.makeText(context, "VOD 전체보기", Toast.LENGTH_SHORT).show()
+            }
+            textScheduleViewAll.setOnClickListener {
+                Toast.makeText(context, "편성표 전체보기", Toast.LENGTH_SHORT).show()
+            }
         }
 
 
-        getHome()
 
+        getHome()
 
         return rootView
     }
@@ -85,103 +97,103 @@ class HomeFragment : Fragment() {
         slideList.add(
             ItemSlide(
                 "1",
-                "올 신상품",
-                "10,000",
-                "7,900",
+                "히어로 다람쥐",
+                10000,
+                7900,
                 "http://optimal.inven.co.kr/upload/2017/09/23/bbs/i14062904077.jpg"
             )
         )
         slideList.add(
             ItemSlide(
-                "1",
-                "올 신상품",
-                "10,000",
-                "7,900",
-                "http://optimal.inven.co.kr/upload/2017/09/23/bbs/i14062904077.jpg"
+                "2",
+                "번개 다람쥐",
+                10000,
+                7900,
+                "https://file.namu.moe/file/14227fd88b4493f2746fe3f47d06acb6ccbbe13b600cfded0ecee1b08e2765fcfa1ecb1be45d7b936c956e69167be31c29151de75de83b69233b79620e0bfa22c2ed9f2ce8c0b2df527a66cae2bbd99e"
             )
         )
         slideList.add(
             ItemSlide(
-                "1",
-                "올 신상품",
-                "10,000",
-                "7,900",
-                "http://optimal.inven.co.kr/upload/2017/09/23/bbs/i14062904077.jpg"
+                "3",
+                "도둑 다람쥐",
+                10000,
+                7900,
+                "http://optimal.inven.co.kr/upload/2015/02/24/bbs/i1617629232.jpg"
             )
         )
 
         liveList.add(
             ItemLive(
-                "1", "작년 신상품", getString(R.string.testimgurl), "Food", getString(R.string.testplayurl),
-                "100", "1010"
+                "1", "소생 현장", "https://pbs.twimg.com/media/C5WybhRVMAAfBUF.jpg", "Food", "",
+                "100", "1010", 13000, 8900
             )
         )
         liveList.add(
             ItemLive(
-                "1", "작년 신상품", getString(R.string.testimgurl), "Food", getString(R.string.testplayurl),
-                "100", "1010"
+                "1", "방화 현장", "https://image.fmkorea.com/files/attach/new/20180610/33854530/1037635837/1098323360/513829981763937d94c0acd8c0f28aea.jpg", "Food", "",
+                "100", "1010",13000, 8900
             )
         )
         liveList.add(
             ItemLive(
-                "1", "작년 신상품", getString(R.string.testimgurl), "Food", getString(R.string.testplayurl),
-                "100", "1010"
+                "1", "절도 현장", "http://potsu.net/files/attach/images/Array/268/310/007/ad07f1d19a04d5731f3e9822112b1032.jpg", "Food", "",
+                "100", "1010",13000, 8900
             )
         )
 
         vodList.add(
             ItemVOD(
                 "1",
-                "내일 신상품",
-                getString(R.string.testimgurl),
+                "녹화 영상",
+                "http://optimal.inven.co.kr/upload/2015/02/24/bbs/i1617629232.jpg",
                 "Food",
                 "http://cdnapi.kaltura.com/p/1878761/sp/187876100/playManifest/entryId/1_usagz19w/flavorIds/1_5spqkazq,1_nslowvhp,1_boih5aji,1_qahc37ag/format/applehttp/protocol/http/a.m3u8",
                 "120",
                 "2020",
-                "TestTestTest"
+                "TestTestTest", 11000, 9900
             )
         )
         vodList.add(
             ItemVOD(
                 "1",
-                "내일 신상품",
-                getString(R.string.testimgurl),
+                "녹화 영상",
+                "http://optimal.inven.co.kr/upload/2015/02/24/bbs/i1617629232.jpg",
                 "Food",
                 "http://cdnapi.kaltura.com/p/1878761/sp/187876100/playManifest/entryId/1_usagz19w/flavorIds/1_5spqkazq,1_nslowvhp,1_boih5aji,1_qahc37ag/format/applehttp/protocol/http/a.m3u8",
                 "120",
                 "2020",
-                "TestTestTest"
+                "TestTestTest", 11000, 9900
             )
         )
         vodList.add(
             ItemVOD(
                 "1",
-                "내일 신상품",
-                getString(R.string.testimgurl),
+                "녹화 영상",
+                "http://optimal.inven.co.kr/upload/2015/02/24/bbs/i1617629232.jpg",
                 "Food",
                 "http://cdnapi.kaltura.com/p/1878761/sp/187876100/playManifest/entryId/1_usagz19w/flavorIds/1_5spqkazq,1_nslowvhp,1_boih5aji,1_qahc37ag/format/applehttp/protocol/http/a.m3u8",
                 "120",
                 "2020",
-                "TestTestTest"
+                "TestTestTest", 11000, 9900
             )
         )
 
         scheduleList.add(
             ItemSchedule(
-                "1", "내년 신상품", "100", "bearhunter", "2020", "오늘 저녁 7:15",
-                "http://optimal.inven.co.kr/upload/2015/02/24/bbs/i1617629232.jpg"
+                "1", "자연산 도토리", "100", "베어헌터1", "2020", "오늘 저녁 7:15",
+                "https://img-s-msn-com.akamaized.net/tenant/amp/entityid/BBNBQK1.img?h=338&w=530&m=6&q=60&o=f&l=f"
             )
         )
         scheduleList.add(
             ItemSchedule(
-                "1", "내년 신상품", "100", "bearhunter", "2020", "오늘 저녁 7:15",
-                "http://optimal.inven.co.kr/upload/2015/02/24/bbs/i1617629232.jpg"
+                "2", "비싼 도토리", "100", "베어헌터2", "2020", "오늘 저녁 8:00",
+                "https://t1.daumcdn.net/cfile/tistory/993F40405A6E911428"
             )
         )
         scheduleList.add(
             ItemSchedule(
-                "1", "내년 신상품", "100", "bearhunter", "2020", "오늘 저녁 7:15",
-                "http://optimal.inven.co.kr/upload/2015/02/24/bbs/i1617629232.jpg"
+                "3", "잣같은 잣", "100", "베어헌터3", "2020", "오늘 저녁 9:00",
+                "http://cfile223.uf.daum.net/image/223870385583895A32CC51"
             )
         )
 
@@ -197,6 +209,7 @@ class HomeFragment : Fragment() {
             // 배너 슬라이드
             viewPager.adapter = SlideAdapter(requireActivity(), slideList)
             viewPager.offscreenPageLimit = 2
+            viewPager.currentItem = slideList.size - 1
             indicator_unselected_background.setViewPager(viewPager)
 
             // Live
@@ -229,7 +242,7 @@ class HomeFragment : Fragment() {
 
     }
 
-    // ViewPager 6초마다 넘기기
+    // ViewPager 4.5초마다 넘기기
     private fun startTimer() {
         Log.d("myTest", "startTimer()")
         timer = Timer()
@@ -248,7 +261,7 @@ class HomeFragment : Fragment() {
             }
         })
 
-        timer.schedule(timerTask, 0, 6000)
+        timer.schedule(timerTask, 0, 4500)
 
     }
 

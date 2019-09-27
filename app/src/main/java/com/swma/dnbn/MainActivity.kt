@@ -13,6 +13,9 @@ import kotlinx.android.synthetic.main.row_toolbar.*
 class MainActivity : AppCompatActivity() {
 
     lateinit var fragmentManager: FragmentManager
+    lateinit var fHome: Fragment
+    lateinit var fShop: Fragment
+    lateinit var fUser: Fragment
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -23,36 +26,47 @@ class MainActivity : AppCompatActivity() {
         supportActionBar?.setDisplayShowTitleEnabled(false)
         fragmentManager = supportFragmentManager
 
-        loadFrag(HomeFragment(), "Home", fragmentManager)
+        // Fragment Load
+        fHome = HomeFragment()
+        fShop = ShopFragment()
+        fUser = UserFragment()
+
+        fragmentManager.beginTransaction().apply {
+            add(R.id.Container, fHome)
+            add(R.id.Container, fShop)
+            add(R.id.Container, fUser).commit()
+        }
+        loadFrag("HOME", fragmentManager)
         imgHome.isClickable = false
+
 
         // Click Event
         imgHome.setOnClickListener {
+            loadFrag("HOME", fragmentManager)
+
             imgHome.setImageResource(R.drawable.home_64_orange)
             imgShopping.setImageResource(R.drawable.shop_64_white)
             imgUser.setImageResource(R.drawable.user_64_white)
-            loadFrag(HomeFragment(), "HOME", fragmentManager)
-
             imgHome.isClickable = false
             imgShopping.isClickable = true
             imgUser.isClickable = true
         }
         imgShopping.setOnClickListener {
+            loadFrag("STORE", fragmentManager)
+
             imgHome.setImageResource(R.drawable.home_64_white)
             imgShopping.setImageResource(R.drawable.shop_64_orange)
             imgUser.setImageResource(R.drawable.user_64_white)
-            loadFrag(ShopFragment(), "STORE", fragmentManager)
-
             imgHome.isClickable = true
             imgShopping.isClickable = false
             imgUser.isClickable = true
         }
         imgUser.setOnClickListener {
+            loadFrag("개인정보", fragmentManager)
+
             imgHome.setImageResource(R.drawable.home_64_white)
             imgShopping.setImageResource(R.drawable.shop_64_white)
             imgUser.setImageResource(R.drawable.user_64_orange)
-            loadFrag(UserFragment(), "개인정보", fragmentManager)
-
             imgHome.isClickable = true
             imgShopping.isClickable = true
             imgUser.isClickable = false
@@ -61,13 +75,28 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    private fun loadFrag(fg: Fragment, name: String, fm: FragmentManager) {
-        for (i in 1..fm.backStackEntryCount){
-            fm.popBackStack()
-        }
+    private fun loadFrag(name: String, fm: FragmentManager) {
+//        for (i in 1..fm.backStackEntryCount){
+//            fm.popBackStack()
+//        }
         val ft = fm.beginTransaction()
-        ft.replace(R.id.Container, fg, name)
-        ft.commit()
+        when(name){
+            "HOME" -> {
+                ft.show(fHome)
+                ft.hide(fShop)
+                ft.hide(fUser).commit()
+            }
+            "STORE" -> {
+                ft.hide(fHome)
+                ft.show(fShop)
+                ft.hide(fUser).commit()
+            }
+            "개인정보" -> {
+                ft.hide(fHome)
+                ft.hide(fShop)
+                ft.show(fUser).commit()
+            }
+        }
         toolbar_title.text = name
     }
 }

@@ -29,17 +29,17 @@ class HomeLiveAdapter(private val context: Context, private val items: ArrayList
                 textTitle.text = item.liveTitle
                 Picasso.get().load(item.liveImageUrl).into(image)
 
-                // Retrofit2 API ProductId 사용하기
-                textPrice.text = "10,000"
+
+                textPrice.text = String.format("%,d", item.liveProductPrice)
 
                 // 할인 가격 있으면
-                if (true){
+                if (item.liveChangedPrice != -1){
                 textPrice.apply {
                     paintFlags = paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
                     setTextColor(ContextCompat.getColor(context, R.color.red))
                 }
                 textChangedPrice.apply {
-                    text = "8,900"
+                    text = String.format("%,d", item.liveChangedPrice)
                     visibility = View.VISIBLE
                 }
             }

@@ -27,16 +27,16 @@ class SlideAdapter(private val context: Activity, private val items: ArrayList<I
             textTitle.isSelected = true
             Picasso.get().load(item.slideImgUrl).into(imageView)
             textTitle.text = item.slideTitle
-            textOriginPrice.text = item.slideOriginPrice
+            textOriginPrice.text = String.format("%,d", item.slideOriginPrice)
 
             // 가격 할인 중이면
-            if (item.slideChangedPrice != "none"){
+            if (item.slideChangedPrice != -1){
                 textOriginPrice.apply {
                     paintFlags = paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
                     setTextColor(ContextCompat.getColor(context, R.color.red))
                 }
                 textChangedPrice.apply {
-                    text = item.slideChangedPrice
+                    text = String.format("%,d", item.slideChangedPrice)
                     visibility = View.VISIBLE
                 }
             }

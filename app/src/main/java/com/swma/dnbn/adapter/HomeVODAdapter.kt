@@ -31,16 +31,16 @@ class HomeVODAdapter(private val context: Context, private val items:ArrayList<I
                 Picasso.get().load(item.vodImageUrl).into(image)
 
                 // Retrofit2 API ProductId 사용하기
-                textPrice.text = "20,000"
+                textPrice.text = String.format("%,d", item.vodProductPrice)
 
                 // 할인 가격 있으면
-                if (true){
+                if (item.vodChangedPrice != -1){
                     textPrice.apply {
                         paintFlags = paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
                         setTextColor(ContextCompat.getColor(context, R.color.red))
                     }
                     textChangedPrice.apply {
-                        text = "13,900"
+                        text = String.format("%,d", item.vodChangedPrice)
                         visibility = View.VISIBLE
                     }
                 }

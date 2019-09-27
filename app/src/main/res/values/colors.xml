@@ -7,7 +7,9 @@
     <color name="blue">#1c6cc3</color>
     <color name="white">#ffffff</color>
     <color name="yellow">#ff9933</color>
+    <color name="bright_yellow">#FFDD33</color>
     <color name="black">#000000</color>
     <color name="red">#FF0000</color>
     <color name="intro_circle_un_select">#868686</color>
+    <color name="dark_gray">#3D3D3D</color>
 </resources>
