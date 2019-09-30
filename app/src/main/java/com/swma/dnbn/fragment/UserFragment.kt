@@ -12,6 +12,7 @@ import com.swma.dnbn.R
 import com.swma.dnbn.adapter.UserPagerAdapter
 import com.swma.dnbn.item.ItemUser
 import kotlinx.android.synthetic.main.fragment_user.view.*
+import kotlinx.android.synthetic.main.row_toolbar.*
 
 
 class UserFragment : Fragment() {

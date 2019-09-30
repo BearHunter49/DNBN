@@ -17,7 +17,9 @@ import com.swma.dnbn.item.ItemLive
 import com.swma.dnbn.item.ItemSchedule
 import com.swma.dnbn.item.ItemSlide
 import com.swma.dnbn.item.ItemVOD
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_home.view.*
+import kotlinx.android.synthetic.main.row_toolbar.*
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.util.*
@@ -67,10 +69,10 @@ class HomeFragment : Fragment() {
 
             // 클릭 리스너
             textLiveViewAll.setOnClickListener {
-                Toast.makeText(context, "Live 전체보기", Toast.LENGTH_SHORT).show()
+                changeFragment(LiveAllFragment(), "LIVE")
             }
             textVODViewAll.setOnClickListener {
-                Toast.makeText(context, "VOD 전체보기", Toast.LENGTH_SHORT).show()
+                changeFragment(VodAllFragment(), "VOD")
             }
             textScheduleViewAll.setOnClickListener {
                 Toast.makeText(context, "편성표 전체보기", Toast.LENGTH_SHORT).show()
@@ -82,6 +84,18 @@ class HomeFragment : Fragment() {
         getHome()
 
         return rootView
+    }
+
+    private fun changeFragment(fragment: Fragment, name: String) {
+        val fm = fragmentManager
+        fm!!.beginTransaction().apply {
+            hide(this@HomeFragment)
+            add(R.id.Container, fragment, name)
+            addToBackStack(name)
+            commit()
+        }
+
+
     }
 
     // Home Fragment 만들기

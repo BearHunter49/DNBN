@@ -2,6 +2,9 @@ package com.swma.dnbn
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
+import android.view.View
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import com.swma.dnbn.fragment.HomeFragment
@@ -16,6 +19,7 @@ class MainActivity : AppCompatActivity() {
     lateinit var fHome: Fragment
     lateinit var fShop: Fragment
     lateinit var fUser: Fragment
+    private var doubleBackToExit = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,9 +36,9 @@ class MainActivity : AppCompatActivity() {
         fUser = UserFragment()
 
         fragmentManager.beginTransaction().apply {
-            add(R.id.Container, fHome)
-            add(R.id.Container, fShop)
-            add(R.id.Container, fUser).commit()
+            add(R.id.Container, fHome, "HOME")
+            add(R.id.Container, fShop, "STORE")
+            add(R.id.Container, fUser, "개인정보").commit()
         }
         loadFrag("HOME", fragmentManager)
         imgHome.isClickable = false
@@ -82,14 +86,14 @@ class MainActivity : AppCompatActivity() {
         val ft = fm.beginTransaction()
         when(name){
             "HOME" -> {
-                ft.show(fHome)
                 ft.hide(fShop)
-                ft.hide(fUser).commit()
+                ft.hide(fUser)
+                ft.show(fHome).commit()
             }
             "STORE" -> {
                 ft.hide(fHome)
-                ft.show(fShop)
-                ft.hide(fUser).commit()
+                ft.hide(fUser)
+                ft.show(fShop).commit()
             }
             "개인정보" -> {
                 ft.hide(fHome)
@@ -99,4 +103,30 @@ class MainActivity : AppCompatActivity() {
         }
         toolbar_title.text = name
     }
+
+    override fun onBackPressed() {
+        // Title 바꿔주기
+        if (fragmentManager.backStackEntryCount != 0){
+            val tag = fragmentManager.fragments.get(fragmentManager.backStackEntryCount - 1).tag
+            toolbar_title.text = tag
+            lytTab.visibility = View.VISIBLE
+            super.onBackPressed()
+        }
+        // 앱 종료하기
+        else{
+            if(doubleBackToExit){
+                super.onBackPressed()
+                return
+            }
+            doubleBackToExit = true
+            Toast.makeText(this, "한 번 더 뒤로가기 시 종료", Toast.LENGTH_SHORT).show()
+
+            Handler().postDelayed({
+                doubleBackToExit = false
+            }, 2000)
+
+        }
+
+    }
+
 }
