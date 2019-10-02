@@ -75,7 +75,7 @@ class HomeFragment : Fragment() {
                 changeFragment(VodAllFragment(), "VOD")
             }
             textScheduleViewAll.setOnClickListener {
-                Toast.makeText(context, "편성표 전체보기", Toast.LENGTH_SHORT).show()
+                changeFragment(ScheduleFragment(), "편성표")
             }
         }
 
@@ -194,21 +194,21 @@ class HomeFragment : Fragment() {
 
         scheduleList.add(
             ItemSchedule(
-                "1", "자연산 도토리", "100", "베어헌터1", "2020", "오늘 저녁 7:15",
+                "1", "자연산 도토리", "100", "베어헌터1", "2020", "2019-10-02 19:15:00",
                 "https://img-s-msn-com.akamaized.net/tenant/amp/entityid/BBNBQK1.img?h=338&w=530&m=6&q=60&o=f&l=f"
             )
         )
         scheduleList.add(
             ItemSchedule(
-                "2", "비싼 도토리", "100", "베어헌터2", "2020", "오늘 저녁 8:00",
+                "2", "비싼 도토리", "100", "베어헌터2", "2020", "2019-10-02 20:00:00",
                 "https://t1.daumcdn.net/cfile/tistory/993F40405A6E911428"
             )
         )
-        scheduleList.add(
-            ItemSchedule(
-                "3", "잣같은 잣", "100", "베어헌터3", "2020", "오늘 저녁 9:00",
-                "http://cfile223.uf.daum.net/image/223870385583895A32CC51"
-            )
+        scheduleList.add(ItemSchedule(
+            "3", "잣같은 잣", "100", "베어헌터3", "2020", "2019-10-02 21:00:00",
+            "http://cfile223.uf.daum.net/image/223870385583895A32CC51"
+        )
+
         )
 
 

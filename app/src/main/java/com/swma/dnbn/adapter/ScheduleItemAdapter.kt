@@ -1,6 +1,6 @@
 package com.swma.dnbn.adapter
 
-import android.content.Context
+import android.app.Activity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,13 +9,15 @@ import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
 import com.swma.dnbn.R
 import com.swma.dnbn.item.ItemSchedule
-import kotlinx.android.synthetic.main.home_row_schedule_item.view.*
+import kotlinx.android.synthetic.main.row_schedule_item.view.*
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 
-class HomeScheduleAdapter(private val context: Context, private val items:ArrayList<ItemSchedule>): RecyclerView.Adapter<HomeScheduleAdapter.ItemRowHolder>(){
+class ScheduleItemAdapter(val context: Activity, val items: ArrayList<ItemSchedule>): RecyclerView.Adapter<ScheduleItemAdapter.ItemRowHolder>() {
+
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemRowHolder {
-        val v = LayoutInflater.from(parent.context).inflate(R.layout.home_row_schedule_item, parent, false)
+        val v = LayoutInflater.from(parent.context).inflate(R.layout.row_schedule_item, parent, false)
         return ItemRowHolder(v)
     }
 
@@ -26,28 +28,32 @@ class HomeScheduleAdapter(private val context: Context, private val items:ArrayL
             with(holder){
                 title.text = item.scheduleTitle
                 user.text = item.scheduleUserName
+                Picasso.get().load(item.scheduleImageUrl).into(img)
 
                 // '2019-09-25 23:25:00' 형식
                 val dateAndTime = item.scheduleDate.split(" ")
                 val time = LocalTime.parse(dateAndTime[1])
                 date.text = time.format(DateTimeFormatter.ofPattern("HH시 mm분"))
 
-                Picasso.get().load(item.scheduleImageUrl).into(image)
-
                 cardView.setOnClickListener {
-                    Toast.makeText(context, item.scheduleTitle + " Clicked!", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, "${item.scheduleTitle} Clicked!", Toast.LENGTH_SHORT).show()
                 }
+
             }
         }
+
+
     }
 
 
-    class ItemRowHolder(view: View): RecyclerView.ViewHolder(view) {
-        val title = view.textScheduleTitle
+    inner class ItemRowHolder(view: View): RecyclerView.ViewHolder(view) {
         val date = view.textSchedule
+        val img = view.scheduleImageView
+        val title = view.textScheduleTitle
         val user = view.textScheduleUser
-        val image = view.scheduleImageView
         val cardView = view.scheduleCardView
     }
+
+
 
 }
