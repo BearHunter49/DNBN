@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.os.Handler
+import android.util.Log
 import android.view.MotionEvent
 import android.view.SurfaceHolder
 import android.view.View
@@ -16,8 +17,11 @@ import android.view.animation.AnimationUtils
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.pedro.encoder.input.video.CameraOpenException
 import com.pedro.rtplibrary.rtmp.RtmpCamera2
+import com.swma.dnbn.adapter.ChatAdapter
+import com.swma.dnbn.item.ItemChat
 import kotlinx.android.synthetic.main.activity_broad_cast.*
 import net.ossrs.rtmp.ConnectCheckerRtmp
 
@@ -28,6 +32,7 @@ class BroadCastActivity : AppCompatActivity(), ConnectCheckerRtmp, SurfaceHolder
     private lateinit var animation: Animation
     private var check = 0
     lateinit var handler: Handler
+    private lateinit var chatList: ArrayList<ItemChat>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,6 +59,21 @@ class BroadCastActivity : AppCompatActivity(), ConnectCheckerRtmp, SurfaceHolder
         openglView.holder.addCallback(this)
 
         displayLayout()
+
+        // 채팅창
+        chatList = ArrayList()
+        rv_chat.apply {
+            setHasFixedSize(true)
+            focusable = View.NOT_FOCUSABLE
+//            layoutManager = LinearLayoutManager(this@BroadCastActivity)
+            adapter = ChatAdapter(this@BroadCastActivity)
+        }
+
+        // 소켓 통신으로 채팅 정보 받아오기
+        //
+
+
+
 
         // 방송 버튼
         btn_broadcastStart.setOnClickListener {
@@ -90,6 +110,19 @@ class BroadCastActivity : AppCompatActivity(), ConnectCheckerRtmp, SurfaceHolder
                     .show()
             }
         }
+
+        // 채팅 입력 버튼
+        btn_send.setOnClickListener {
+            if (edit_chat.text.isNotEmpty()){
+                val adapter = rv_chat.adapter as ChatAdapter
+
+                adapter.addItem(ItemChat("베어헌터", edit_chat.text.toString()))
+                edit_chat.text.clear()
+                rv_chat.smoothScrollToPosition(0)
+            }
+        }
+
+
 
     }
 
@@ -140,7 +173,7 @@ class BroadCastActivity : AppCompatActivity(), ConnectCheckerRtmp, SurfaceHolder
             val countDownTimer = object : CountDownTimer(3000, 1000) {
 
                 override fun onTick(p0: Long) {
-                    textCountDown.text = String.format("%d", p0 / 1000L)
+                    textCountDown.text = String.format("%d", (p0 / 1000L) + 1)
                 }
 
                 override fun onFinish() {

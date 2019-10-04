@@ -3,18 +3,37 @@
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".BroadCastActivity">
+
+
+
 
     <com.pedro.rtplibrary.view.LightOpenGlView
             android:id="@+id/openglView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
 
+    <androidx.recyclerview.widget.RecyclerView
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:id="@+id/rv_chat"
+            app:layout_constraintBottom_toTopOf="@+id/lytChatInput"
+            android:layout_marginBottom="10dp"
+            app:reverseLayout="true"
+            app:stackFromEnd="false"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            android:layout_width="match_parent"
+            android:layout_height="180dp">
+
+    </androidx.recyclerview.widget.RecyclerView>
+
     <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/lytBroadCast"
-            android:visibility="gone"
+            android:visibility="visible"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
@@ -54,20 +73,79 @@
                 android:layout_width="25dp"
                 android:layout_height="25dp"/>
 
-        <TextView
-                android:id="@+id/textCountDown"
-                android:visibility="gone"
-                android:textColor="@color/white"
-                android:textStyle="bold"
-                android:textSize="150sp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+
+        <!--<ImageView-->
+        <!--app:layout_constraintStart_toStartOf="parent"-->
+        <!--app:layout_constraintBottom_toBottomOf="parent"-->
+        <!--android:contentDescription="@string/app_name"-->
+        <!--android:src="@drawable/shop_64_white"-->
+        <!--android:id="@+id/btn_allProduct"-->
+        <!--android:layout_marginBottom="40dp"-->
+        <!--android:layout_marginStart="15dp"-->
+        <!--android:layout_width="30dp"-->
+        <!--android:layout_height="30dp"/>-->
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <TextView
+            android:id="@+id/textCountDown"
+            android:visibility="gone"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            android:textSize="150sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+    <RelativeLayout
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:orientation="horizontal"
+            android:id="@+id/lytChatInput"
+            android:layout_marginBottom="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        <EditText
+                android:id="@+id/edit_chat"
+                android:maxLength="70"
+                android:singleLine="true"
+                android:ellipsize="start"
+                android:inputType="text"
+                android:hint="메시지..."
+                android:layout_centerHorizontal="true"
+                android:paddingStart="15dp"
+                android:paddingBottom="8dp"
+                android:paddingTop="8dp"
+                android:paddingEnd="15dp"
+                android:textColorHint="@color/white"
+                android:textSize="14sp"
+                android:textColor="@color/white"
+                android:background="@drawable/round_edittext"
+                android:layout_width="180dp"
+                android:layout_height="35dp"/>
+
+        <Button
+                android:text="전송"
+                android:id="@+id/btn_send"
+                android:layout_marginEnd="15dp"
+                android:textSize="14sp"
+                android:textColor="@color/white"
+                android:background="@drawable/round_edittext"
+                android:layout_gravity="end"
+                android:layout_alignParentEnd="true"
+                android:layout_width="60dp"
+                android:layout_height="35dp"
+        />
+
+    </RelativeLayout>
+
+
+
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
