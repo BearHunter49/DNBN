@@ -139,19 +139,19 @@ class HomeFragment : Fragment() {
         liveList.add(
             ItemLive(
                 "1", "소생 현장", "https://pbs.twimg.com/media/C5WybhRVMAAfBUF.jpg", "Food", "",
-                "100", "1010", 13000, 8900
+                "100", "1010", 13000, 8900, 115
             )
         )
         liveList.add(
             ItemLive(
                 "1", "방화 현장", "https://image.fmkorea.com/files/attach/new/20180610/33854530/1037635837/1098323360/513829981763937d94c0acd8c0f28aea.jpg", "Food", "",
-                "100", "1010",13000, 8900
+                "100", "1010",13000, 8900, 423
             )
         )
         liveList.add(
             ItemLive(
                 "1", "절도 현장", "http://potsu.net/files/attach/images/Array/268/310/007/ad07f1d19a04d5731f3e9822112b1032.jpg", "Food", "",
-                "100", "1010",13000, 8900
+                "100", "1010",13000, 8900, 51
             )
         )
 

@@ -132,7 +132,7 @@ class BroadCastActivity : AppCompatActivity(), ConnectCheckerRtmp, SurfaceHolder
             // 레이아웃 떠 있을 시
             if (check == 1){
                 handler.removeMessages(0)
-                lytBroadCast.visibility = View.GONE
+                lytBroadCast.startAnimation(animation)
                 check = 0
             }
             // 레이아웃 없을 시

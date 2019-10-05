@@ -23,11 +23,17 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+    compileOptions {
+        sourceCompatibility 1.8
+        targetCompatibility 1.8
+    }
 }
 
 allprojects {
     repositories {
         maven { url 'https://jitpack.io' }
+        jcenter()
+        google()
     }
 }
 
@@ -49,4 +55,8 @@ dependencies {
     implementation 'com.squareup.picasso:picasso:2.71828'
     implementation 'com.google.android.material:material:1.1.0-alpha10'
     implementation 'com.github.pedroSG94.rtmp-rtsp-stream-client-java:rtplibrary:1.6.8'
+    implementation 'com.google.android.exoplayer:exoplayer-core:2.9.6'
+    implementation 'com.google.android.exoplayer:exoplayer-hls:2.9.6'
+    implementation 'com.google.android.exoplayer:exoplayer-ui:2.9.6'
+
 }

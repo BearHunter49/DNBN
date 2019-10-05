@@ -40,7 +40,7 @@ class LiveItemFragment(private val category: String) : Fragment() {
                         "100",
                         "1010",
                         6000,
-                        -1
+                        -1, 151
                     )
                 )
                 liveList.add(
@@ -53,13 +53,13 @@ class LiveItemFragment(private val category: String) : Fragment() {
                         "100",
                         "1010",
                         22000,
-                        18900
+                        18900, 15
                     )
                 )
                 liveList.add(
                     ItemLive(
                         "1", "반려동물 테스트", "https://pbs.twimg.com/media/C5WybhRVMAAfBUF.jpg", "Pet", "",
-                        "100", "1010", 59000, 48900
+                        "100", "1010", 59000, 48900, 11
                     )
                 )
             }
@@ -74,7 +74,7 @@ class LiveItemFragment(private val category: String) : Fragment() {
                         "100",
                         "1010",
                         6000,
-                        -1
+                        -1, 15
                     )
                 )
             }
@@ -89,7 +89,7 @@ class LiveItemFragment(private val category: String) : Fragment() {
                         "100",
                         "1010",
                         22000,
-                        18900
+                        18900, 15
                     )
                 )
             }
@@ -99,16 +99,16 @@ class LiveItemFragment(private val category: String) : Fragment() {
                 liveList.add(
                     ItemLive(
                         "1", "반려동물 테스트", "https://pbs.twimg.com/media/C5WybhRVMAAfBUF.jpg", "Pet", "",
-                        "100", "1010", 59000, 48900
+                        "100", "1010", 59000, 48900, 15
                     )
                 )
             }
             "디지털/가전" -> {
             }
-            else -> { }
+            else -> {
+            }
         }
         // --------------------
-
 
 
         rootView.apply {
