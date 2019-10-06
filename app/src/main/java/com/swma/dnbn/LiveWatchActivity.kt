@@ -6,8 +6,10 @@ import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
+import android.util.Log
 import android.view.MotionEvent
 import android.view.View
+import android.view.ViewGroup
 import android.view.WindowManager
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
@@ -23,9 +25,10 @@ import com.google.android.exoplayer2.util.Util
 import com.swma.dnbn.adapter.ChatAdapter
 import com.swma.dnbn.fragment.LiveShoppingFragment
 import com.swma.dnbn.item.ItemChat
+import com.swma.dnbn.util.KeyboardHeightProvider
 import kotlinx.android.synthetic.main.activity_live_watch.*
 
-class LiveWatchActivity : AppCompatActivity() {
+class LiveWatchActivity : AppCompatActivity(), KeyboardHeightProvider.KeyboardHeightObserver {
 
     var currentWindow = 0
     var playbackPosition = 0L
@@ -38,11 +41,27 @@ class LiveWatchActivity : AppCompatActivity() {
     lateinit var player: SimpleExoPlayer
     lateinit var chatList: ArrayList<ItemChat>
 
+    // Keyboard part
+    private lateinit var keyboardHeightProvider: KeyboardHeightProvider
+    private var initialY = 0f
+    private var initialYofChat = 0f
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
         setContentView(R.layout.activity_live_watch)
+
+        // Keyboard part
+        keyboardHeightProvider = KeyboardHeightProvider(this)
+
+        // Get Keyboard height
+        Handler().postDelayed({
+            initialY = lytChatInput.y
+            initialYofChat = rv_chat.y
+            lytLiveWatchFull.post { keyboardHeightProvider.start() }
+        }, 200)
+
 
         // Fade-out Animation
         handler = Handler()
@@ -186,6 +205,39 @@ class LiveWatchActivity : AppCompatActivity() {
 
         exoPlayerView.player = null
         player.release()
+    }
+
+    override fun onKeyboardHeightChanged(height: Int, orientation: Int) {
+        if (height == 0) {
+            lytChatInput.y = initialY
+            rv_chat.y = initialYofChat
+            Log.d("myTest", "")
+            lytChatInput.requestLayout()
+            rv_chat.requestLayout()
+        } else {
+            val newPosition = initialY - height
+            val newPositionofChat = initialYofChat - height
+            lytChatInput.y = newPosition
+            rv_chat.y = newPositionofChat
+
+            lytChatInput.requestLayout()
+            rv_chat.requestLayout()
+        }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        keyboardHeightProvider.setKeyboardHeightObserver(null)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        keyboardHeightProvider.setKeyboardHeightObserver(this)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        keyboardHeightProvider.close()
     }
 
 }

@@ -8,10 +8,7 @@ import android.os.Bundle
 import android.os.CountDownTimer
 import android.os.Handler
 import android.util.Log
-import android.view.MotionEvent
-import android.view.SurfaceHolder
-import android.view.View
-import android.view.WindowManager
+import android.view.*
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import android.widget.Toast
@@ -22,10 +19,14 @@ import com.pedro.encoder.input.video.CameraOpenException
 import com.pedro.rtplibrary.rtmp.RtmpCamera2
 import com.swma.dnbn.adapter.ChatAdapter
 import com.swma.dnbn.item.ItemChat
+import com.swma.dnbn.util.KeyboardHeightProvider
 import kotlinx.android.synthetic.main.activity_broad_cast.*
 import net.ossrs.rtmp.ConnectCheckerRtmp
+import androidx.core.view.ViewCompat.setY
 
-class BroadCastActivity : AppCompatActivity(), ConnectCheckerRtmp, SurfaceHolder.Callback {
+
+
+class BroadCastActivity : AppCompatActivity(), ConnectCheckerRtmp, SurfaceHolder.Callback, KeyboardHeightProvider.KeyboardHeightObserver {
 
     private lateinit var rtmpCamera2: RtmpCamera2
     private val streamUrl = "rtmp://13.125.40.80:1935/dnbn/Test"
@@ -34,10 +35,28 @@ class BroadCastActivity : AppCompatActivity(), ConnectCheckerRtmp, SurfaceHolder
     lateinit var handler: Handler
     private lateinit var chatList: ArrayList<ItemChat>
 
+    // Keyboard part
+    private lateinit var keyboardHeightProvider: KeyboardHeightProvider
+    private lateinit var relativeView: ViewGroup
+    private var initialY = 0f
+    private var initialYofChat = 0f
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
         setContentView(R.layout.activity_broad_cast)
+
+        // Keyboard part
+        keyboardHeightProvider = KeyboardHeightProvider(this)
+        relativeView = lytChatInput
+
+        // Get Keyboard height
+        Handler().postDelayed({
+            initialY = relativeView.y
+            initialYofChat = rv_chat.y
+            lytBroadCastFull.post { keyboardHeightProvider.start() }
+        }, 200)
+
 
         // Fade-out Animation
         handler = Handler()
@@ -79,7 +98,6 @@ class BroadCastActivity : AppCompatActivity(), ConnectCheckerRtmp, SurfaceHolder
         btn_broadcastStart.setOnClickListener {
             if (!rtmpCamera2.isStreaming) {
                 if (rtmpCamera2.prepareAudio() and rtmpCamera2.prepareVideo()) {
-                    btn_broadcastStart.text = "방송끄기"
                     rtmpCamera2.startStream(streamUrl)
                 } else {
                     Toast.makeText(this, "다시 시도 해 주세요!", Toast.LENGTH_SHORT).show()
@@ -182,12 +200,14 @@ class BroadCastActivity : AppCompatActivity(), ConnectCheckerRtmp, SurfaceHolder
                 }
             }
             countDownTimer.start()
+            btn_broadcastStart.text = "방송끄기"
         }
     }
 
     override fun onConnectionFailedRtmp(reason: String?) {
         runOnUiThread {
             Toast.makeText(this, "다시 시도 해 주세요!", Toast.LENGTH_SHORT).show()
+            btn_broadcastStart.text = "촬영시작"
         }
     }
 
@@ -213,6 +233,40 @@ class BroadCastActivity : AppCompatActivity(), ConnectCheckerRtmp, SurfaceHolder
 
     override fun surfaceCreated(p0: SurfaceHolder?) {
     }
+
+    override fun onKeyboardHeightChanged(height: Int, orientation: Int) {
+        if (height == 0) {
+            relativeView.y = initialY
+            rv_chat.y = initialYofChat
+
+            relativeView.requestLayout()
+            rv_chat.requestLayout()
+        } else {
+            val newPosition = initialY - height
+            val newPositionofChat = initialYofChat - height
+            relativeView.y = newPosition
+            rv_chat.y = newPositionofChat
+
+            relativeView.requestLayout()
+            rv_chat.requestLayout()
+        }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        keyboardHeightProvider.setKeyboardHeightObserver(null)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        keyboardHeightProvider.setKeyboardHeightObserver(this)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        keyboardHeightProvider.close()
+    }
+
 
 
 }
