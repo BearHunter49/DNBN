@@ -102,10 +102,7 @@ class LiveWatchActivity : AppCompatActivity(), KeyboardHeightProvider.KeyboardHe
 
         // 나가기 버튼
         btn_close.setOnClickListener {
-            AlertDialog.Builder(this).setTitle("경고!").setMessage("정말로 종료 하시겠습니까?")
-                .setPositiveButton("확인"){ _, _ -> finish() }
-                .setNegativeButton("취소", null)
-                .show()
+            finish()
         }
 
         // 팔로우 버튼
@@ -134,9 +131,6 @@ class LiveWatchActivity : AppCompatActivity(), KeyboardHeightProvider.KeyboardHe
 
     }
 
-
-    override fun onBackPressed() {
-    }
 
     override fun onStart() {
         super.onStart()

@@ -8,7 +8,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import com.swma.dnbn.fragment.HomeFragment
-import com.swma.dnbn.fragment.ShopFragment
+import com.swma.dnbn.fragment.StoreFragment
 import com.swma.dnbn.fragment.UserFragment
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.row_toolbar.*
@@ -32,7 +32,7 @@ class MainActivity : AppCompatActivity() {
 
         // Fragment Load
         fHome = HomeFragment()
-        fShop = ShopFragment()
+        fShop = StoreFragment()
         fUser = UserFragment()
 
         fragmentManager.beginTransaction().apply {

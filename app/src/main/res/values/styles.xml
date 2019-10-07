@@ -17,4 +17,11 @@
         <item name="colorAccent">@color/yellow</item>                    <!-- 하단 움직이는 바 색-->
     </style>
 
+    <style name="ShopTabTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorPrimary">@color/white</item>                                <!-- 배경 -->
+        <item name="android:textColorPrimary">@color/yellow</item>       <!-- 탭바 선택된 텍스트 -->
+        <item name="android:textColorSecondary">@color/black</item>     <!-- 탭바 텍스트 -->
+        <item name="colorAccent">@color/yellow</item>                    <!-- 하단 움직이는 바 색-->
+    </style>
+
 </resources>
