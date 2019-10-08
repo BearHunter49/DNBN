@@ -32,6 +32,7 @@
         <ImageView
                 android:layout_width="30dp"
                 android:layout_height="30dp"
+                android:contentDescription="@string/app_name"
                 android:src="@drawable/home_64_orange"
                 android:id="@+id/imgHome"
                 android:layout_weight="1"
@@ -40,6 +41,7 @@
         <ImageView
                 android:layout_width="30dp"
                 android:layout_height="30dp"
+                android:contentDescription="@string/app_name"
                 android:src="@drawable/shop_64_white"
                 android:id="@+id/imgShopping"
                 android:layout_weight="1"
@@ -48,6 +50,7 @@
         <ImageView
                 android:layout_width="30dp"
                 android:layout_height="30dp"
+                android:contentDescription="@string/app_name"
                 android:src="@drawable/user_64_white"
                 android:id="@+id/imgUser"
                 android:layout_weight="1"
