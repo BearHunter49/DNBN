@@ -28,7 +28,7 @@ class HomeVODAdapter(private val context: Context, private val items:ArrayList<I
         items[position].let { item ->
             with(holder){
                 textTitle.text = item.vodTitle
-                Picasso.get().load(item.vodImageUrl).into(image)
+                Picasso.get().load(item.vodImageUrl[0]).into(image)
 
                 // Retrofit2 API ProductId 사용하기
                 textPrice.text = String.format("%,d", item.vodProductPrice)

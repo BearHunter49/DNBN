@@ -144,14 +144,30 @@ class HomeFragment : Fragment() {
         )
         liveList.add(
             ItemLive(
-                "1", "방화 현장", "https://image.fmkorea.com/files/attach/new/20180610/33854530/1037635837/1098323360/513829981763937d94c0acd8c0f28aea.jpg", "Food", "",
-                "100", "1010",13000, 8900, 423
+                "1",
+                "방화 현장",
+                "https://image.fmkorea.com/files/attach/new/20180610/33854530/1037635837/1098323360/513829981763937d94c0acd8c0f28aea.jpg",
+                "Food",
+                "",
+                "100",
+                "1010",
+                13000,
+                8900,
+                423
             )
         )
         liveList.add(
             ItemLive(
-                "1", "절도 현장", "http://potsu.net/files/attach/images/Array/268/310/007/ad07f1d19a04d5731f3e9822112b1032.jpg", "Food", "",
-                "100", "1010",13000, 8900, 51
+                "1",
+                "절도 현장",
+                "http://potsu.net/files/attach/images/Array/268/310/007/ad07f1d19a04d5731f3e9822112b1032.jpg",
+                "Food",
+                "",
+                "100",
+                "1010",
+                13000,
+                8900,
+                51
             )
         )
 
@@ -159,7 +175,7 @@ class HomeFragment : Fragment() {
             ItemVOD(
                 "1",
                 "녹화 영상",
-                "http://optimal.inven.co.kr/upload/2015/02/24/bbs/i1617629232.jpg",
+                arrayListOf("http://optimal.inven.co.kr/upload/2015/02/24/bbs/i1617629232.jpg"),
                 "Food",
                 "http://cdnapi.kaltura.com/p/1878761/sp/187876100/playManifest/entryId/1_usagz19w/flavorIds/1_5spqkazq,1_nslowvhp,1_boih5aji,1_qahc37ag/format/applehttp/protocol/http/a.m3u8",
                 "120",
@@ -171,7 +187,7 @@ class HomeFragment : Fragment() {
             ItemVOD(
                 "1",
                 "녹화 영상",
-                "http://optimal.inven.co.kr/upload/2015/02/24/bbs/i1617629232.jpg",
+                arrayListOf("http://optimal.inven.co.kr/upload/2015/02/24/bbs/i1617629232.jpg"),
                 "Food",
                 "http://cdnapi.kaltura.com/p/1878761/sp/187876100/playManifest/entryId/1_usagz19w/flavorIds/1_5spqkazq,1_nslowvhp,1_boih5aji,1_qahc37ag/format/applehttp/protocol/http/a.m3u8",
                 "120",
@@ -183,7 +199,7 @@ class HomeFragment : Fragment() {
             ItemVOD(
                 "1",
                 "녹화 영상",
-                "http://optimal.inven.co.kr/upload/2015/02/24/bbs/i1617629232.jpg",
+                arrayListOf("http://optimal.inven.co.kr/upload/2015/02/24/bbs/i1617629232.jpg"),
                 "Food",
                 "http://cdnapi.kaltura.com/p/1878761/sp/187876100/playManifest/entryId/1_usagz19w/flavorIds/1_5spqkazq,1_nslowvhp,1_boih5aji,1_qahc37ag/format/applehttp/protocol/http/a.m3u8",
                 "120",
@@ -204,10 +220,11 @@ class HomeFragment : Fragment() {
                 "https://t1.daumcdn.net/cfile/tistory/993F40405A6E911428"
             )
         )
-        scheduleList.add(ItemSchedule(
-            "3", "잣같은 잣", "100", "베어헌터3", "2020", "2019-10-02 21:00:00",
-            "http://cfile223.uf.daum.net/image/223870385583895A32CC51"
-        )
+        scheduleList.add(
+            ItemSchedule(
+                "3", "잣같은 잣", "100", "베어헌터3", "2020", "2019-10-02 21:00:00",
+                "http://cfile223.uf.daum.net/image/223870385583895A32CC51"
+            )
 
         )
 

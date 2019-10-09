@@ -92,7 +92,8 @@ class LiveWatchActivity : AppCompatActivity(), KeyboardHeightProvider.KeyboardHe
         // 소켓 통신으로 채팅 받아오기
         // 비동기로 처리
 
-        // Live 방송 정보 Http 통신
+        // HTTP 통신
+        // Live 방송 정보
         LiveProfile.background = ShapeDrawable(OvalShape())
         LiveProfile.clipToOutline = true
         LiveWatchTitle.text = "라이브 방송 테스트"

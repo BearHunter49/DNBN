@@ -1,24 +1,25 @@
 package com.swma.dnbn.adapter
 
 import android.app.Activity
+import android.content.Intent
 import android.graphics.Paint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
 import com.swma.dnbn.R
+import com.swma.dnbn.ShopActivity
 import com.swma.dnbn.item.ItemVOD
-import kotlinx.android.synthetic.main.row_vod_item.view.*
+import kotlinx.android.synthetic.main.row_store_item.view.*
 
-class VodItemAdapter(private val context: Activity, private val items: ArrayList<ItemVOD>) :
-    RecyclerView.Adapter<VodItemAdapter.ItemRowHolder>() {
+class StoreItemAdapter(private val context: Activity, private val items: ArrayList<ItemVOD>) :
+    RecyclerView.Adapter<StoreItemAdapter.ItemRowHolder>() {
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemRowHolder {
-        val v = LayoutInflater.from(parent.context).inflate(R.layout.row_vod_item, parent, false)
+        val v = LayoutInflater.from(parent.context).inflate(R.layout.row_store_item, parent, false)
         return ItemRowHolder(v)
     }
 
@@ -27,28 +28,28 @@ class VodItemAdapter(private val context: Activity, private val items: ArrayList
     override fun onBindViewHolder(holder: ItemRowHolder, position: Int) {
         items[position].let { item ->
             with(holder){
-                textTitle.text = item.vodTitle
+                title.text = item.vodTitle
                 Picasso.get().load(item.vodImageUrl[0]).into(image)
 
-                textPrice.text = String.format("%,d", item.vodProductPrice)
+                price.text = String.format("%,d", item.vodProductPrice)
 
                 // 할인 가격 처리
                 if (item.vodChangedPrice != -1){
-                    textPrice.apply {
+                    price.apply {
                         paintFlags = paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
                         setTextColor(ContextCompat.getColor(context, R.color.red))
                     }
-                    textChangedPrice.apply {
+                    changedPrice.apply {
                         text = String.format("%,d", item.vodChangedPrice)
                         visibility = View.VISIBLE
                     }
                 }
 
-                // 클릭 리스너
                 cardView.setOnClickListener {
-                    Toast.makeText(context, item.vodTitle + " Clicked!", Toast.LENGTH_SHORT).show()
+                    val intent = Intent(context, ShopActivity::class.java)
+                    intent.putExtra("item", item)
+                    context.startActivity(intent)
                 }
-
 
             }
         }
@@ -57,11 +58,11 @@ class VodItemAdapter(private val context: Activity, private val items: ArrayList
 
 
     inner class ItemRowHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val textTitle = itemView.textProductTitle
-        val image = itemView.image
-        val textPrice = itemView.textProductPrice
-        val textChangedPrice = itemView.textProductChangedPrice
-        val cardView = itemView.videoCardView
+        val title = view.textProductTitle
+        val price = view.textProductPrice
+        val changedPrice = view.textProductChangedPrice
+        val image = view.image
+        val cardView = view.storeCardView
     }
 
 

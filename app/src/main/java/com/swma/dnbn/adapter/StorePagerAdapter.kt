@@ -1,0 +1,30 @@
+package com.swma.dnbn.adapter
+
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentStatePagerAdapter
+import com.swma.dnbn.fragment.StoreItemFragment
+
+class StorePagerAdapter(fm: FragmentManager): FragmentStatePagerAdapter(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT){
+
+    private val titleList = listOf("전체", "푸드", "패션", "뷰티", "반려동물", "디지털/가전", "여행")
+
+    override fun getItem(position: Int): Fragment {
+        return when(position){
+            0 -> StoreItemFragment(titleList[position])
+            1 -> StoreItemFragment(titleList[position])
+            2 -> StoreItemFragment(titleList[position])
+            3 -> StoreItemFragment(titleList[position])
+            4 -> StoreItemFragment(titleList[position])
+            5 -> StoreItemFragment(titleList[position])
+            else -> StoreItemFragment(titleList[position])
+        }
+    }
+
+    override fun getCount() = titleList.size
+
+    override fun getPageTitle(position: Int): CharSequence? {
+        return titleList[position]
+    }
+
+}

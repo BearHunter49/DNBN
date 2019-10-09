@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:layout_gravity="bottom"
+              android:layoutDirection="ltr"
+              android:background="@android:color/transparent"
+              android:orientation="vertical"
+              tools:targetApi="28">
+
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+        <ImageButton android:id="@id/exo_play"
+                     android:layout_width="50dp"
+                     style="@style/ExoMediaButton.Play"/>
+
+        <ImageButton android:id="@id/exo_pause"
+                     android:layout_width="50dp"
+                     style="@style/ExoMediaButton.Pause"/>
+
+        <TextView android:id="@id/exo_position"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:textSize="14sp"
+                  android:textStyle="bold"
+                  android:layout_marginEnd="2dp"
+                  android:includeFontPadding="false"
+                  android:textColor="@color/white"/>
+
+
+        <com.google.android.exoplayer2.ui.DefaultTimeBar
+                android:layout_width="0dp"
+                android:layout_height="26dp"
+                android:layout_weight="1"
+                android:id="@+id/exo_progress"/>
+
+        <TextView android:id="@id/exo_duration"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:textSize="14sp"
+                  android:textStyle="bold"
+                  android:layout_marginStart="2dp"
+                  android:layout_marginEnd="2dp"
+                  android:includeFontPadding="false"
+                  android:textColor="@color/white"/>
+
+    </LinearLayout>
+
+</LinearLayout>

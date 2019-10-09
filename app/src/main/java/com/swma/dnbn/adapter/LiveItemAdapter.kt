@@ -32,7 +32,7 @@ class LiveItemAdapter(private val context: Activity, private val items: ArrayLis
 
                 textPrice.text = String.format("%,d", item.liveProductPrice)
 
-                // 할인 가격 있으면
+                // 할인 가격 처리
                 if (item.liveChangedPrice != -1){
                     textPrice.apply {
                         paintFlags = paintFlags or Paint.STRIKE_THRU_TEXT_FLAG

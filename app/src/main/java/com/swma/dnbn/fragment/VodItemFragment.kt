@@ -34,7 +34,7 @@ class VodItemFragment(private val category: String) : Fragment() {
                     ItemVOD(
                         "1",
                         "VOD 푸드",
-                        "https://post-phinf.pstatic.net/MjAxODEyMjFfMTE1/MDAxNTQ1Mzc1OTYyMTA2.44XiN6bbRHARoIMgxjWXbcJE258lTS5tInlEaS_wojkg.JBkuyi7ruzEl772YoQCwKYjlhMvuslD93T7WWUD2v4wg.JPEG/%EC%B5%9C%EB%AF%B8%EC%9E%90%EC%86%8C%EB%A8%B8%EB%A6%AC%EA%B5%AD%EB%B0%A5_%281%29_woooo__jung2_%EB%8B%98_%EC%9D%B8%EC%8A%A4%ED%83%80%EA%B7%B8%EB%9E%A8.jpg?type=w1200",
+                        arrayListOf("https://post-phinf.pstatic.net/MjAxODEyMjFfMTE1/MDAxNTQ1Mzc1OTYyMTA2.44XiN6bbRHARoIMgxjWXbcJE258lTS5tInlEaS_wojkg.JBkuyi7ruzEl772YoQCwKYjlhMvuslD93T7WWUD2v4wg.JPEG/%EC%B5%9C%EB%AF%B8%EC%9E%90%EC%86%8C%EB%A8%B8%EB%A6%AC%EA%B5%AD%EB%B0%A5_%281%29_woooo__jung2_%EB%8B%98_%EC%9D%B8%EC%8A%A4%ED%83%80%EA%B7%B8%EB%9E%A8.jpg?type=w1200"),
                         "Food",
                         "",
                         "100",
@@ -48,7 +48,7 @@ class VodItemFragment(private val category: String) : Fragment() {
                     ItemVOD(
                         "1",
                         "VOD 패션",
-                        "https://m.styleman.kr/web/product/medium/201903/575f601cbd3a149040669ea7b4712049.jpg",
+                        arrayListOf("https://m.styleman.kr/web/product/medium/201903/575f601cbd3a149040669ea7b4712049.jpg"),
                         "Fashion",
                         "",
                         "100",
@@ -60,7 +60,7 @@ class VodItemFragment(private val category: String) : Fragment() {
                 )
                 vodList.add(
                     ItemVOD(
-                        "1", "VOD 반려동물", "https://pbs.twimg.com/media/C5WybhRVMAAfBUF.jpg", "Pet", "",
+                        "1", "VOD 반려동물", arrayListOf("https://pbs.twimg.com/media/C5WybhRVMAAfBUF.jpg"), "Pet", "",
                         "100", "1010", "Test Description", 59000, 48900
                     )
                 )
@@ -70,7 +70,7 @@ class VodItemFragment(private val category: String) : Fragment() {
                     ItemVOD(
                         "1",
                         "VOD 푸드",
-                        "https://post-phinf.pstatic.net/MjAxODEyMjFfMTE1/MDAxNTQ1Mzc1OTYyMTA2.44XiN6bbRHARoIMgxjWXbcJE258lTS5tInlEaS_wojkg.JBkuyi7ruzEl772YoQCwKYjlhMvuslD93T7WWUD2v4wg.JPEG/%EC%B5%9C%EB%AF%B8%EC%9E%90%EC%86%8C%EB%A8%B8%EB%A6%AC%EA%B5%AD%EB%B0%A5_%281%29_woooo__jung2_%EB%8B%98_%EC%9D%B8%EC%8A%A4%ED%83%80%EA%B7%B8%EB%9E%A8.jpg?type=w1200",
+                        arrayListOf("https://post-phinf.pstatic.net/MjAxODEyMjFfMTE1/MDAxNTQ1Mzc1OTYyMTA2.44XiN6bbRHARoIMgxjWXbcJE258lTS5tInlEaS_wojkg.JBkuyi7ruzEl772YoQCwKYjlhMvuslD93T7WWUD2v4wg.JPEG/%EC%B5%9C%EB%AF%B8%EC%9E%90%EC%86%8C%EB%A8%B8%EB%A6%AC%EA%B5%AD%EB%B0%A5_%281%29_woooo__jung2_%EB%8B%98_%EC%9D%B8%EC%8A%A4%ED%83%80%EA%B7%B8%EB%9E%A8.jpg?type=w1200"),
                         "Food",
                         "",
                         "100",
@@ -86,7 +86,7 @@ class VodItemFragment(private val category: String) : Fragment() {
                     ItemVOD(
                         "1",
                         "VOD 패션",
-                        "https://m.styleman.kr/web/product/medium/201903/575f601cbd3a149040669ea7b4712049.jpg",
+                        arrayListOf("https://m.styleman.kr/web/product/medium/201903/575f601cbd3a149040669ea7b4712049.jpg"),
                         "Fashion",
                         "",
                         "100",
@@ -102,7 +102,7 @@ class VodItemFragment(private val category: String) : Fragment() {
             "반려동물" -> {
                 vodList.add(
                     ItemVOD(
-                        "1", "VOD 반려동물", "https://pbs.twimg.com/media/C5WybhRVMAAfBUF.jpg", "Pet", "",
+                        "1", "VOD 반려동물", arrayListOf("https://pbs.twimg.com/media/C5WybhRVMAAfBUF.jpg"), "Pet", "",
                         "100", "1010", "Test Description", 59000, 48900
                     )
                 )

@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
 import com.swma.dnbn.fragment.ShopFragment
+import com.swma.dnbn.item.ItemVOD
 import kotlinx.android.synthetic.main.row_shop_toolbar.*
 
 class ShopActivity : AppCompatActivity() {
@@ -17,15 +18,17 @@ class ShopActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_shop)
 
+        // 전달받은 객체 -> ShopFragment 에 전달하기
+        val product = intent.getSerializableExtra("item") as ItemVOD
+
+
         // Toolbar
         setSupportActionBar(shop_toolbar)
         supportActionBar?.setDisplayShowTitleEnabled(false)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        // Intent 정보 받아오기
-
         // Fragment 생성성
-       supportFragmentManager.beginTransaction().add(R.id.shopContainer, ShopFragment(), "Shop").commit()
+       supportFragmentManager.beginTransaction().add(R.id.shopContainer, ShopFragment(product), "Shop").commit()
 
     }
 

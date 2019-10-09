@@ -12,9 +12,10 @@ import androidx.core.content.ContextCompat
 import com.swma.dnbn.R
 import com.swma.dnbn.adapter.ShopPagerAdapter
 import com.swma.dnbn.adapter.SlideShopAdapter
+import com.swma.dnbn.item.ItemVOD
 import kotlinx.android.synthetic.main.fragment_shop.view.*
 
-class ShopFragment : Fragment() {
+class ShopFragment(private val product: ItemVOD) : Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -23,16 +24,16 @@ class ShopFragment : Fragment() {
         val rootView = inflater.inflate(R.layout.fragment_shop, container, false)
 
         // 넘어온 상품 정보
-        val imageList = arrayListOf("http://img.gqkorea.co.kr/gq/2017/08/style_59896c152a6a7.jpg",
-            "http://mitoshop.co.kr/web/product/medium/201802/13135_shop1_694780.jpg")
-        val title = "가을 신상 맨투맨"
-        val userName = "베어헌터"
-        val description = "올 가을 어쩌구저쩌구~~"
-        val originalPrice = 13900
-        val changedPrice = 8900
+        val imageList = product.vodImageUrl
+        val title = product.vodTitle
+        val userName = product.vodUserId
+        val description = product.vodDescription
+        val originalPrice = product.vodProductPrice
+        val changedPrice = product.vodChangedPrice
+        val vodUrl = product.vodUrl
 
         // Http 통신 상품 정보 받기
-        //
+        // 상품정보 img 같은거
 
 
         rootView.apply {
@@ -56,11 +57,11 @@ class ShopFragment : Fragment() {
             textShopDescription.text = description
 
             // 할인 가격 처리
-            if (changedPrice == -1){
+            if (changedPrice != -1){
                 textShopOriginalPrice.apply {
                     text = String.format("%,d", originalPrice)
                     paintFlags = paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
-                    setTextColor(ContextCompat.getColor(context, R.color.gray))
+                    setTextColor(ContextCompat.getColor(context, R.color.dark_gray))
                     visibility = View.VISIBLE
                 }
                 textShopPrice.apply {
@@ -71,7 +72,7 @@ class ShopFragment : Fragment() {
             }
 
             // ViewPager + TabLayout
-            shopDetailViewPager.adapter = ShopPagerAdapter(requireActivity().supportFragmentManager)
+            shopDetailViewPager.adapter = ShopPagerAdapter(requireActivity().supportFragmentManager, product)
             shopTabLayout.setupWithViewPager(shopDetailViewPager)
 
 
