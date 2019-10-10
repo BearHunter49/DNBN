@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                                                   xmlns:app="http://schemas.android.com/apk/res-auto"
+                                                   android:orientation="vertical"
+                                                   android:background="@color/white"
+                                                   android:id="@+id/liveShopView"
+                                                   android:layout_width="match_parent"
+                                                   android:layout_height="150dp">
+
+    <com.makeramen.roundedimageview.RoundedImageView
+            android:id="@+id/imgLiveShopping"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:riv_corner_radius="5dp"
+            android:scaleType="fitXY"
+            android:layout_marginStart="20dp"
+            android:layout_width="120dp"
+            android:layout_height="120dp"/>
+
+    <TextView
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toEndOf="@+id/imgLiveShopping"
+            app:layout_constraintTop_toTopOf="@+id/imgLiveShopping"
+            android:layout_marginStart="20dp"
+            android:id="@+id/liveShopTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+    <TextView
+            android:textColor="@color/black"
+            android:textSize="14sp"
+            app:layout_constraintTop_toBottomOf="@+id/liveShopTitle"
+            app:layout_constraintStart_toStartOf="@+id/liveShopTitle"
+            android:layout_marginTop="5dp"
+            android:id="@+id/liveShopPrice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+    <TextView
+            android:id="@+id/liveShopChangedPrice"
+            app:layout_constraintTop_toBottomOf="@+id/liveShopPrice"
+            app:layout_constraintStart_toStartOf="@+id/liveShopPrice"
+            android:layout_marginTop="5dp"
+            android:textColor="@color/red"
+            android:textStyle="bold"
+            android:visibility="gone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+    <TextView
+            android:textColor="@color/blue"
+            android:textSize="14sp"
+            android:text="무료배송"
+            app:layout_constraintBottom_toBottomOf="@+id/imgLiveShopping"
+            app:layout_constraintStart_toStartOf="@+id/liveShopPrice"
+            android:id="@+id/liveShopDeliveryPrice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+    <ImageView
+            android:textColor="@color/blue"
+            android:contentDescription="@string/app_name"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:src="@drawable/shopping_cart"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginEnd="20dp"
+            android:id="@+id/btn_liveShopCart"
+            android:layout_width="30dp"
+            android:layout_height="30dp"/>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

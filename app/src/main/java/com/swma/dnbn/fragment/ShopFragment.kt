@@ -15,7 +15,7 @@ import com.swma.dnbn.adapter.SlideShopAdapter
 import com.swma.dnbn.item.ItemVOD
 import kotlinx.android.synthetic.main.fragment_shop.view.*
 
-class ShopFragment(private val product: ItemVOD) : Fragment() {
+class ShopFragment(private val vod: ItemVOD) : Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -24,16 +24,21 @@ class ShopFragment(private val product: ItemVOD) : Fragment() {
         val rootView = inflater.inflate(R.layout.fragment_shop, container, false)
 
         // 넘어온 상품 정보
-        val imageList = product.vodImageUrl
-        val title = product.vodTitle
-        val userName = product.vodUserId
-        val description = product.vodDescription
-        val originalPrice = product.vodProductPrice
-        val changedPrice = product.vodChangedPrice
-        val vodUrl = product.vodUrl
+        val imageList = arrayListOf<String>()
+        for (product in vod.vodProduct){
+            imageList.add(product.productImg)
+        }
+
+        val title = vod.vodTitle
+        val userName = vod.vodUserId
+        val description = vod.vodDescription
+
+        // 대표 상품(첫 번째)
+        val originalPrice = vod.vodProduct[0].productPrice
+        val changedPrice = vod.vodProduct[0].productChangedPrice
 
         // Http 통신 상품 정보 받기
-        // 상품정보 img 같은거
+        // 상품정보 img 같은거 유저 프로필이나
 
 
         rootView.apply {
@@ -72,7 +77,7 @@ class ShopFragment(private val product: ItemVOD) : Fragment() {
             }
 
             // ViewPager + TabLayout
-            shopDetailViewPager.adapter = ShopPagerAdapter(requireActivity().supportFragmentManager, product)
+            shopDetailViewPager.adapter = ShopPagerAdapter(requireActivity().supportFragmentManager, vod)
             shopTabLayout.setupWithViewPager(shopDetailViewPager)
 
 

@@ -23,9 +23,9 @@ class ShopDetailFragment(private val product: ItemVOD) : Fragment() {
 
         //
         // 상품 정보
-        val thumbnail = product.vodImageUrl[0]
+        val thumbnail = product.vodImageUrl
         val vodUrl = product.vodUrl
-        val imgDetail = "http://ai.esmplus.com/chungsu1204/%EB%8F%84%ED%86%A0%EB%A6%AC%EB%AC%B5%EA%B0%80%EB%A3%A8_%EC%83%81%EC%84%B8%ED%8E%98%EC%9D%B4%EC%A7%80.jpg"
+        val imgDetail = product.vodDetailImg
 
         rootView.apply {
             // 썸네일

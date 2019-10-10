@@ -25,6 +25,7 @@ import com.google.android.exoplayer2.util.Util
 import com.swma.dnbn.adapter.ChatAdapter
 import com.swma.dnbn.fragment.LiveShoppingFragment
 import com.swma.dnbn.item.ItemChat
+import com.swma.dnbn.item.ItemProduct
 import com.swma.dnbn.util.KeyboardHeightProvider
 import kotlinx.android.synthetic.main.activity_live_watch.*
 
@@ -36,6 +37,7 @@ class LiveWatchActivity : AppCompatActivity(), KeyboardHeightProvider.KeyboardHe
     var check = 0
     lateinit var handler: Handler
     private lateinit var animation: Animation
+
     // 임시 Url
     private val Url = "https://sywblelzxjjjqz.data.mediastore.ap-northeast-2.amazonaws.com/Test/main.m3u8"
     lateinit var player: SimpleExoPlayer
@@ -66,7 +68,7 @@ class LiveWatchActivity : AppCompatActivity(), KeyboardHeightProvider.KeyboardHe
         // Fade-out Animation
         handler = Handler()
         animation = AnimationUtils.loadAnimation(this, R.anim.fadeout)
-        animation.setAnimationListener(object: Animation.AnimationListener{
+        animation.setAnimationListener(object : Animation.AnimationListener {
             override fun onAnimationRepeat(p0: Animation?) {
             }
 
@@ -99,6 +101,21 @@ class LiveWatchActivity : AppCompatActivity(), KeyboardHeightProvider.KeyboardHe
         LiveWatchTitle.text = "라이브 방송 테스트"
         LiveWatchName.text = "베어헌터"
         LiveWatchViewer.text = "51"
+        val productList = arrayListOf(
+            ItemProduct(
+                "1",
+                "TestName",
+                "https://pbs.twimg.com/media/C5WybhRVMAAfBUF.jpg",
+                12000,
+                11000
+            ), ItemProduct(
+                "1",
+                "TestName",
+                "https://pbs.twimg.com/media/C5WybhRVMAAfBUF.jpg",
+                12000,
+                11000
+            )
+        )
 
 
         // 나가기 버튼
@@ -113,7 +130,7 @@ class LiveWatchActivity : AppCompatActivity(), KeyboardHeightProvider.KeyboardHe
 
         // 채팅 입력 버튼
         btn_send.setOnClickListener {
-            if (edit_chat.text.isNotEmpty()){
+            if (edit_chat.text.isNotEmpty()) {
                 val adapter = rv_chat.adapter as ChatAdapter
 
                 adapter.addItem(ItemChat("베어헌터", edit_chat.text.toString()))
@@ -124,10 +141,9 @@ class LiveWatchActivity : AppCompatActivity(), KeyboardHeightProvider.KeyboardHe
 
         // 상품 정보 버튼
         btn_allProduct.setOnClickListener {
-            val fragment = LiveShoppingFragment()
+            val fragment = LiveShoppingFragment(productList)
             fragment.show(supportFragmentManager, fragment.tag)
         }
-
 
 
     }
@@ -145,7 +161,7 @@ class LiveWatchActivity : AppCompatActivity(), KeyboardHeightProvider.KeyboardHe
 
     // 레이아웃 관리
     private fun displayLayout() {
-        if (check == 0){
+        if (check == 0) {
             check = 1
             lytLiveWatch.visibility = View.VISIBLE
             handler.postDelayed({
@@ -157,21 +173,20 @@ class LiveWatchActivity : AppCompatActivity(), KeyboardHeightProvider.KeyboardHe
 
     // 터치 이벤트
     override fun onTouchEvent(event: MotionEvent?): Boolean {
-        if (event?.action == MotionEvent.ACTION_DOWN){
+        if (event?.action == MotionEvent.ACTION_DOWN) {
             // 레이아웃 떠 있을 시
-            if (check == 1){
+            if (check == 1) {
                 handler.removeMessages(0)
                 lytLiveWatch.startAnimation(animation)
                 check = 0
             }
             // 레이아웃 없을 시
-            else{
+            else {
                 displayLayout()
             }
         }
         return super.onTouchEvent(event)
     }
-
 
 
     private fun initializePlayer() {

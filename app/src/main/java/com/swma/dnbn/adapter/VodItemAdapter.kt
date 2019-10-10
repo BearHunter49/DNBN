@@ -28,18 +28,18 @@ class VodItemAdapter(private val context: Activity, private val items: ArrayList
         items[position].let { item ->
             with(holder){
                 textTitle.text = item.vodTitle
-                Picasso.get().load(item.vodImageUrl[0]).into(image)
+                Picasso.get().load(item.vodImageUrl).into(image)
 
-                textPrice.text = String.format("%,d", item.vodProductPrice)
+                textPrice.text = String.format("%,d", item.vodProduct[0].productPrice)
 
                 // 할인 가격 처리
-                if (item.vodChangedPrice != -1){
+                if (item.vodProduct[0].productChangedPrice != -1){
                     textPrice.apply {
                         paintFlags = paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
                         setTextColor(ContextCompat.getColor(context, R.color.red))
                     }
                     textChangedPrice.apply {
-                        text = String.format("%,d", item.vodChangedPrice)
+                        text = String.format("%,d", item.vodProduct[0].productChangedPrice)
                         visibility = View.VISIBLE
                     }
                 }

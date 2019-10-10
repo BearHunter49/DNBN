@@ -5,14 +5,11 @@ import android.graphics.drawable.shapes.OvalShape
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.Handler
 import android.util.Log
 import android.view.GestureDetector
 import android.view.MotionEvent
 import android.view.View
 import android.view.WindowManager
-import android.view.animation.Animation
-import android.view.animation.AnimationUtils
 import android.widget.Toast
 import com.google.android.exoplayer2.ExoPlayerFactory
 import com.google.android.exoplayer2.SimpleExoPlayer
@@ -41,8 +38,9 @@ class VODWatchActivity : AppCompatActivity() {
         setContentView(R.layout.activity_vodwatch)
 
         // VOD 영상 정보
-        val product = intent.getSerializableExtra("product") as ItemVOD
-        Url = product.vodUrl
+        val vod = intent.getSerializableExtra("product") as ItemVOD
+        Url = vod.vodUrl
+        val productList = vod.vodProduct
 
 
         // HTTP 통신
@@ -80,7 +78,7 @@ class VODWatchActivity : AppCompatActivity() {
         }
 
         btn_allProduct.setOnClickListener {
-            val fragment = LiveShoppingFragment()
+            val fragment = LiveShoppingFragment(productList)
             fragment.show(supportFragmentManager, fragment.tag)
         }
 

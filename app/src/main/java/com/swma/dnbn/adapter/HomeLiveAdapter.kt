@@ -31,16 +31,16 @@ class HomeLiveAdapter(private val context: Context, private val items: ArrayList
                 textTitle.text = item.liveTitle
                 Picasso.get().load(item.liveImageUrl).into(image)
 
-                textPrice.text = String.format("%,d", item.liveProductPrice)
+                textPrice.text = String.format("%,d", item.liveProduct[0].productPrice)
 
                 // 할인 가격 있으면
-                if (item.liveChangedPrice != -1){
+                if (item.liveProduct[0].productChangedPrice != -1){
                 textPrice.apply {
                     paintFlags = paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
                     setTextColor(ContextCompat.getColor(context, R.color.red))
                 }
                 textChangedPrice.apply {
-                    text = String.format("%,d", item.liveChangedPrice)
+                    text = String.format("%,d", item.liveProduct[0].productChangedPrice)
                     visibility = View.VISIBLE
                 }
             }

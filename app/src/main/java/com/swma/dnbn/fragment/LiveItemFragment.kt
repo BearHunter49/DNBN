@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.swma.dnbn.R
 import com.swma.dnbn.adapter.LiveItemAdapter
 import com.swma.dnbn.item.ItemLive
+import com.swma.dnbn.item.ItemProduct
 import kotlinx.android.synthetic.main.fragment_live_item.view.*
 
 class LiveItemFragment(private val category: String) : Fragment() {
@@ -38,9 +39,15 @@ class LiveItemFragment(private val category: String) : Fragment() {
                         "Food",
                         "",
                         "100",
-                        "1010",
-                        6000,
-                        -1, 151
+                        arrayListOf(
+                            ItemProduct(
+                                "1",
+                                "TestName",
+                                "https://pbs.twimg.com/media/C5WybhRVMAAfBUF.jpg",
+                                12000,
+                                11000
+                            )
+                        ), 100
                     )
                 )
                 liveList.add(
@@ -51,15 +58,29 @@ class LiveItemFragment(private val category: String) : Fragment() {
                         "Fashion",
                         "",
                         "100",
-                        "1010",
-                        22000,
-                        18900, 15
+                        arrayListOf(
+                            ItemProduct(
+                                "1",
+                                "TestName",
+                                "https://pbs.twimg.com/media/C5WybhRVMAAfBUF.jpg",
+                                12000,
+                                11000
+                            )
+                        ), 100
                     )
                 )
                 liveList.add(
                     ItemLive(
                         "1", "반려동물 테스트", "https://pbs.twimg.com/media/C5WybhRVMAAfBUF.jpg", "Pet", "",
-                        "100", "1010", 59000, 48900, 11
+                        "100", arrayListOf(
+                            ItemProduct(
+                                "1",
+                                "TestName",
+                                "https://pbs.twimg.com/media/C5WybhRVMAAfBUF.jpg",
+                                12000,
+                                11000
+                            )
+                        ), 100
                     )
                 )
             }
@@ -72,9 +93,15 @@ class LiveItemFragment(private val category: String) : Fragment() {
                         "Food",
                         "",
                         "100",
-                        "1010",
-                        6000,
-                        -1, 15
+                        arrayListOf(
+                            ItemProduct(
+                                "1",
+                                "TestName",
+                                "https://pbs.twimg.com/media/C5WybhRVMAAfBUF.jpg",
+                                12000,
+                                11000
+                            )
+                        ), 100
                     )
                 )
             }
@@ -87,9 +114,15 @@ class LiveItemFragment(private val category: String) : Fragment() {
                         "Fashion",
                         "",
                         "100",
-                        "1010",
-                        22000,
-                        18900, 15
+                        arrayListOf(
+                            ItemProduct(
+                                "1",
+                                "TestName",
+                                "https://pbs.twimg.com/media/C5WybhRVMAAfBUF.jpg",
+                                12000,
+                                11000
+                            )
+                        ), 100
                     )
                 )
             }
@@ -99,7 +132,15 @@ class LiveItemFragment(private val category: String) : Fragment() {
                 liveList.add(
                     ItemLive(
                         "1", "반려동물 테스트", "https://pbs.twimg.com/media/C5WybhRVMAAfBUF.jpg", "Pet", "",
-                        "100", "1010", 59000, 48900, 15
+                        "100", arrayListOf(
+                            ItemProduct(
+                                "1",
+                                "TestName",
+                                "https://pbs.twimg.com/media/C5WybhRVMAAfBUF.jpg",
+                                12000,
+                                11000
+                            )
+                        ), 100
                     )
                 )
             }

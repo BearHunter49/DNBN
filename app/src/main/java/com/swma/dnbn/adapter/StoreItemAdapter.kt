@@ -29,18 +29,18 @@ class StoreItemAdapter(private val context: Activity, private val items: ArrayLi
         items[position].let { item ->
             with(holder){
                 title.text = item.vodTitle
-                Picasso.get().load(item.vodImageUrl[0]).into(image)
+                Picasso.get().load(item.vodImageUrl).into(image)
 
-                price.text = String.format("%,d", item.vodProductPrice)
+                price.text = String.format("%,d", item.vodProduct[0].productPrice)
 
                 // 할인 가격 처리
-                if (item.vodChangedPrice != -1){
+                if (item.vodProduct[0].productChangedPrice != -1){
                     price.apply {
                         paintFlags = paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
                         setTextColor(ContextCompat.getColor(context, R.color.red))
                     }
                     changedPrice.apply {
-                        text = String.format("%,d", item.vodChangedPrice)
+                        text = String.format("%,d", item.vodProduct[0].productChangedPrice)
                         visibility = View.VISIBLE
                     }
                 }

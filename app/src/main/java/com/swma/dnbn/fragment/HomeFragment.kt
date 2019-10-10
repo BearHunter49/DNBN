@@ -13,10 +13,7 @@ import com.swma.dnbn.adapter.HomeLiveAdapter
 import com.swma.dnbn.adapter.HomeScheduleAdapter
 import com.swma.dnbn.adapter.HomeVODAdapter
 import com.swma.dnbn.adapter.SlideAdapter
-import com.swma.dnbn.item.ItemLive
-import com.swma.dnbn.item.ItemSchedule
-import com.swma.dnbn.item.ItemSlide
-import com.swma.dnbn.item.ItemVOD
+import com.swma.dnbn.item.*
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_home.view.*
 import kotlinx.android.synthetic.main.row_toolbar.*
@@ -138,8 +135,22 @@ class HomeFragment : Fragment() {
 
         liveList.add(
             ItemLive(
-                "1", "소생 현장", "https://pbs.twimg.com/media/C5WybhRVMAAfBUF.jpg", "Food", "",
-                "100", "1010", 13000, 8900, 115
+                "1",
+                "소생 현장",
+                "https://pbs.twimg.com/media/C5WybhRVMAAfBUF.jpg",
+                "Food",
+                "",
+                "100",
+                arrayListOf(
+                    ItemProduct(
+                        "1",
+                        "TestName",
+                        "https://pbs.twimg.com/media/C5WybhRVMAAfBUF.jpg",
+                        12000,
+                        11000
+                    )
+                ),
+                59
             )
         )
         liveList.add(
@@ -150,10 +161,15 @@ class HomeFragment : Fragment() {
                 "Food",
                 "",
                 "100",
-                "1010",
-                13000,
-                8900,
-                423
+                arrayListOf(
+                    ItemProduct(
+                        "1",
+                        "TestName",
+                        "https://pbs.twimg.com/media/C5WybhRVMAAfBUF.jpg",
+                        12000,
+                        11000
+                    )
+                ), 100
             )
         )
         liveList.add(
@@ -164,10 +180,15 @@ class HomeFragment : Fragment() {
                 "Food",
                 "",
                 "100",
-                "1010",
-                13000,
-                8900,
-                51
+                arrayListOf(
+                    ItemProduct(
+                        "1",
+                        "TestName",
+                        "https://pbs.twimg.com/media/C5WybhRVMAAfBUF.jpg",
+                        12000,
+                        11000
+                    )
+                ), 100
             )
         )
 
@@ -175,36 +196,54 @@ class HomeFragment : Fragment() {
             ItemVOD(
                 "1",
                 "녹화 영상",
-                arrayListOf("http://optimal.inven.co.kr/upload/2015/02/24/bbs/i1617629232.jpg"),
+                "http://optimal.inven.co.kr/upload/2015/02/24/bbs/i1617629232.jpg",
                 "Food",
                 "http://cdnapi.kaltura.com/p/1878761/sp/187876100/playManifest/entryId/1_usagz19w/flavorIds/1_5spqkazq,1_nslowvhp,1_boih5aji,1_qahc37ag/format/applehttp/protocol/http/a.m3u8",
-                "120",
-                "2020",
-                "TestTestTest", 11000, 9900
+                "베어헌터",
+                "테스트 VOD",
+                "http://ai.esmplus.com/chungsu1204/%EB%8F%84%ED%86%A0%EB%A6%AC%EB%AC%B5%EA%B0%80%EB%A3%A8_%EC%83%81%EC%84%B8%ED%8E%98%EC%9D%B4%EC%A7%80.jpg",
+                arrayListOf(
+                    ItemProduct(
+                        "1", "상품이름", "http://optimal.inven.co.kr/upload/2015/02/24/bbs/i1617629232.jpg",
+                        13000, 8900
+                    )
+                )
             )
         )
         vodList.add(
             ItemVOD(
                 "1",
                 "녹화 영상",
-                arrayListOf("http://optimal.inven.co.kr/upload/2015/02/24/bbs/i1617629232.jpg"),
+                "http://optimal.inven.co.kr/upload/2015/02/24/bbs/i1617629232.jpg",
                 "Food",
                 "http://cdnapi.kaltura.com/p/1878761/sp/187876100/playManifest/entryId/1_usagz19w/flavorIds/1_5spqkazq,1_nslowvhp,1_boih5aji,1_qahc37ag/format/applehttp/protocol/http/a.m3u8",
-                "120",
-                "2020",
-                "TestTestTest", 11000, 9900
+                "베어헌터",
+                "테스트 VOD",
+                "http://ai.esmplus.com/chungsu1204/%EB%8F%84%ED%86%A0%EB%A6%AC%EB%AC%B5%EA%B0%80%EB%A3%A8_%EC%83%81%EC%84%B8%ED%8E%98%EC%9D%B4%EC%A7%80.jpg",
+                arrayListOf(
+                    ItemProduct(
+                        "1", "상품이름", "http://optimal.inven.co.kr/upload/2015/02/24/bbs/i1617629232.jpg",
+                        13000, 8900
+                    )
+                )
             )
         )
         vodList.add(
             ItemVOD(
                 "1",
                 "녹화 영상",
-                arrayListOf("http://optimal.inven.co.kr/upload/2015/02/24/bbs/i1617629232.jpg"),
+                "http://optimal.inven.co.kr/upload/2015/02/24/bbs/i1617629232.jpg",
                 "Food",
                 "http://cdnapi.kaltura.com/p/1878761/sp/187876100/playManifest/entryId/1_usagz19w/flavorIds/1_5spqkazq,1_nslowvhp,1_boih5aji,1_qahc37ag/format/applehttp/protocol/http/a.m3u8",
-                "120",
-                "2020",
-                "TestTestTest", 11000, 9900
+                "베어헌터",
+                "테스트 VOD",
+                "http://ai.esmplus.com/chungsu1204/%EB%8F%84%ED%86%A0%EB%A6%AC%EB%AC%B5%EA%B0%80%EB%A3%A8_%EC%83%81%EC%84%B8%ED%8E%98%EC%9D%B4%EC%A7%80.jpg",
+                arrayListOf(
+                    ItemProduct(
+                        "1", "상품이름", "http://optimal.inven.co.kr/upload/2015/02/24/bbs/i1617629232.jpg",
+                        13000, 8900
+                    )
+                )
             )
         )
 

@@ -8,8 +8,11 @@ import android.view.WindowManager
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
 import com.swma.dnbn.R
+import com.swma.dnbn.adapter.LiveShopItemAdapter
+import com.swma.dnbn.item.ItemProduct
+import kotlinx.android.synthetic.main.fragment_live_shopping.view.*
 
-class LiveShoppingFragment : BottomSheetDialogFragment() {
+class LiveShoppingFragment(private val productList: ArrayList<ItemProduct>) : BottomSheetDialogFragment() {
 
     override fun onStart() {
         super.onStart()
@@ -24,8 +27,12 @@ class LiveShoppingFragment : BottomSheetDialogFragment() {
     ): View? {
         val rootView = inflater.inflate(R.layout.fragment_live_shopping, container, false)
 
-
         rootView.apply {
+            rv_liveShopping.apply {
+                setHasFixedSize(true)
+                focusable = View.NOT_FOCUSABLE
+                adapter = LiveShopItemAdapter(requireActivity(), productList)
+            }
 
 
         }
