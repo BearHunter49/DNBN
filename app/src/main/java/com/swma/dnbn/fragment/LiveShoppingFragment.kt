@@ -7,9 +7,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
+import android.widget.FrameLayout
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
 import com.swma.dnbn.R
@@ -27,65 +29,19 @@ class LiveShoppingFragment(private val productList: ArrayList<ItemProduct>) : Bo
         window!!.clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND)
     }
 
-//    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-//        val bottomSheetDialog = super.onCreateDialog(savedInstanceState)
-//        val rootView = View.inflate(context, R.layout.fragment_live_shopping, null)
-//        bottomSheetDialog.setContentView(rootView)
-//
-//        val parentView = rootView.parent as View
-//        val layoutParams = parentView.layoutParams as CoordinatorLayout.LayoutParams
-//        val behavior = layoutParams.behavior
-//        if (behavior != null && behavior is BottomSheetBehavior){
-//            behavior.bottomSheetCallback = (object: BottomSheetBehavior.BottomSheetCallback(){
-//                override fun onSlide(bottomSheet: View, slideOffset: Float) {
-//                }
-//
-//                override fun onStateChanged(bottomSheet: View, newState: Int) {
-////                    if (newState == BottomSheetBehavior.STATE_DRAGGING){
-////                        behavior.state = BottomSheetBehavior.STATE_EXPANDED
-////                    }
-//                }
-//
-//            })
-//            behavior.peekHeight = 300
-//        }
-//
-//
-//        rootView.apply {
-//            rv_liveShopping.apply {
-//                setHasFixedSize(true)
-//                focusable = View.NOT_FOCUSABLE
-//                layoutManager = LinearLayoutManager(requireContext())
-//                adapter = LiveShopItemAdapter(requireActivity(), requireActivity().supportFragmentManager, productList)
-//            }
-//
-//            Log.d("myTest: LiveShoppingFragment", productList.toString())
-//
-//        }
-//
-//
-////        try {
-////            val mBehaviorField = bottomSheetDialog.javaClass.getDeclaredField("behavior")
-////            mBehaviorField.isAccessible = true
-////            val behavior = mBehaviorField.get(bottomSheetDialog) as BottomSheetBehavior<*>
-////            behavior.bottomSheetCallback = (object: BottomSheetBehavior.BottomSheetCallback(){
-////                override fun onSlide(bottomSheet: View, slideOffset: Float) {
-////                }
-////
-////                override fun onStateChanged(bottomSheet: View, newState: Int) {
-////                    if (newState == BottomSheetBehavior.STATE_DRAGGING){
-////                        behavior.state = BottomSheetBehavior.STATE_EXPANDED
-////                    }
-////                }
-////
-////            })
-////        } catch (e: Exception){
-////            e.printStackTrace()
-////        }
-//
-//
-//        return bottomSheetDialog
-//    }
+    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+        val bottomSheetDialog = super.onCreateDialog(savedInstanceState)
+        bottomSheetDialog.setOnShowListener {
+            val dialog = it as BottomSheetDialog
+            val bottomSheet = dialog.findViewById<View>(R.id.design_bottom_sheet) as FrameLayout
+            BottomSheetBehavior.from(bottomSheet).state = BottomSheetBehavior.STATE_EXPANDED
+            BottomSheetBehavior.from(bottomSheet).skipCollapsed = true
+            BottomSheetBehavior.from(bottomSheet).isHideable = false
+        }
+
+
+        return bottomSheetDialog
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

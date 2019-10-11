@@ -63,6 +63,48 @@ class ShopDetailFragment(private val product: ItemProduct) : Fragment() {
                     13900,
                     "http://ai.esmplus.com/chungsu1204/%EB%8F%84%ED%86%A0%EB%A6%AC%EB%AC%B5%EA%B0%80%EB%A3%A8_%EC%83%81%EC%84%B8%ED%8E%98%EC%9D%B4%EC%A7%80.jpg",
                     "1"
+                ),
+                ItemProduct(
+                    "1",
+                    "신상 맨투맨1",
+                    "Fashion",
+                    arrayListOf(
+                        "http://takeastreet.com/web/product/big/201810/d6e010bb1e5c4b6981a7243d98f8e3c9.jpg",
+                        "http://mitoshop.co.kr/web/product/medium/201802/13135_shop1_694780.jpg"
+                    ),
+                    "Test Description1",
+                    15000,
+                    13900,
+                    "http://ai.esmplus.com/chungsu1204/%EB%8F%84%ED%86%A0%EB%A6%AC%EB%AC%B5%EA%B0%80%EB%A3%A8_%EC%83%81%EC%84%B8%ED%8E%98%EC%9D%B4%EC%A7%80.jpg",
+                    "1"
+                ),
+                ItemProduct(
+                    "1",
+                    "신상 맨투맨1",
+                    "Fashion",
+                    arrayListOf(
+                        "http://takeastreet.com/web/product/big/201810/d6e010bb1e5c4b6981a7243d98f8e3c9.jpg",
+                        "http://mitoshop.co.kr/web/product/medium/201802/13135_shop1_694780.jpg"
+                    ),
+                    "Test Description1",
+                    15000,
+                    13900,
+                    "http://ai.esmplus.com/chungsu1204/%EB%8F%84%ED%86%A0%EB%A6%AC%EB%AC%B5%EA%B0%80%EB%A3%A8_%EC%83%81%EC%84%B8%ED%8E%98%EC%9D%B4%EC%A7%80.jpg",
+                    "1"
+                ),
+                ItemProduct(
+                    "1",
+                    "신상 맨투맨1",
+                    "Fashion",
+                    arrayListOf(
+                        "http://takeastreet.com/web/product/big/201810/d6e010bb1e5c4b6981a7243d98f8e3c9.jpg",
+                        "http://mitoshop.co.kr/web/product/medium/201802/13135_shop1_694780.jpg"
+                    ),
+                    "Test Description1",
+                    15000,
+                    13900,
+                    "http://ai.esmplus.com/chungsu1204/%EB%8F%84%ED%86%A0%EB%A6%AC%EB%AC%B5%EA%B0%80%EB%A3%A8_%EC%83%81%EC%84%B8%ED%8E%98%EC%9D%B4%EC%A7%80.jpg",
+                    "1"
                 )
             )
         )
