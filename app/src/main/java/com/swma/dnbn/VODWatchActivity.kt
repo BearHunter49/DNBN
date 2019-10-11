@@ -37,8 +37,8 @@ class VODWatchActivity : AppCompatActivity() {
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
         setContentView(R.layout.activity_vodwatch)
 
-        // VOD 영상 정보
-        val vod = intent.getSerializableExtra("product") as ItemVOD
+        // 넘어온 VOD 영상 정보
+        val vod = intent.getSerializableExtra("vod") as ItemVOD
         Url = vod.vodUrl
         val productList = vod.vodProduct
 

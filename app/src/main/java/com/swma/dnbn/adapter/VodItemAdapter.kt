@@ -28,7 +28,7 @@ class VodItemAdapter(private val context: Activity, private val items: ArrayList
         items[position].let { item ->
             with(holder){
                 textTitle.text = item.vodTitle
-                Picasso.get().load(item.vodImageUrl).into(image)
+                Picasso.get().load(item.vodThumbnailUrl).into(image)
 
                 textPrice.text = String.format("%,d", item.vodProduct[0].productPrice)
 

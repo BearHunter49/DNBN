@@ -4,12 +4,16 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
+import com.google.zxing.integration.android.IntentIntegrator
+import com.swma.dnbn.BarcodeActivity
+import com.swma.dnbn.BarcodeResultActivity
 import com.swma.dnbn.BroadCastActivity
 
 import com.swma.dnbn.R
@@ -25,7 +29,18 @@ class UserShoppingFragment : Fragment() {
     ): View? {
         val rootView = inflater.inflate(R.layout.fragment_user_shopping, container, false)
 
+        // Barcode
+        val integrator = IntentIntegrator.forSupportFragment(this)
+        integrator.apply {
+            setDesiredBarcodeFormats(IntentIntegrator.QR_CODE)
+            setPrompt("Prompt!")
+            setOrientationLocked(false)
+            captureActivity = BarcodeActivity::class.java
+        }
+
         rootView.apply {
+
+            // 방송 버튼
             btn_broadcast.setOnClickListener {
 
                 // 영상 촬영 권한
@@ -36,6 +51,11 @@ class UserShoppingFragment : Fragment() {
                     startActivity(Intent(requireContext(), BroadCastActivity::class.java))
                 }
             }
+
+            btn_scan_barcode.setOnClickListener {
+                 integrator.initiateScan()
+            }
+
         }
 
         return rootView
@@ -60,6 +80,23 @@ class UserShoppingFragment : Fragment() {
             else {
                 Toast.makeText(requireContext(), "모든 권한 허용이 필수입니다!", Toast.LENGTH_SHORT).show()
             }
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        val result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data)
+        if (result != null){
+            if (result.contents == null){
+            }else{
+                Log.d("myTest", result.contents)
+                // 결과 화면 보여주기
+                val intent = Intent(requireContext(), BarcodeResultActivity::class.java)
+                intent.putExtra("code", result.contents)
+                startActivity(intent)
+            }
+        }
+        else{
+            super.onActivityResult(requestCode, resultCode, data)
         }
     }
 

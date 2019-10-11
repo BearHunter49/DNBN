@@ -1,4 +1,15 @@
 package com.swma.dnbn.item
 
-data class ItemProduct (val productId: String, val productName: String, val productImg: String,
-                        val productPrice: Int, val productChangedPrice: Int)
+import java.io.Serializable
+
+data class ItemProduct(
+    val productId: String,
+    val productName: String,
+    val productCategory: String,
+    val productImgList: ArrayList<String>,
+    val productDescription: String,
+    val productPrice: Int,
+    val productChangedPrice: Int,
+    val productDetailImg: String,
+    val productVODId: String
+) : Serializable

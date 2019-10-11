@@ -139,15 +139,19 @@ class HomeFragment : Fragment() {
                 "소생 현장",
                 "https://pbs.twimg.com/media/C5WybhRVMAAfBUF.jpg",
                 "Food",
-                "",
+                "https://sywblelzxjjjqz.data.mediastore.ap-northeast-2.amazonaws.com/Test/main.m3u8",
                 "100",
                 arrayListOf(
                     ItemProduct(
                         "1",
                         "TestName",
-                        "https://pbs.twimg.com/media/C5WybhRVMAAfBUF.jpg",
+                        "Pet",
+                        arrayListOf("https://pbs.twimg.com/media/C5WybhRVMAAfBUF.jpg"),
+                        "Test Description",
                         12000,
-                        11000
+                        11000,
+                        "http://ai.esmplus.com/chungsu1204/%EB%8F%84%ED%86%A0%EB%A6%AC%EB%AC%B5%EA%B0%80%EB%A3%A8_%EC%83%81%EC%84%B8%ED%8E%98%EC%9D%B4%EC%A7%80.jpg",
+                        "1"
                     )
                 ),
                 59
@@ -165,9 +169,13 @@ class HomeFragment : Fragment() {
                     ItemProduct(
                         "1",
                         "TestName",
-                        "https://pbs.twimg.com/media/C5WybhRVMAAfBUF.jpg",
+                        "Fashion",
+                        arrayListOf("https://pbs.twimg.com/media/C5WybhRVMAAfBUF.jpg"),
+                        "Test Description",
                         12000,
-                        11000
+                        11000,
+                        "http://ai.esmplus.com/chungsu1204/%EB%8F%84%ED%86%A0%EB%A6%AC%EB%AC%B5%EA%B0%80%EB%A3%A8_%EC%83%81%EC%84%B8%ED%8E%98%EC%9D%B4%EC%A7%80.jpg",
+                        "1"
                     )
                 ), 100
             )
@@ -184,9 +192,13 @@ class HomeFragment : Fragment() {
                     ItemProduct(
                         "1",
                         "TestName",
-                        "https://pbs.twimg.com/media/C5WybhRVMAAfBUF.jpg",
+                        "Cate1",
+                        arrayListOf("https://pbs.twimg.com/media/C5WybhRVMAAfBUF.jpg"),
+                        "Test Description",
                         12000,
-                        11000
+                        11000,
+                        "http://ai.esmplus.com/chungsu1204/%EB%8F%84%ED%86%A0%EB%A6%AC%EB%AC%B5%EA%B0%80%EB%A3%A8_%EC%83%81%EC%84%B8%ED%8E%98%EC%9D%B4%EC%A7%80.jpg",
+                        "1"
                     )
                 ), 100
             )
@@ -200,12 +212,17 @@ class HomeFragment : Fragment() {
                 "Food",
                 "http://cdnapi.kaltura.com/p/1878761/sp/187876100/playManifest/entryId/1_usagz19w/flavorIds/1_5spqkazq,1_nslowvhp,1_boih5aji,1_qahc37ag/format/applehttp/protocol/http/a.m3u8",
                 "베어헌터",
-                "테스트 VOD",
-                "http://ai.esmplus.com/chungsu1204/%EB%8F%84%ED%86%A0%EB%A6%AC%EB%AC%B5%EA%B0%80%EB%A3%A8_%EC%83%81%EC%84%B8%ED%8E%98%EC%9D%B4%EC%A7%80.jpg",
                 arrayListOf(
                     ItemProduct(
-                        "1", "상품이름", "http://optimal.inven.co.kr/upload/2015/02/24/bbs/i1617629232.jpg",
-                        13000, 8900
+                        "1",
+                        "TestName",
+                        "Cate1",
+                        arrayListOf("https://pbs.twimg.com/media/C5WybhRVMAAfBUF.jpg"),
+                        "Test Description",
+                        12000,
+                        11000,
+                        "http://ai.esmplus.com/chungsu1204/%EB%8F%84%ED%86%A0%EB%A6%AC%EB%AC%B5%EA%B0%80%EB%A3%A8_%EC%83%81%EC%84%B8%ED%8E%98%EC%9D%B4%EC%A7%80.jpg",
+                        "1"
                     )
                 )
             )
@@ -218,12 +235,17 @@ class HomeFragment : Fragment() {
                 "Food",
                 "http://cdnapi.kaltura.com/p/1878761/sp/187876100/playManifest/entryId/1_usagz19w/flavorIds/1_5spqkazq,1_nslowvhp,1_boih5aji,1_qahc37ag/format/applehttp/protocol/http/a.m3u8",
                 "베어헌터",
-                "테스트 VOD",
-                "http://ai.esmplus.com/chungsu1204/%EB%8F%84%ED%86%A0%EB%A6%AC%EB%AC%B5%EA%B0%80%EB%A3%A8_%EC%83%81%EC%84%B8%ED%8E%98%EC%9D%B4%EC%A7%80.jpg",
                 arrayListOf(
                     ItemProduct(
-                        "1", "상품이름", "http://optimal.inven.co.kr/upload/2015/02/24/bbs/i1617629232.jpg",
-                        13000, 8900
+                        "1",
+                        "TestName",
+                        "Cate1",
+                        arrayListOf("https://pbs.twimg.com/media/C5WybhRVMAAfBUF.jpg"),
+                        "Test Description",
+                        12000,
+                        11000,
+                        "http://ai.esmplus.com/chungsu1204/%EB%8F%84%ED%86%A0%EB%A6%AC%EB%AC%B5%EA%B0%80%EB%A3%A8_%EC%83%81%EC%84%B8%ED%8E%98%EC%9D%B4%EC%A7%80.jpg",
+                        "1"
                     )
                 )
             )
@@ -236,12 +258,17 @@ class HomeFragment : Fragment() {
                 "Food",
                 "http://cdnapi.kaltura.com/p/1878761/sp/187876100/playManifest/entryId/1_usagz19w/flavorIds/1_5spqkazq,1_nslowvhp,1_boih5aji,1_qahc37ag/format/applehttp/protocol/http/a.m3u8",
                 "베어헌터",
-                "테스트 VOD",
-                "http://ai.esmplus.com/chungsu1204/%EB%8F%84%ED%86%A0%EB%A6%AC%EB%AC%B5%EA%B0%80%EB%A3%A8_%EC%83%81%EC%84%B8%ED%8E%98%EC%9D%B4%EC%A7%80.jpg",
                 arrayListOf(
                     ItemProduct(
-                        "1", "상품이름", "http://optimal.inven.co.kr/upload/2015/02/24/bbs/i1617629232.jpg",
-                        13000, 8900
+                        "1",
+                        "TestName",
+                        "Cate1",
+                        arrayListOf("https://pbs.twimg.com/media/C5WybhRVMAAfBUF.jpg"),
+                        "Test Description",
+                        12000,
+                        11000,
+                        "http://ai.esmplus.com/chungsu1204/%EB%8F%84%ED%86%A0%EB%A6%AC%EB%AC%B5%EA%B0%80%EB%A3%A8_%EC%83%81%EC%84%B8%ED%8E%98%EC%9D%B4%EC%A7%80.jpg",
+                        "1"
                     )
                 )
             )

@@ -25,6 +25,7 @@ import com.google.android.exoplayer2.util.Util
 import com.swma.dnbn.adapter.ChatAdapter
 import com.swma.dnbn.fragment.LiveShoppingFragment
 import com.swma.dnbn.item.ItemChat
+import com.swma.dnbn.item.ItemLive
 import com.swma.dnbn.item.ItemProduct
 import com.swma.dnbn.util.KeyboardHeightProvider
 import kotlinx.android.synthetic.main.activity_live_watch.*
@@ -37,11 +38,9 @@ class LiveWatchActivity : AppCompatActivity(), KeyboardHeightProvider.KeyboardHe
     var check = 0
     lateinit var handler: Handler
     private lateinit var animation: Animation
-
-    // 임시 Url
-    private val Url = "https://sywblelzxjjjqz.data.mediastore.ap-northeast-2.amazonaws.com/Test/main.m3u8"
     lateinit var player: SimpleExoPlayer
     lateinit var chatList: ArrayList<ItemChat>
+    lateinit var Url: String
 
     // Keyboard part
     private lateinit var keyboardHeightProvider: KeyboardHeightProvider
@@ -53,6 +52,10 @@ class LiveWatchActivity : AppCompatActivity(), KeyboardHeightProvider.KeyboardHe
         super.onCreate(savedInstanceState)
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
         setContentView(R.layout.activity_live_watch)
+
+        // 넘어온 Live 정보
+        val live = intent.getSerializableExtra("live") as ItemLive
+        Url = live.liveUrl
 
         // Keyboard part
         keyboardHeightProvider = KeyboardHeightProvider(this)
@@ -95,27 +98,16 @@ class LiveWatchActivity : AppCompatActivity(), KeyboardHeightProvider.KeyboardHe
         // 비동기로 처리
 
         // HTTP 통신
-        // Live 방송 정보
+        // 유저 정보 등 (프로필 사진 등)
+//        val liveId = live.liveId
+
         LiveProfile.background = ShapeDrawable(OvalShape())
         LiveProfile.clipToOutline = true
-        LiveWatchTitle.text = "라이브 방송 테스트"
-        LiveWatchName.text = "베어헌터"
-        LiveWatchViewer.text = "51"
-        val productList = arrayListOf(
-            ItemProduct(
-                "1",
-                "TestName",
-                "https://pbs.twimg.com/media/C5WybhRVMAAfBUF.jpg",
-                12000,
-                11000
-            ), ItemProduct(
-                "1",
-                "TestName",
-                "https://pbs.twimg.com/media/C5WybhRVMAAfBUF.jpg",
-                12000,
-                11000
-            )
-        )
+
+        LiveWatchTitle.text = live.liveTitle
+        LiveWatchName.text = live.liveUserId
+        LiveWatchViewer.text = live.liveViewer.toString()
+        val productList = live.liveProduct
 
 
         // 나가기 버튼

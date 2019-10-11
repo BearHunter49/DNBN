@@ -48,7 +48,7 @@ class HomeLiveAdapter(private val context: Context, private val items: ArrayList
                 // 클릭 리스너
                 cardView.setOnClickListener {
                     val intent = Intent(context, LiveWatchActivity::class.java)
-
+                    intent.putExtra("live", item)
                     // Live 정보 전달하면서 액티비티 실행
                     // val bundle = Bundle()
                     // bundle.putSerializable(“key”, 객체)

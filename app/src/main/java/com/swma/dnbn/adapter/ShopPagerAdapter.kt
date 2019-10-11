@@ -6,9 +6,10 @@ import androidx.fragment.app.FragmentStatePagerAdapter
 import com.swma.dnbn.fragment.ShopDetailFragment
 import com.swma.dnbn.fragment.ShopReportFragment
 import com.swma.dnbn.fragment.ShopReviewFragment
+import com.swma.dnbn.item.ItemProduct
 import com.swma.dnbn.item.ItemVOD
 
-class ShopPagerAdapter(fm: FragmentManager, private val product: ItemVOD): FragmentStatePagerAdapter(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT){
+class ShopPagerAdapter(fm: FragmentManager, private val product: ItemProduct): FragmentStatePagerAdapter(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT){
 
     private val titleList = listOf("상세정보", "리뷰", "1:1문의")
 

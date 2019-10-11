@@ -210,6 +210,22 @@
                     android:layout_marginBottom="100dp"
             />
 
+            <Button
+                    android:background="@drawable/roundbutton"
+                    android:textColor="@color/white"
+                    android:text="기프티콘\n결제"
+                    android:id="@+id/btn_scan_barcode"
+                    android:textSize="15sp"
+                    android:textStyle="bold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/imgKakao"
+                    android:layout_toEndOf="@+id/btn_broadcast"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginBottom="100dp"
+            />
+
 
 
         </RelativeLayout>
