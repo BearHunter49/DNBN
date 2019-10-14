@@ -14,17 +14,25 @@
             android:roundIcon="@mipmap/ic_launcher_round"
             android:supportsRtl="true"
             android:theme="@style/AppTheme">
-        <activity android:name=".BarcodeResultActivity"
-                  android:screenOrientation="portrait">
+        <activity android:name=".GiftIconDetailActivity">
         </activity>
-        <activity android:name=".BarcodeActivity"
-                  android:screenOrientation="portrait">
+        <activity android:name=".GiftIconActivity">
         </activity>
-        <activity android:name=".VODWatchActivity"
-                  android:screenOrientation="portrait">
+        <activity
+                android:name=".BarcodeResultActivity"
+                android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".ShopActivity"
-                  android:screenOrientation="portrait">
+        <activity
+                android:name=".BarcodeActivity"
+                android:screenOrientation="portrait">
+        </activity>
+        <activity
+                android:name=".VODWatchActivity"
+                android:screenOrientation="portrait">
+        </activity>
+        <activity
+                android:name=".ShopActivity"
+                android:screenOrientation="portrait">
         </activity>
         <activity
                 android:name=".LiveWatchActivity"

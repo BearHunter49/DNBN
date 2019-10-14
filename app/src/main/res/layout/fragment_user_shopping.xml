@@ -96,13 +96,37 @@
                         android:src="@drawable/right_arrow"/>
             </RelativeLayout>
 
+            <RelativeLayout android:layout_width="match_parent"
+                            android:layout_below="@+id/lytUserReport"
+                            android:background="@color/dark_gray"
+                            android:layout_marginTop="2dp"
+                            android:id="@+id/lytUserGifticon"
+                            android:layout_height="50dp">
+
+                <TextView android:layout_width="wrap_content"
+                          android:textColor="@color/white"
+                          android:text="기프티콘함"
+                          android:textStyle="bold"
+                          android:layout_centerVertical="true"
+                          android:layout_marginStart="10dp"
+                          android:textSize="14sp"
+                          android:layout_height="wrap_content"/>
+
+                <ImageView
+                        android:layout_width="50dp"
+                        android:layout_height="30dp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/right_arrow"/>
+            </RelativeLayout>
+
             <TextView android:layout_width="wrap_content"
                       android:layout_height="wrap_content"
                       android:text="서비스 안내"
                       android:id="@+id/textService"
                       android:textSize="13sp"
                       android:layout_marginTop="10dp"
-                      android:layout_below="@+id/lytUserReport"
+                      android:layout_below="@+id/lytUserGifticon"
                       android:textColor="@color/intro_circle_un_select"/>
 
 

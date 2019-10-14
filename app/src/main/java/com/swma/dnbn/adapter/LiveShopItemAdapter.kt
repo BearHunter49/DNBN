@@ -53,7 +53,6 @@ class LiveShopItemAdapter(
                 // 상품 클릭
                 constView.setOnClickListener {
                     val intent = Intent(context, ShopActivity::class.java)
-                    intent.flags = Intent.FLAG_ACTIVITY_REORDER_TO_FRONT
                     intent.putExtra("product", item)
                     context.startActivity(intent)
                 }

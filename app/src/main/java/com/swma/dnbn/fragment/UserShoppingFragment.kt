@@ -12,11 +12,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import com.google.zxing.integration.android.IntentIntegrator
-import com.swma.dnbn.BarcodeActivity
-import com.swma.dnbn.BarcodeResultActivity
-import com.swma.dnbn.BroadCastActivity
-
-import com.swma.dnbn.R
+import com.swma.dnbn.*
 import kotlinx.android.synthetic.main.fragment_user_shopping.view.*
 
 class UserShoppingFragment : Fragment() {
@@ -52,8 +48,14 @@ class UserShoppingFragment : Fragment() {
                 }
             }
 
+            // 바코드 스캔 버튼
             btn_scan_barcode.setOnClickListener {
                  integrator.initiateScan()
+            }
+
+            // 기프티콘함 버튼
+            lytUserGifticon.setOnClickListener {
+                startActivity(Intent(requireContext(), GiftIconActivity::class.java))
             }
 
         }

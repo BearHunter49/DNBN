@@ -48,7 +48,6 @@ class StoreItemAdapter(private val context: Activity, private val items: ArrayLi
 
                 cardView.setOnClickListener {
                     val intent = Intent(context, ShopActivity::class.java)
-                    intent.flags = Intent.FLAG_ACTIVITY_REORDER_TO_FRONT
                     intent.putExtra("product", item)
                     context.startActivity(intent)
                 }
