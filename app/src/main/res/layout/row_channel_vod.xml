@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:orientation="vertical"
+        android:background="@color/bg"
+        android:layout_width="match_parent"
+        android:layout_height="150dp">
+
+    <com.makeramen.roundedimageview.RoundedImageView
+            android:id="@+id/imgChannelVOD"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:riv_corner_radius="5dp"
+            android:scaleType="fitXY"
+            android:layout_width="120dp"
+            android:layout_height="120dp"/>
+
+    <TextView
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toEndOf="@+id/imgChannelVOD"
+            app:layout_constraintTop_toTopOf="@+id/imgChannelVOD"
+            android:layout_marginStart="20dp"
+            android:id="@+id/channelVODTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+    <ImageView
+            app:layout_constraintTop_toBottomOf="@+id/channelVODTitle"
+            app:layout_constraintStart_toStartOf="@+id/channelVODTitle"
+            android:layout_marginTop="5dp"
+            android:src="@drawable/ic_viewer"
+            android:id="@+id/imgViewer"
+            android:layout_width="20dp"
+            android:layout_height="20dp"/>
+
+    <TextView
+            android:textColor="@color/white"
+            android:textSize="14sp"
+            app:layout_constraintTop_toBottomOf="@+id/channelVODTitle"
+            app:layout_constraintStart_toEndOf="@+id/imgViewer"
+            android:layout_marginTop="5dp"
+            android:layout_marginStart="5dp"
+            android:id="@+id/channelViewer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+    <TextView
+            android:textColor="@color/white"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="@+id/imgChannelVOD"
+            app:layout_constraintStart_toStartOf="@+id/imgViewer"
+            android:id="@+id/channelVODDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

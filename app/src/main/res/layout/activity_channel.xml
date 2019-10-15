@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:background="@color/bg"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".ChannelActivity">
+
+    <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar_channel"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/bg"
+            android:minHeight="?attr/actionBarSize"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+
+    </androidx.appcompat.widget.Toolbar>
+
+    <ImageView
+            android:id="@+id/imgChannelProfile"
+            android:src="@drawable/lamg_thunder"
+            android:scaleType="fitXY"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/toolbar_channel"
+            android:layout_marginEnd="10dp"
+            android:layout_marginTop="10dp"
+            android:contentDescription="@string/app_name"
+            android:layout_width="100dp"
+            android:layout_height="100dp"/>
+
+    <TextView
+            android:id="@+id/textChannelName"
+            android:textColor="@color/white"
+            android:textSize="30sp"
+            android:textStyle="bold"
+            app:layout_constraintTop_toTopOf="@+id/imgChannelProfile"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="10dp"
+            android:text="쫑이네점빵"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+    <TextView
+            android:id="@+id/textFollower"
+            app:layout_constraintTop_toBottomOf="@+id/textChannelName"
+            app:layout_constraintStart_toStartOf="@+id/textChannelName"
+            android:layout_marginTop="20dp"
+            android:textColor="@color/gray"
+            android:textSize="14sp"
+            android:text="팔로워"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+    <TextView
+            android:id="@+id/textChannelFollower"
+            app:layout_constraintStart_toEndOf="@+id/textFollower"
+            app:layout_constraintBaseline_toBaselineOf="@+id/textFollower"
+            android:layout_marginTop="20dp"
+            android:textColor="@color/white"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            android:layout_marginStart="5dp"
+            android:text="15"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+    <TextView
+            android:background="@drawable/round_edittext"
+            android:textColor="@color/white"
+            android:text="+ Follow"
+            android:id="@+id/btn_follow"
+            android:gravity="center"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toEndOf="@+id/textChannelFollower"
+            app:layout_constraintBaseline_toBaselineOf="@+id/textFollower"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="10dp"
+            android:layout_width="80dp"
+            android:layout_height="25dp"/>
+
+
+    <com.google.android.material.tabs.TabLayout
+            android:id="@+id/lytTab_channel"
+            app:layout_constraintTop_toBottomOf="@+id/imgChannelProfile"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginTop="30dp"
+            android:theme="@style/TabTheme"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+
+    </com.google.android.material.tabs.TabLayout>
+
+    <androidx.viewpager.widget.ViewPager
+            android:id="@+id/channel_viewPager"
+            app:layout_constraintTop_toBottomOf="@+id/lytTab_channel"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+
+    </androidx.viewpager.widget.ViewPager>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -106,7 +106,7 @@ class ShopDetailFragment(private val product: ItemProduct) : Fragment() {
                     "http://ai.esmplus.com/chungsu1204/%EB%8F%84%ED%86%A0%EB%A6%AC%EB%AC%B5%EA%B0%80%EB%A3%A8_%EC%83%81%EC%84%B8%ED%8E%98%EC%9D%B4%EC%A7%80.jpg",
                     "1"
                 )
-            )
+            ), "2019-10-10", 20
         )
         val thumbnail = vod.vodThumbnailUrl
         val vodUrl = vod.vodUrl

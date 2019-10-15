@@ -1,12 +1,14 @@
 package com.swma.dnbn.adapter
 
 import android.app.Activity
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
+import com.swma.dnbn.ChannelActivity
 import com.swma.dnbn.R
 import com.swma.dnbn.item.ItemSchedule
 import kotlinx.android.synthetic.main.row_schedule_item.view.*
@@ -36,7 +38,9 @@ class ScheduleItemAdapter(val context: Activity, val items: ArrayList<ItemSchedu
                 date.text = time.format(DateTimeFormatter.ofPattern("HH시 mm분"))
 
                 cardView.setOnClickListener {
-                    Toast.makeText(context, "${item.scheduleTitle} Clicked!", Toast.LENGTH_SHORT).show()
+                    val intent = Intent(context, ChannelActivity::class.java)
+                    intent.putExtra("userId", item.scheduleUserId)
+                    context.startActivity(intent)
                 }
 
             }

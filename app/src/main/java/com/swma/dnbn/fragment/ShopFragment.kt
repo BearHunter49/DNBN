@@ -1,5 +1,6 @@
 package com.swma.dnbn.fragment
 
+import android.content.Intent
 import android.graphics.Paint
 import android.graphics.drawable.ShapeDrawable
 import android.graphics.drawable.shapes.OvalShape
@@ -9,6 +10,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
+import com.swma.dnbn.ChannelActivity
 import com.swma.dnbn.R
 import com.swma.dnbn.adapter.ShopPagerAdapter
 import com.swma.dnbn.adapter.SlideShopAdapter
@@ -35,7 +37,9 @@ class ShopFragment(private val product: ItemProduct) : Fragment() {
 
         // Http 통신 (유저 프로필도 받기)
         // val userProfile = ~~
+         val userId = "1"
         val userName = "베어헌터"
+
 
 
         rootView.apply {
@@ -77,6 +81,12 @@ class ShopFragment(private val product: ItemProduct) : Fragment() {
             shopDetailViewPager.adapter = ShopPagerAdapter(requireFragmentManager(), product)
             shopTabLayout.setupWithViewPager(shopDetailViewPager)
 
+            // 프로필 사진 클릭 (채널로 이동)
+            shopUserProfile.setOnClickListener {
+                val intent = Intent(requireContext(), ChannelActivity::class.java)
+                intent.putExtra("userId", userId)
+                requireActivity().startActivity(intent)
+            }
 
         }
 

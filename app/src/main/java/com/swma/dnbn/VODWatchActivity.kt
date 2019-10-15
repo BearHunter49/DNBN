@@ -1,5 +1,6 @@
 package com.swma.dnbn
 
+import android.content.Intent
 import android.graphics.drawable.ShapeDrawable
 import android.graphics.drawable.shapes.OvalShape
 import android.net.Uri
@@ -24,13 +25,13 @@ import kotlinx.android.synthetic.main.activity_vodwatch.*
 
 class VODWatchActivity : AppCompatActivity() {
 
-    var currentWindow = 0
-    var playbackPosition = 0L
-    var playWhenReady = true
+    private var currentWindow = 0
+    private var playbackPosition = 0L
+    private var playWhenReady = true
 
     // 임시 Url
     private lateinit var Url: String
-    lateinit var player: SimpleExoPlayer
+    private lateinit var player: SimpleExoPlayer
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -80,6 +81,13 @@ class VODWatchActivity : AppCompatActivity() {
         btn_allProduct.setOnClickListener {
             val fragment = LiveShoppingFragment(productList)
             fragment.show(supportFragmentManager, fragment.tag)
+        }
+
+        // 프로필 사진 클릭(채널로 이동)
+        VODProfile.setOnClickListener {
+            val intent = Intent(this, ChannelActivity::class.java)
+            intent.putExtra("userId", vod.vodUserId)
+            startActivity(intent)
         }
 
 

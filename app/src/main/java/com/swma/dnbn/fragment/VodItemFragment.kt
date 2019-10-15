@@ -51,7 +51,7 @@ class VodItemFragment(private val category: String) : Fragment() {
                                 "",
                                 "1"
                             )
-                        )
+                        ), "2019-10-10", 20
                     )
                 )
                 vodList.add(
@@ -74,7 +74,7 @@ class VodItemFragment(private val category: String) : Fragment() {
                                 "",
                                 "2"
                             )
-                        )
+                        ), "2019-10-10", 20
 
                     )
                 )
@@ -93,7 +93,7 @@ class VodItemFragment(private val category: String) : Fragment() {
                                 "",
                                 "3"
                             )
-                        )
+                        ), "2019-10-10", 20
                     )
                 )
             }
@@ -118,7 +118,7 @@ class VodItemFragment(private val category: String) : Fragment() {
                                 "",
                                 "1"
                             )
-                        )
+                        ), "2019-10-10", 20
                     )
                 )
             }
@@ -143,7 +143,7 @@ class VodItemFragment(private val category: String) : Fragment() {
                                 "",
                                 "2"
                             )
-                        )
+                        ), "2019-10-10", 20
 
                     )
                 )
@@ -166,7 +166,7 @@ class VodItemFragment(private val category: String) : Fragment() {
                                 "",
                                 "3"
                             )
-                        )
+                        ), "2019-10-10", 20
                     )
                 )
             }

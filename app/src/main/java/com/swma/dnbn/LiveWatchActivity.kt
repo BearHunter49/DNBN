@@ -1,5 +1,6 @@
 package com.swma.dnbn
 
+import android.content.Intent
 import android.graphics.drawable.ShapeDrawable
 import android.graphics.drawable.shapes.OvalShape
 import android.net.Uri
@@ -135,6 +136,13 @@ class LiveWatchActivity : AppCompatActivity(), KeyboardHeightProvider.KeyboardHe
         btn_allProduct.setOnClickListener {
             val fragment = LiveShoppingFragment(productList)
             fragment.show(supportFragmentManager, fragment.tag)
+        }
+
+        // 프로필 클릭(채널로 이동)
+        LiveProfile.setOnClickListener {
+            val intent = Intent(this, ChannelActivity::class.java)
+            intent.putExtra("userId", live.liveUserId)
+            startActivity(intent)
         }
 
 
