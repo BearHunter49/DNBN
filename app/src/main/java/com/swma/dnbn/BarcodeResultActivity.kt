@@ -13,6 +13,8 @@ class BarcodeResultActivity : AppCompatActivity() {
         val resultCode = intent.getStringExtra("code")
 
         // Http 통신으로 상품 확인하기
+        // 맞으면 gifticon 정보 받아오고
+        // 아니면 틀렸다고 하기
 
         textCode.text = resultCode
 
