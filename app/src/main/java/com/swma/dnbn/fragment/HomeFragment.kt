@@ -14,13 +14,18 @@ import com.swma.dnbn.adapter.HomeScheduleAdapter
 import com.swma.dnbn.adapter.HomeVODAdapter
 import com.swma.dnbn.adapter.SlideAdapter
 import com.swma.dnbn.item.*
-import kotlinx.android.synthetic.main.activity_main.*
+import com.swma.dnbn.restApi.Retrofit2Instance
+import com.swma.dnbn.restApi.TestData
 import kotlinx.android.synthetic.main.fragment_home.view.*
-import kotlinx.android.synthetic.main.row_toolbar.*
+import kotlinx.coroutines.*
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.util.*
 import kotlin.collections.ArrayList
+import kotlin.collections.HashMap
 
 
 class HomeFragment : Fragment() {
@@ -32,6 +37,7 @@ class HomeFragment : Fragment() {
     lateinit var rootView: View
     lateinit var timer: Timer
     private var check = 0
+    private val job = Job()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -44,6 +50,10 @@ class HomeFragment : Fragment() {
 //        IsRTL.changeShadowInRtl(requireActivity(), rootView.feSchedule)
 
         rootView.apply {
+
+            // Progress
+            progressBar_home.visibility = View.VISIBLE
+            nestedScrollView.visibility = View.GONE
 
             // recyclerView
             rv_live.apply {
@@ -100,6 +110,7 @@ class HomeFragment : Fragment() {
         // Retrofit2 로 HTTP 통신 하기
         // 데이터 넣기
         //
+
         slideList = ArrayList()
         liveList = ArrayList()
         vodList = ArrayList()
@@ -294,8 +305,31 @@ class HomeFragment : Fragment() {
 
         )
 
+        val retrofit = Retrofit2Instance.getInstance()
 
-        displayData()
+        val input = hashMapOf<String, Any>()
+        input["userId"] = 1
+        input["title"] = "Test Title"
+        input["body"] = "Test Body"
+
+        // Retrofit2 비동기 코루틴으로 처리
+        CoroutineScope(Dispatchers.IO + job).launch {
+            val response = retrofit!!.getData("1").execute().body()
+            Log.d("myTest", String.format("get: %s", response.toString()))
+            val response2 = retrofit.postData(input).execute().body()
+            Log.d("myTest", String.format("post: %s", response2.toString()))
+
+            // UI
+            CoroutineScope(Dispatchers.Main + job).launch {
+                Log.d("myTest", "코루틴 UI쓰레드")
+                displayData()
+
+                rootView.progressBar_home.visibility = View.GONE
+                rootView.nestedScrollView.visibility = View.VISIBLE
+            }
+
+        }
+
     }
 
     // RV 어댑터 붙이기
@@ -365,18 +399,29 @@ class HomeFragment : Fragment() {
 
     override fun onStop() {
         Log.d("myTest", "onStop()")
-        timer.cancel()
-        check = 1
+        if (check == 1){
+            timer.cancel()
+        }else{
+            check = 1
+        }
         super.onStop()
     }
 
     override fun onStart() {
         Log.d("myTest", "onStart()")
+
         if (check != 0) {
             startTimer()
         }
         super.onStart()
     }
+
+    override fun onDestroy() {
+        job.cancel()
+        Log.d("myTest", "onDestroy")
+        super.onDestroy()
+    }
+
 
 
 }
