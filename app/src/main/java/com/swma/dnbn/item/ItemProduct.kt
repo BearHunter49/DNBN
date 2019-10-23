@@ -3,7 +3,7 @@ package com.swma.dnbn.item
 import java.io.Serializable
 
 data class ItemProduct(
-    val productId: String,
+    val productId: Int,
     val productName: String,
     val productCategory: String,
     val productImgList: ArrayList<String>,

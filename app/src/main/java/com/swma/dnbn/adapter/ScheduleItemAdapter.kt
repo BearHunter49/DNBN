@@ -32,8 +32,8 @@ class ScheduleItemAdapter(val context: Activity, val items: ArrayList<ItemSchedu
                 user.text = item.scheduleUserName
                 Picasso.get().load(item.scheduleImageUrl).into(img)
 
-                // '2019-09-25 23:25:00' 형식
-                val dateAndTime = item.scheduleDate.split(" ")
+                // '2019-09-25T23:25:00' 형식
+                val dateAndTime = item.scheduleDate.split("T")
                 val time = LocalTime.parse(dateAndTime[1])
                 date.text = time.format(DateTimeFormatter.ofPattern("HH시 mm분"))
 
