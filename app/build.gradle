@@ -27,7 +27,7 @@ android {
         sourceCompatibility 1.8
         targetCompatibility 1.8
     }
-    packagingOptions{
+    packagingOptions {
         exclude 'META-INF/atomicfu.kotlin_module'
     }
 }

@@ -79,25 +79,25 @@ class ScheduleFragment : Fragment() {
 //        val now = date.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))
 
         // Http 통신
-        scheduleList.add(
-            ItemSchedule(
-                "1", "자연산 도토리", "100", "베어헌터1",
-                "2020", "2019-10-02 19:15:00",
-                "https://img-s-msn-com.akamaized.net/tenant/amp/entityid/BBNBQK1.img?h=338&w=530&m=6&q=60&o=f&l=f"
-            )
-        )
-        scheduleList.add(
-            ItemSchedule(
-                "2", "비싼 도토리", "100", "베어헌터2", "2020", "2019-10-02 20:00:00",
-                "https://t1.daumcdn.net/cfile/tistory/993F40405A6E911428"
-            )
-        )
-        scheduleList.add(
-            ItemSchedule(
-                "3", "잣같은 잣", "100", "베어헌터3", "2020", "2019-10-02 21:00:00",
-                "http://cfile223.uf.daum.net/image/223870385583895A32CC51"
-            )
-        )
+//        scheduleList.add(
+//            ItemSchedule(
+//                "1", "자연산 도토리", "100", "베어헌터1",
+//                "2020", "2019-10-02 19:15:00",
+//                "https://img-s-msn-com.akamaized.net/tenant/amp/entityid/BBNBQK1.img?h=338&w=530&m=6&q=60&o=f&l=f"
+//            )
+//        )
+//        scheduleList.add(
+//            ItemSchedule(
+//                "2", "비싼 도토리", "100", "베어헌터2", "2020", "2019-10-02 20:00:00",
+//                "https://t1.daumcdn.net/cfile/tistory/993F40405A6E911428"
+//            )
+//        )
+//        scheduleList.add(
+//            ItemSchedule(
+//                "3", "잣같은 잣", "100", "베어헌터3", "2020", "2019-10-02 21:00:00",
+//                "http://cfile223.uf.daum.net/image/223870385583895A32CC51"
+//            )
+//        )
 
         if (scheduleList.isEmpty()){
             rootView.textScheduleNoData.visibility = View.VISIBLE

@@ -141,13 +141,19 @@ class HomeFragment : Fragment() {
             }
 
             // Video 통신
+            // 5개 받아옴
             val response2 = retrofit.getVideos("5").execute().body()
 
             response2?.forEach {
                 val productList: ArrayList<ItemProduct>
 
+                // Product 조회
                 retrofit.getProductFromId(it.productId).execute().body().let { product ->
+
+                    // 이미지 리스트로 분리
                     val productImgList = product!!.imageUrl.split("**") as ArrayList<String>
+
+                    // 각 영상에 묶인 상품 리스트 받기
                     productList = arrayListOf(
                         ItemProduct(
                             product.id, product.name, product.categoryId.toString(),
