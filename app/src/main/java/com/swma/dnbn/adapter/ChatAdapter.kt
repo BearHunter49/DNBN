@@ -25,7 +25,7 @@ class ChatAdapter(private val context: Activity):RecyclerView.Adapter<ChatAdapte
     override fun onBindViewHolder(holder: ItemRowHolder, position: Int) {
         items[position].let { item ->
             with(holder){
-                textId.text = item.id
+                textId.text = item.id.toString()
                 textText.text = item.text
             }
         }

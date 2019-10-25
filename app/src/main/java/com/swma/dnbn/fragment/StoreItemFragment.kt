@@ -30,7 +30,7 @@ class StoreItemFragment(private val category: String) : Fragment() {
             "전체" -> {
                 storeItemList.add(
                     ItemProduct(
-                        "1",
+                        1,
                         "신상 맨투맨1",
                         "Fashion",
                         arrayListOf(
@@ -41,12 +41,12 @@ class StoreItemFragment(private val category: String) : Fragment() {
                         15000,
                         13900,
                         "http://ai.esmplus.com/chungsu1204/%EB%8F%84%ED%86%A0%EB%A6%AC%EB%AC%B5%EA%B0%80%EB%A3%A8_%EC%83%81%EC%84%B8%ED%8E%98%EC%9D%B4%EC%A7%80.jpg",
-                        "1"
+                        1
                     )
                 )
                 storeItemList.add(
                     ItemProduct(
-                        "1",
+                        1,
                         "신상 맨투맨2",
                         "Fashion",
                         arrayListOf(
@@ -57,7 +57,7 @@ class StoreItemFragment(private val category: String) : Fragment() {
                         13000,
                         11800,
                         "http://ai.esmplus.com/chungsu1204/%EB%8F%84%ED%86%A0%EB%A6%AC%EB%AC%B5%EA%B0%80%EB%A3%A8_%EC%83%81%EC%84%B8%ED%8E%98%EC%9D%B4%EC%A7%80.jpg",
-                        "1"
+                        1
                     )
                 )
 
@@ -68,7 +68,7 @@ class StoreItemFragment(private val category: String) : Fragment() {
             "패션" -> {
                 storeItemList.add(
                     ItemProduct(
-                        "1",
+                        1,
                         "신상 맨투맨1",
                         "Fashion",
                         arrayListOf(
@@ -79,12 +79,12 @@ class StoreItemFragment(private val category: String) : Fragment() {
                         15000,
                         13900,
                         "http://ai.esmplus.com/chungsu1204/%EB%8F%84%ED%86%A0%EB%A6%AC%EB%AC%B5%EA%B0%80%EB%A3%A8_%EC%83%81%EC%84%B8%ED%8E%98%EC%9D%B4%EC%A7%80.jpg",
-                        "1"
+                        1
                     )
                 )
                 storeItemList.add(
                     ItemProduct(
-                        "1",
+                        1,
                         "신상 맨투맨2",
                         "Fashion",
                         arrayListOf(
@@ -95,7 +95,7 @@ class StoreItemFragment(private val category: String) : Fragment() {
                         13000,
                         11800,
                         "http://ai.esmplus.com/chungsu1204/%EB%8F%84%ED%86%A0%EB%A6%AC%EB%AC%B5%EA%B0%80%EB%A3%A8_%EC%83%81%EC%84%B8%ED%8E%98%EC%9D%B4%EC%A7%80.jpg",
-                        "1"
+                        1
                     )
                 )
             }

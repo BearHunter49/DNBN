@@ -29,7 +29,7 @@ import androidx.core.view.ViewCompat.setY
 class BroadCastActivity : AppCompatActivity(), ConnectCheckerRtmp, SurfaceHolder.Callback, KeyboardHeightProvider.KeyboardHeightObserver {
 
     private lateinit var rtmpCamera2: RtmpCamera2
-    private val streamUrl = "rtmp://13.125.40.80:1935/dnbn/Test"
+    private val streamUrl = "rtmp://15.164.28.217:1935/bylive/stream"
     private lateinit var animation: Animation
     private var check = 0
     lateinit var handler: Handler
@@ -134,7 +134,7 @@ class BroadCastActivity : AppCompatActivity(), ConnectCheckerRtmp, SurfaceHolder
             if (edit_chat.text.isNotEmpty()){
                 val adapter = rv_chat.adapter as ChatAdapter
 
-                adapter.addItem(ItemChat("베어헌터", edit_chat.text.toString()))
+                adapter.addItem(ItemChat(1, edit_chat.text.toString()))
                 edit_chat.text.clear()
                 rv_chat.smoothScrollToPosition(0)
             }

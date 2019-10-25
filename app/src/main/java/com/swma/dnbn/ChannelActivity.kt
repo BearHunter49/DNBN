@@ -33,10 +33,10 @@ class ChannelActivity : AppCompatActivity() {
         // Http 통신으로 해당 유저의 영상, 상품 얻어오기
         val vodList = arrayListOf(
             ItemVOD(
-                "1", "VOD 반려동물", "https://pbs.twimg.com/media/C5WybhRVMAAfBUF.jpg", "Pet", "",
-                "100", arrayListOf(
+                1, "VOD 반려동물", "https://pbs.twimg.com/media/C5WybhRVMAAfBUF.jpg", 1, "",
+                100, arrayListOf(
                     ItemProduct(
-                        "1",
+                        1,
                         "상품이름1",
                         "Pet",
                         arrayListOf("https://pbs.twimg.com/media/C5WybhRVMAAfBUF.jpg"),
@@ -44,7 +44,7 @@ class ChannelActivity : AppCompatActivity() {
                         13000,
                         8900,
                         "",
-                        "3"
+                        3
                     )
                 ), "2019-10-10", 20
             )
@@ -52,7 +52,7 @@ class ChannelActivity : AppCompatActivity() {
 
         val itemList = arrayListOf(
             ItemProduct(
-                "1",
+                1,
                 "신상 맨투맨1",
                 "Fashion",
                 arrayListOf(
@@ -63,7 +63,7 @@ class ChannelActivity : AppCompatActivity() {
                 15000,
                 13900,
                 "http://ai.esmplus.com/chungsu1204/%EB%8F%84%ED%86%A0%EB%A6%AC%EB%AC%B5%EA%B0%80%EB%A3%A8_%EC%83%81%EC%84%B8%ED%8E%98%EC%9D%B4%EC%A7%80.jpg",
-                "1"
+                1
             )
         )
 

@@ -11,5 +11,5 @@ data class ItemProduct(
     val productPrice: Int,
     val productChangedPrice: Int,
     val productDetailImg: String,
-    val productVODId: String
+    val productVODId: Int?
 ) : Serializable

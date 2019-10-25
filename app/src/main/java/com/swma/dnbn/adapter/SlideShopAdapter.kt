@@ -10,9 +10,6 @@ import kotlinx.android.synthetic.main.row_slide_shop_item.view.*
 
 class SlideShopAdapter(private val context: Activity, private val items: ArrayList<String>): PagerAdapter(){
 
-
-
-
     override fun isViewFromObject(view: View, `object`: Any) = (view == `object`)
 
     override fun getCount() = items.size

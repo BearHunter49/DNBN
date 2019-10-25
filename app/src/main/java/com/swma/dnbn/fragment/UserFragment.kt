@@ -24,7 +24,7 @@ class UserFragment : Fragment() {
         val rootView = inflater.inflate(R.layout.fragment_user, container, false)
 
         // Http 서버로부터 User 데이터 받기
-        val user = ItemUser("1", "베어헌터", "", 59)
+        val user = ItemUser(1, "베어헌터", "", 59)
 
         rootView.apply {
             // 사진 원형으로

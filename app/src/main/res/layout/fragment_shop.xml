@@ -9,6 +9,7 @@
 
     <com.google.android.material.appbar.AppBarLayout
             android:background="@color/white"
+            android:id="@+id/appBar_shop"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -224,6 +225,12 @@
 
     </androidx.viewpager.widget.ViewPager>
 
+    <ProgressBar android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:id="@+id/progressBar_shop"
+                 android:layout_gravity="center"
+                 style="?android:attr/progressBarStyleLarge"
+                 android:visibility="gone"/>
 
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

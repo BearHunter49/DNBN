@@ -15,17 +15,20 @@ interface Retrofit2Service{
 
     // BroadCast
     @GET("/api/broadcasts/number/{number}")
-    fun getBroadcasts(@Path("number") number: String): Call<List<BroadcastData>>
+    fun getBroadcasts(@Path("number") number: Int): Call<List<BroadcastData>>
 
     // Video
     @GET("/api/videos/number/{number}")
-    fun getVideos(@Path("number") number: String): Call<List<VodData>>
+    fun getVideos(@Path("number") number: Int): Call<List<VodData>>
+
+    @GET("/api/videos/{videoId}")
+    fun getVideoFromId(@Path("videoId") videoId: Int): Call<VodData>
 
     // Schedules
-    @GET("/api/broadcasts/schedules/{year}/{month}/{day}")
-    fun getSchedules(@Path("year") year: Int,
-                     @Path("month") month: Int,
-                     @Path("day") day: Int): Call<List<BroadcastData>>
+    @GET("/api/broadcasts/schedules")
+    fun getSchedules(@Query("year") year: Int,
+                     @Query("month") month: Int,
+                     @Query("day") day: Int): Call<List<BroadcastData>>
 
     // Product
     @GET("/api/products/{productId}")

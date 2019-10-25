@@ -15,9 +15,17 @@ import com.swma.dnbn.R
 import com.swma.dnbn.adapter.ShopPagerAdapter
 import com.swma.dnbn.adapter.SlideShopAdapter
 import com.swma.dnbn.item.ItemProduct
+import com.swma.dnbn.restApi.Retrofit2Instance
 import kotlinx.android.synthetic.main.fragment_shop.view.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 
 class ShopFragment(private val product: ItemProduct) : Fragment() {
+
+    private val job = Job()
+    private var userId = 0
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -25,21 +33,41 @@ class ShopFragment(private val product: ItemProduct) : Fragment() {
     ): View? {
         val rootView = inflater.inflate(R.layout.fragment_shop, container, false)
 
+        // 프로그래스 바
+        rootView.apply {
+            progressBar_shop.visibility = View.VISIBLE
+            appBar_shop.visibility = View.GONE
+            shopDetailViewPager.visibility = View.GONE
+        }
+
         // 넘어온 상품 정보
         val imageList = arrayListOf<String>()
         for (img in product.productImgList) {
             imageList.add(img)
         }
-        val title = product.productName
-        val description = product.productDescription
-        val originalPrice = product.productPrice
-        val changedPrice = product.productChangedPrice
 
-        // Http 통신 (유저 프로필도 받기)
-        // val userProfile = ~~
-         val userId = "1"
-        val userName = "베어헌터"
+        // Http 통신 (유저 프로필 사진도 받기!!)
+        val retrofit = Retrofit2Instance.getInstance()!!
+        CoroutineScope(Dispatchers.IO + job).launch {
+            retrofit.getProductFromId(product.productId).execute().body().let { product ->
+                userId = product!!.providerId
 
+                retrofit.getUserFromUserId(userId).execute().body().let { user ->
+                    // UI
+                    CoroutineScope(Dispatchers.Main + job).launch {
+                        rootView.apply {
+                            textShopUserName.text = user!!.name
+
+                            progressBar_shop.visibility = View.GONE
+                            appBar_shop.visibility = View.VISIBLE
+                            shopDetailViewPager.visibility = View.VISIBLE
+                        }
+
+                    }
+                }
+
+            }
+        }
 
 
         rootView.apply {
@@ -58,11 +86,13 @@ class ShopFragment(private val product: ItemProduct) : Fragment() {
                 clipToOutline = true
             }
 
-            textShopUserName.text = userName
-            textShopTitle.text = title
-            textShopDescription.text = description
+            textShopTitle.text = product.productName
+            textShopDescription.text = product.productDescription
 
             // 할인 가격 처리
+            val originalPrice = product.productPrice
+            val changedPrice = product.productChangedPrice
+
             if (changedPrice != -1) {
                 textShopOriginalPrice.apply {
                     text = String.format("%,d", originalPrice)

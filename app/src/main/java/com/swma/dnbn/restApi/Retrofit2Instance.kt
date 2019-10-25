@@ -5,7 +5,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 object Retrofit2Instance{
-    private val URL = "http://jsonplaceholder.typicode.com"
+    private val URL = "http://dnbn.online"
     private var INSTANCE: Retrofit2Service? = null
 
     // Singleton 인스턴스

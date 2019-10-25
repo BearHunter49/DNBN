@@ -6,8 +6,9 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.annotation.NonNull
+import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.swma.dnbn.R
 import com.swma.dnbn.adapter.HomeLiveAdapter
 import com.swma.dnbn.adapter.HomeScheduleAdapter
@@ -15,10 +16,10 @@ import com.swma.dnbn.adapter.HomeVODAdapter
 import com.swma.dnbn.adapter.SlideAdapter
 import com.swma.dnbn.item.*
 import com.swma.dnbn.restApi.Retrofit2Instance
-import com.swma.dnbn.restApiData.ProductData
+import com.swma.dnbn.restApi.Retrofit2Service
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_home.view.*
 import kotlinx.coroutines.*
-import org.jetbrains.annotations.NotNull
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.util.*
@@ -33,7 +34,9 @@ class HomeFragment : Fragment() {
     lateinit var slideList: ArrayList<ItemSlide>
     lateinit var rootView: View
     lateinit var timer: Timer
+    lateinit var retrofit: Retrofit2Service
     private var check = 0
+    private var refreshCheck = 0
     private val job = Job()
     private val today = LocalDate.now()
 
@@ -47,11 +50,19 @@ class HomeFragment : Fragment() {
 //        IsRTL.changeShadowInRtl(requireActivity(), rootView.feVOD)
 //        IsRTL.changeShadowInRtl(requireActivity(), rootView.feSchedule)
 
+        retrofit = Retrofit2Instance.getInstance()!!
+
         rootView.apply {
+
+            // 새로고침
+            refreshLayout.setOnRefreshListener {
+                getHome()
+            }
 
             // Progress
             progressBar_home.visibility = View.VISIBLE
             nestedScrollView.visibility = View.GONE
+            requireActivity().lytTab.visibility = View.GONE
 
             // recyclerView
             rv_live.apply {
@@ -84,7 +95,20 @@ class HomeFragment : Fragment() {
             }
         }
 
-
+        // 슬라이드 샘플 데이터
+        slideList = arrayListOf()
+        slideList.add(
+            ItemSlide(
+                10, "남자 맨투맨", 15000, 13900,
+                "http://gdimg.gmarket.co.kr/1311919434/still/600?ver=1529563272"
+            )
+        )
+        slideList.add(
+            ItemSlide(
+                10, "여 맨투맨", 18000, 15900,
+                "https://thumbnail11.coupangcdn.com/thumbnails/remote/230x230ex/image/vendor_inventory/images/2018/11/29/18/3/974217b4-6f64-4fb5-9fbe-6b0acbae5890.JPG"
+            )
+        )
 
         getHome()
 
@@ -99,34 +123,37 @@ class HomeFragment : Fragment() {
             addToBackStack(name)
             commit()
         }
-
-
     }
 
     // Home Fragment 만들기
     private fun getHome() {
 
         // Retrofit2 로 HTTP 통신 하기
-        // 데이터 넣기
-
-        val retrofit = Retrofit2Instance.getInstance()
+        // 리스트 초기화
+        liveList = arrayListOf()
+        vodList = arrayListOf()
+        scheduleList = arrayListOf()
 
         // Retrofit2 비동기 코루틴으로 처리
         CoroutineScope(Dispatchers.IO + job).launch {
 
             // BroadCast 통신
-            val response = retrofit!!.getBroadcasts("5").execute().body()
+            retrofit.getBroadcasts(2).execute().body()?.forEach {
 
-            response?.forEach {
                 val productList: ArrayList<ItemProduct>
 
+                // 각 방송에 묶인 Product 정
                 retrofit.getProductFromId(it.productId).execute().body().let { product ->
+
+                    // 이미지 리스트 분리
                     val productImgList = product!!.imageUrl.split("**") as ArrayList<String>
+
+                    // 상 리스트
                     productList = arrayListOf(
                         ItemProduct(
                             product.id, product.name, product.categoryId.toString(),
                             productImgList, product.description, product.price, product.changedPrice,
-                            product.detailImgUrl, it.url
+                            product.detailImageUrl, null
                         )
                     )
                 }
@@ -142,74 +169,88 @@ class HomeFragment : Fragment() {
 
             // Video 통신
             // 5개 받아옴
-            val response2 = retrofit.getVideos("5").execute().body()
+            retrofit.getVideos(2).execute().body()
+                ?.forEach {
+                    val productList: ArrayList<ItemProduct>
 
-            response2?.forEach {
-                val productList: ArrayList<ItemProduct>
+                    // Product 조회
+                    retrofit.getProductFromId(it.productId).execute().body().let { product ->
 
-                // Product 조회
-                retrofit.getProductFromId(it.productId).execute().body().let { product ->
+                        // 이미지 리스트로 분리
+                        val productImgList = product!!.imageUrl.split("**") as ArrayList<String>
 
-                    // 이미지 리스트로 분리
-                    val productImgList = product!!.imageUrl.split("**") as ArrayList<String>
+                        // 각 영상에 묶인 Product 리스트
+                        productList = arrayListOf(
+                            ItemProduct(
+                                product.id, product.name, product.categoryId.toString(),
+                                productImgList, product.description, product.price, product.changedPrice,
+                                product.detailImageUrl, it.id
+                            )
+                        )
+                    }
 
-                    // 각 영상에 묶인 상품 리스트 받기
-                    productList = arrayListOf(
-                        ItemProduct(
-                            product.id, product.name, product.categoryId.toString(),
-                            productImgList, product.description, product.price, product.changedPrice,
-                            product.detailImgUrl, it.url
+                    vodList.add(
+                        ItemVOD(
+                            it.id, it.name, it.thumbnailUrl, it.categoryId, it.url, it.uploaderId,
+                            productList, "", 100
                         )
                     )
                 }
 
-                vodList.add(
-                    ItemVOD(
-                        it.id, it.name, it.thumbnailUrl, it.categoryId.toString(), it.url, it.uploaderId,
-                        productList, "", 100
-                    )
-                )
-            }
-
-
             // 편성표 통신
-            // 0 붙이
-            val response3 = retrofit.getSchedules(
+            // 0 안붙여도 됨
+            retrofit.getSchedules(
                 today.year, today.monthValue, today.dayOfMonth
-            ).execute().body()
+            ).execute().body()?.forEach {
 
-            response3?.forEach {
-
-                // ChannelId 로 유저 정보 조회
+                // channelId 로 채 정보 조회
                 retrofit.getChannelFromChannelId(it.channelId).execute().body().let { channel ->
 
+                    // userId 로 유저 정보 조
                     retrofit.getUserFromUserId(channel!!.userId).execute().body().let { user ->
 
                         scheduleList.add(
                             ItemSchedule(
                                 it.id, it.title, channel.userId,
-                                user!!.name, it.productId, it.broadcastDate.toString(), it.thumbnailUrl
+                                user!!.name, it.productId, it.broadcastDate, it.thumbnailUrl
                             )
                         )
 
                     }
+                }
+            }
 
+            // 첫 시작
+            if (refreshCheck == 0) {
+                refreshCheck = 1
+                // UI
+                CoroutineScope(Dispatchers.Main + job).launch {
+                    displayData()
 
+                    rootView.progressBar_home.visibility = View.GONE
+                    rootView.nestedScrollView.visibility = View.VISIBLE
+                    requireActivity().lytTab.visibility = View.VISIBLE
+                }
+            }
+            // 새로고침
+            else {
+                CoroutineScope(Dispatchers.Main + job).launch {
+                    rootView.apply {
+                        rv_live.adapter = HomeLiveAdapter(requireActivity(), liveList)
+                        rv_vod.adapter = HomeVODAdapter(requireActivity(), vodList)
+                        rv_schedule.adapter = HomeScheduleAdapter(requireActivity(), scheduleList)
+//                        rv_live.adapter?.notifyDataSetChanged()
+//                        rv_vod.adapter?.notifyDataSetChanged()
+//                        rv_schedule.adapter?.notifyDataSetChanged()
+                    }
+                    rootView.refreshLayout.isRefreshing = false
                 }
 
-
             }
 
-            // UI
-            CoroutineScope(Dispatchers.Main + job).launch {
-
-                displayData()
-
-                rootView.progressBar_home.visibility = View.GONE
-                rootView.nestedScrollView.visibility = View.VISIBLE
-            }
 
         }
+
 
     }
 
@@ -245,18 +286,15 @@ class HomeFragment : Fragment() {
                 rv_schedule.adapter = HomeScheduleAdapter(requireActivity(), scheduleList)
             }
 
-
             // 편성표 날짜 설정
             textToday.text = today.format(DateTimeFormatter.ofPattern("MM월 dd일"))
             startTimer()
-
         }
 
     }
 
     // ViewPager 4.5초마다 넘기기
     private fun startTimer() {
-        Log.d("myTest", "startTimer()")
         timer = Timer()
 
         val timerTask = (object : TimerTask() {
@@ -279,19 +317,14 @@ class HomeFragment : Fragment() {
 
 
     override fun onStop() {
-        Log.d("myTest", "onStop()")
-        if (check == 1) {
-            timer.cancel()
-        } else {
-            check = 1
-        }
+        check = 1
+        timer.cancel()
         super.onStop()
     }
 
     override fun onStart() {
-        Log.d("myTest", "onStart()")
-
-        if (check != 0) {
+        // 타이머 중복 방지
+        if (check == 1) {
             startTimer()
         }
         super.onStart()
@@ -299,7 +332,6 @@ class HomeFragment : Fragment() {
 
     override fun onDestroy() {
         job.cancel()
-        Log.d("myTest", "onDestroy")
         super.onDestroy()
     }
 

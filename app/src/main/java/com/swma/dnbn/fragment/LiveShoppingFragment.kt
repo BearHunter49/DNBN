@@ -58,7 +58,6 @@ class LiveShoppingFragment(private val productList: ArrayList<ItemProduct>) : Bo
                 adapter = LiveShopItemAdapter(requireActivity(), productList)
             }
 
-            Log.d("myTest: LiveShoppingFragment", productList.toString())
 
         }
 

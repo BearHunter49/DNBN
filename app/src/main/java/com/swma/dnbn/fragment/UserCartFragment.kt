@@ -25,15 +25,15 @@ class UserCartFragment : Fragment() {
 
         cartList = ArrayList()
         // Http 통신 데이터 받기
-        cartList.add(ItemCart("1", "자연산 도토리", "https://img-s-msn-com.akamaized.net/tenant/amp/entityid/BBNBQK1.img?h=338&w=530&m=6&q=60&o=f&l=f",
+        cartList.add(ItemCart(1, "자연산 도토리", "https://img-s-msn-com.akamaized.net/tenant/amp/entityid/BBNBQK1.img?h=338&w=530&m=6&q=60&o=f&l=f",
             11900, 0))
-        cartList.add(ItemCart("1", "그냥 도토리", "https://pbs.twimg.com/profile_images/779566054389317632/nf8zQ8tR_400x400.jpg",
+        cartList.add(ItemCart(1, "그냥 도토리", "https://pbs.twimg.com/profile_images/779566054389317632/nf8zQ8tR_400x400.jpg",
             8900, 0))
-        cartList.add(ItemCart("1", "고오급 도토리", "https://t1.daumcdn.net/cfile/tistory/993F40405A6E911428",
+        cartList.add(ItemCart(1, "고오급 도토리", "https://t1.daumcdn.net/cfile/tistory/993F40405A6E911428",
             30900, 0))
-        cartList.add(ItemCart("1", "중급 도토리", "https://pbs.twimg.com/profile_images/779566054389317632/nf8zQ8tR_400x400.jpg",
+        cartList.add(ItemCart(1, "중급 도토리", "https://pbs.twimg.com/profile_images/779566054389317632/nf8zQ8tR_400x400.jpg",
             21900, 0))
-        cartList.add(ItemCart("1", "싸구려 도토리", "https://pbs.twimg.com/profile_images/779566054389317632/nf8zQ8tR_400x400.jpg",
+        cartList.add(ItemCart(1, "싸구려 도토리", "https://pbs.twimg.com/profile_images/779566054389317632/nf8zQ8tR_400x400.jpg",
             5900, 0))
 
         rootView.apply {

@@ -106,7 +106,7 @@ class LiveWatchActivity : AppCompatActivity(), KeyboardHeightProvider.KeyboardHe
         LiveProfile.clipToOutline = true
 
         LiveWatchTitle.text = live.liveTitle
-        LiveWatchName.text = live.liveUserId
+        LiveWatchName.text = live.liveUserId.toString()
         LiveWatchViewer.text = live.liveViewer.toString()
         val productList = live.liveProduct
 
@@ -126,7 +126,7 @@ class LiveWatchActivity : AppCompatActivity(), KeyboardHeightProvider.KeyboardHe
             if (edit_chat.text.isNotEmpty()) {
                 val adapter = rv_chat.adapter as ChatAdapter
 
-                adapter.addItem(ItemChat("베어헌터", edit_chat.text.toString()))
+                adapter.addItem(ItemChat(1, edit_chat.text.toString()))
                 edit_chat.text.clear()
                 rv_chat.smoothScrollToPosition(0)
             }

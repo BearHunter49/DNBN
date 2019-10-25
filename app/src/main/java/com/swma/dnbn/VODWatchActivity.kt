@@ -21,46 +21,67 @@ import com.google.android.exoplayer2.upstream.DefaultHttpDataSourceFactory
 import com.google.android.exoplayer2.util.Util
 import com.swma.dnbn.fragment.LiveShoppingFragment
 import com.swma.dnbn.item.ItemVOD
+import com.swma.dnbn.restApi.Retrofit2Instance
 import kotlinx.android.synthetic.main.activity_vodwatch.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 
 class VODWatchActivity : AppCompatActivity() {
 
     private var currentWindow = 0
     private var playbackPosition = 0L
     private var playWhenReady = true
-
-    // 임시 Url
-    private lateinit var Url: String
+    private lateinit var url: String
     private lateinit var player: SimpleExoPlayer
+    private val job = Job()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
         setContentView(R.layout.activity_vodwatch)
 
+        lytVODWatch.visibility = View.GONE
+        progressBar_vodWatch.visibility = View.VISIBLE
+
         // 넘어온 VOD 영상 정보
         val vod = intent.getSerializableExtra("vod") as ItemVOD
-        Url = vod.vodUrl
+        url = vod.vodUrl
         val productList = vod.vodProduct
-
+        VODWatchTitle.text = vod.vodTitle
+        VODWatchViews.text = "10,449"
 
         // HTTP 통신
         // VOD 방송 정보
+        val retrofit = Retrofit2Instance.getInstance()!!
+
+        CoroutineScope(Dispatchers.IO + job).launch {
+            // 유저 정보 + 프로필 이미지 추가하기!!
+            retrofit.getUserFromUserId(vod.vodUserId).execute().body().let { user ->
+                CoroutineScope(Dispatchers.Main + job).launch {
+                    VODWatchName.text = user!!.name
+
+                    progressBar_vodWatch.visibility = View.GONE
+                    lytVODWatch.visibility = View.VISIBLE
+                }
+            }
+        }
+
+        // 프로필 이미지
         VODProfile.background = ShapeDrawable(OvalShape())
         VODProfile.clipToOutline = true
-        VODWatchTitle.text = "VOD 영상 테스트"
-        VODWatchName.text = "베어헌터"
-        VODWatchViews.text = "10,449"
+
 
         // ExoPlayer Controller Touch 리스너
         val gestureDetector = GestureDetector(this, SingleTabConfirm())
-        vodExoPlayerView.setOnTouchListener(object: View.OnTouchListener{
+        vodExoPlayerView.setOnTouchListener(object : View.OnTouchListener {
 
             override fun onTouch(p0: View?, p1: MotionEvent?): Boolean {
-                if (gestureDetector.onTouchEvent(p1)){
+                if (gestureDetector.onTouchEvent(p1)) {
                     Log.d("myTest", "onTouch 됨")
                     return true
-                }else{
+                } else {
                     Log.d("myTest", "onTouch false")
                 }
                 return false
@@ -93,14 +114,14 @@ class VODWatchActivity : AppCompatActivity() {
 
     }
 
-    private inner class SingleTabConfirm: GestureDetector.SimpleOnGestureListener(){
+    private inner class SingleTabConfirm : GestureDetector.SimpleOnGestureListener() {
 
         override fun onSingleTapUp(e: MotionEvent?): Boolean {
             Log.d("myTest", "onSingleTabUp")
-            if (lytVODWatch.visibility == View.VISIBLE){
+            if (lytVODWatch.visibility == View.VISIBLE) {
                 lytVODWatch.visibility = View.GONE
                 vodExoPlayerView.hideController()
-            }else{
+            } else {
                 vodExoPlayerView.showController()
                 lytVODWatch.visibility = View.VISIBLE
             }
@@ -121,7 +142,6 @@ class VODWatchActivity : AppCompatActivity() {
     }
 
 
-
     private fun initializePlayer() {
         player = ExoPlayerFactory.newSimpleInstance(this.applicationContext)
         vodExoPlayerView.player = player
@@ -130,7 +150,7 @@ class VODWatchActivity : AppCompatActivity() {
         vodExoPlayerView.resizeMode = AspectRatioFrameLayout.RESIZE_MODE_ZOOM
         player.seekTo(currentWindow, playbackPosition)
 
-        val mediaSource = buildMediaSource(Uri.parse(Url))
+        val mediaSource = buildMediaSource(Uri.parse(url))
 
         player.prepare(mediaSource, true, true)
         player.playWhenReady = playWhenReady
@@ -150,6 +170,10 @@ class VODWatchActivity : AppCompatActivity() {
         player.release()
     }
 
+    override fun onDestroy() {
+        job.cancel()
+        super.onDestroy()
+    }
 
 
 }
