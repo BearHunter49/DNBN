@@ -19,6 +19,7 @@ import com.google.android.exoplayer2.source.hls.HlsMediaSource
 import com.google.android.exoplayer2.ui.AspectRatioFrameLayout
 import com.google.android.exoplayer2.upstream.DefaultHttpDataSourceFactory
 import com.google.android.exoplayer2.util.Util
+import com.squareup.picasso.Picasso
 import com.swma.dnbn.fragment.LiveShoppingFragment
 import com.swma.dnbn.item.ItemVOD
 import com.swma.dnbn.restApi.Retrofit2Instance
@@ -27,6 +28,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
+import java.io.IOException
 
 class VODWatchActivity : AppCompatActivity() {
 
@@ -42,9 +44,6 @@ class VODWatchActivity : AppCompatActivity() {
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
         setContentView(R.layout.activity_vodwatch)
 
-        lytVODWatch.visibility = View.GONE
-        progressBar_vodWatch.visibility = View.VISIBLE
-
         // 넘어온 VOD 영상 정보
         val vod = intent.getSerializableExtra("vod") as ItemVOD
         url = vod.vodUrl
@@ -56,16 +55,19 @@ class VODWatchActivity : AppCompatActivity() {
         // VOD 방송 정보
         val retrofit = Retrofit2Instance.getInstance()!!
 
-        CoroutineScope(Dispatchers.IO + job).launch {
-            // 유저 정보 + 프로필 이미지 추가하기!!
-            retrofit.getUserFromUserId(vod.vodUserId).execute().body().let { user ->
-                CoroutineScope(Dispatchers.Main + job).launch {
-                    VODWatchName.text = user!!.name
+        try {
+            CoroutineScope(Dispatchers.IO + job).launch {
+                // 유저 정보
+                retrofit.getUserFromUserId(vod.vodUserId).execute().body().let { user ->
+                    CoroutineScope(Dispatchers.Main + job).launch {
+                        VODWatchName.text = user!!.name
+                        Picasso.get().load(user.profileImage).into(VODProfile)
 
-                    progressBar_vodWatch.visibility = View.GONE
-                    lytVODWatch.visibility = View.VISIBLE
+                    }
                 }
             }
+        }catch (e: IOException){
+            e.printStackTrace()
         }
 
         // 프로필 이미지

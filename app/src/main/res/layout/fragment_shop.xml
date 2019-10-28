@@ -59,7 +59,6 @@
 
                     <ImageView
                             android:id="@+id/shopUserProfile"
-                            android:src="@drawable/lamg_thunder"
                             android:contentDescription="@string/app_name"
                             android:layout_width="30dp"
                             android:layout_height="30dp"/>

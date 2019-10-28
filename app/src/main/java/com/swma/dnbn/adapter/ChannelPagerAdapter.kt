@@ -14,7 +14,7 @@ class ChannelPagerAdapter(
     private val itemList: ArrayList<ItemProduct>
 ) : FragmentStatePagerAdapter(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
 
-    private val titleList = listOf("방송 ${vodList.size}", "상품 ${itemList.size}")
+    private val titleList = listOf("영상 ${vodList.size}", "상품 ${itemList.size}")
 
     override fun getItem(position: Int): Fragment {
         return when (position) {

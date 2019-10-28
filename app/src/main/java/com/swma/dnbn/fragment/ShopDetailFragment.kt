@@ -18,6 +18,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
+import java.io.IOException
 
 class ShopDetailFragment(private val product: ItemProduct) : Fragment() {
 
@@ -40,25 +41,29 @@ class ShopDetailFragment(private val product: ItemProduct) : Fragment() {
 
         // 영상 정보가 있는 상품일때만
         if (vodId != null) {
-            CoroutineScope(Dispatchers.IO + job).launch {
-                retrofit.getVideoFromId(vodId).execute().body().let { video ->
-                    vod = ItemVOD(
-                        vodId, video!!.name, video.thumbnailUrl, video.categoryId,
-                        video.url, video.uploaderId, arrayListOf(product), "", 100
-                    )
+            try {
+                CoroutineScope(Dispatchers.IO + job).launch {
+                    retrofit.getVideoFromId(vodId).execute().body().let { video ->
+                        vod = ItemVOD(
+                            vodId, video!!.name, video.thumbnailUrl, video.categoryId,
+                            video.url, video.uploaderId, arrayListOf(product), video.uploadAt, 100
+                        )
 
-                    // UI
-                    CoroutineScope(Dispatchers.Main + job).launch {
-                        rootView.apply {
-                            Picasso.get().load(video.thumbnailUrl).into(shopDetail_video)
+                        // UI
+                        CoroutineScope(Dispatchers.Main + job).launch {
+                            rootView.apply {
+                                Picasso.get().load(video.thumbnailUrl).into(shopDetail_video)
 
+                            }
                         }
                     }
                 }
+            } catch (e: IOException) {
+                e.printStackTrace()
             }
         }
         // 영상 정보가 없을 경우
-        else{
+        else {
             rootView.vodVideoLayout.visibility = View.GONE
         }
 

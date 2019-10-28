@@ -23,13 +23,20 @@ import com.google.android.exoplayer2.source.hls.HlsMediaSource
 import com.google.android.exoplayer2.ui.AspectRatioFrameLayout
 import com.google.android.exoplayer2.upstream.DefaultHttpDataSourceFactory
 import com.google.android.exoplayer2.util.Util
+import com.squareup.picasso.Picasso
 import com.swma.dnbn.adapter.ChatAdapter
 import com.swma.dnbn.fragment.LiveShoppingFragment
 import com.swma.dnbn.item.ItemChat
 import com.swma.dnbn.item.ItemLive
 import com.swma.dnbn.item.ItemProduct
+import com.swma.dnbn.restApi.Retrofit2Instance
 import com.swma.dnbn.util.KeyboardHeightProvider
 import kotlinx.android.synthetic.main.activity_live_watch.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
+import java.io.IOException
 
 class LiveWatchActivity : AppCompatActivity(), KeyboardHeightProvider.KeyboardHeightObserver {
 
@@ -42,6 +49,8 @@ class LiveWatchActivity : AppCompatActivity(), KeyboardHeightProvider.KeyboardHe
     lateinit var player: SimpleExoPlayer
     lateinit var chatList: ArrayList<ItemChat>
     lateinit var Url: String
+    private val job = Job()
+    private var userId = 0
 
     // Keyboard part
     private lateinit var keyboardHeightProvider: KeyboardHeightProvider
@@ -98,15 +107,37 @@ class LiveWatchActivity : AppCompatActivity(), KeyboardHeightProvider.KeyboardHe
         // 소켓 통신으로 채팅 받아오기
         // 비동기로 처리
 
+
         // HTTP 통신
         // 유저 정보 등 (프로필 사진 등)
 //        val liveId = live.liveId
+        val retrofit = Retrofit2Instance.getInstance()!!
 
+        try {
+            CoroutineScope(Dispatchers.Default + job).launch {
+                retrofit.getChannelFromChannelId(live.liveChannelId).execute().body().let { channel ->
+                    userId = channel!!.userId
+                    retrofit.getUserFromUserId(channel.userId).execute().body().let { user ->
+
+                        // UI
+                        CoroutineScope(Dispatchers.Main + job).launch {
+                            Picasso.get().load(user!!.profileImage).into(LiveProfile)
+                            LiveWatchName.text = user.name
+
+                        }
+                    }
+                }
+
+            }
+        }catch (e: IOException){
+            e.printStackTrace()
+        }
+
+        // 사진 원형 처리
         LiveProfile.background = ShapeDrawable(OvalShape())
         LiveProfile.clipToOutline = true
 
         LiveWatchTitle.text = live.liveTitle
-        LiveWatchName.text = live.liveUserId.toString()
         LiveWatchViewer.text = live.liveViewer.toString()
         val productList = live.liveProduct
 
@@ -141,7 +172,7 @@ class LiveWatchActivity : AppCompatActivity(), KeyboardHeightProvider.KeyboardHe
         // 프로필 클릭(채널로 이동)
         LiveProfile.setOnClickListener {
             val intent = Intent(this, ChannelActivity::class.java)
-            intent.putExtra("userId", live.liveUserId)
+            intent.putExtra("userId", userId)
             startActivity(intent)
         }
 

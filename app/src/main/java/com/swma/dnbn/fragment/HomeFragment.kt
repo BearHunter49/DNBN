@@ -18,8 +18,10 @@ import com.swma.dnbn.item.*
 import com.swma.dnbn.restApi.Retrofit2Instance
 import com.swma.dnbn.restApi.Retrofit2Service
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.fragment_home.view.*
 import kotlinx.coroutines.*
+import java.io.IOException
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.util.*
@@ -137,87 +139,100 @@ class HomeFragment : Fragment() {
         // Retrofit2 비동기 코루틴으로 처리
         CoroutineScope(Dispatchers.IO + job).launch {
 
-            // BroadCast 통신
-            retrofit.getBroadcasts(2).execute().body()?.forEach {
+            try {
+                // BroadCast 통신
+                retrofit.getBroadcasts(2).execute().body()?.forEach {
 
-                val productList: ArrayList<ItemProduct>
-
-                // 각 방송에 묶인 Product 정
-                retrofit.getProductFromId(it.productId).execute().body().let { product ->
-
-                    // 이미지 리스트 분리
-                    val productImgList = product!!.imageUrl.split("**") as ArrayList<String>
-
-                    // 상 리스트
-                    productList = arrayListOf(
-                        ItemProduct(
-                            product.id, product.name, product.categoryId.toString(),
-                            productImgList, product.description, product.price, product.changedPrice,
-                            product.detailImageUrl, null
-                        )
-                    )
-                }
-
-
-                liveList.add(
-                    ItemLive(
-                        it.id, it.title, it.thumbnailUrl, it.categoryId.toString(),
-                        it.url, it.channelId, productList, 100
-                    )
-                )
-            }
-
-            // Video 통신
-            // 5개 받아옴
-            retrofit.getVideos(2).execute().body()
-                ?.forEach {
+                    // Product 정보
                     val productList: ArrayList<ItemProduct>
-
-                    // Product 조회
                     retrofit.getProductFromId(it.productId).execute().body().let { product ->
 
-                        // 이미지 리스트로 분리
+                        // 이미지 리스트 분리
                         val productImgList = product!!.imageUrl.split("**") as ArrayList<String>
 
-                        // 각 영상에 묶인 Product 리스트
+                        // 상품 리스트
                         productList = arrayListOf(
                             ItemProduct(
-                                product.id, product.name, product.categoryId.toString(),
+                                product.id, product.name, product.categoryId,
                                 productImgList, product.description, product.price, product.changedPrice,
-                                product.detailImageUrl, it.id
+                                product.detailImageUrl, null
                             )
                         )
                     }
 
-                    vodList.add(
-                        ItemVOD(
-                            it.id, it.name, it.thumbnailUrl, it.categoryId, it.url, it.uploaderId,
-                            productList, "", 100
+                    // BroadCast 리스트
+                    liveList.add(
+                        ItemLive(
+                            it.id, it.title, it.thumbnailUrl, it.categoryId,
+                            it.url, it.channelId, productList, 100
                         )
                     )
                 }
 
-            // 편성표 통신
-            // 0 안붙여도 됨
-            retrofit.getSchedules(
-                today.year, today.monthValue, today.dayOfMonth
-            ).execute().body()?.forEach {
+            }catch (e: IOException){
+                e.printStackTrace()
+            }
 
-                // channelId 로 채 정보 조회
-                retrofit.getChannelFromChannelId(it.channelId).execute().body().let { channel ->
+            try {
+                // Video 통신
+                // 5개 받아옴
+                retrofit.getVideos(2).execute().body()
+                    ?.forEach {
+                        val productList: ArrayList<ItemProduct>
 
-                    // userId 로 유저 정보 조
-                    retrofit.getUserFromUserId(channel!!.userId).execute().body().let { user ->
+                        // Product 정보
+                        retrofit.getProductFromId(it.productId).execute().body().let { product ->
 
-                        scheduleList.add(
-                            ItemSchedule(
-                                it.id, it.title, channel.userId,
-                                user!!.name, it.productId, it.broadcastDate, it.thumbnailUrl
+                            // 이미지 리스트로 분리
+                            val productImgList = product!!.imageUrl.split("**") as ArrayList<String>
+
+                            // 각 영상에 묶인 Product 리스트
+                            productList = arrayListOf(
+                                ItemProduct(
+                                    product.id, product.name, product.categoryId,
+                                    productImgList, product.description, product.price, product.changedPrice,
+                                    product.detailImageUrl, it.id
+                                )
+                            )
+                        }
+
+                        vodList.add(
+                            ItemVOD(
+                                it.id, it.name, it.thumbnailUrl, it.categoryId, it.url, it.uploaderId,
+                                productList, "", 100
                             )
                         )
+                    }
 
+            }catch (e: IOException){
+                e.printStackTrace()
+            }
+
+            try {
+                // 편성표 통신
+                // 0 안붙여도 됨
+                retrofit.getSchedules(
+                    today.year, today.monthValue, today.dayOfMonth
+                ).execute().body()?.forEach {
+
+                    // channelId 로 채 정보 조회
+                    retrofit.getChannelFromChannelId(it.channelId).execute().body().let { channel ->
+
+                        // userId 로 유저 정보 조
+                        retrofit.getUserFromUserId(channel!!.userId).execute().body().let { user ->
+
+                            scheduleList.add(
+                                ItemSchedule(
+                                    it.id, it.title, channel.userId,
+                                    user!!.name, it.productId, it.broadcastDate, it.thumbnailUrl
+                                )
+                            )
+
+                        }
                     }
                 }
+            }catch (e: IOException){
+                e.printStackTrace()
             }
 
             // 첫 시작
@@ -280,11 +295,8 @@ class HomeFragment : Fragment() {
             }
 
             // 편성표
-            if (scheduleList.isEmpty()) {
-                lytHomeSchedule.visibility = View.GONE
-            } else {
-                rv_schedule.adapter = HomeScheduleAdapter(requireActivity(), scheduleList)
-            }
+            rv_schedule.adapter = HomeScheduleAdapter(requireActivity(), scheduleList)
+
 
             // 편성표 날짜 설정
             textToday.text = today.format(DateTimeFormatter.ofPattern("MM월 dd일"))

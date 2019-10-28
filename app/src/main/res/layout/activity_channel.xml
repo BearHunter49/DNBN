@@ -19,94 +19,111 @@
 
     </androidx.appcompat.widget.Toolbar>
 
-    <ImageView
-            android:id="@+id/imgChannelProfile"
-            android:src="@drawable/lamg_thunder"
-            android:scaleType="fitXY"
-            app:layout_constraintEnd_toEndOf="parent"
+    <androidx.constraintlayout.widget.ConstraintLayout
             app:layout_constraintTop_toBottomOf="@+id/toolbar_channel"
-            android:layout_marginEnd="10dp"
-            android:layout_marginTop="10dp"
-            android:contentDescription="@string/app_name"
-            android:layout_width="100dp"
-            android:layout_height="100dp"/>
-
-    <TextView
-            android:id="@+id/textChannelName"
-            android:textColor="@color/white"
-            android:textSize="30sp"
-            android:textStyle="bold"
-            app:layout_constraintTop_toTopOf="@+id/imgChannelProfile"
-            app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginStart="10dp"
-            android:text="쫑이네점빵"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-
-    <TextView
-            android:id="@+id/textFollower"
-            app:layout_constraintTop_toBottomOf="@+id/textChannelName"
-            app:layout_constraintStart_toStartOf="@+id/textChannelName"
-            android:layout_marginTop="20dp"
-            android:textColor="@color/gray"
-            android:textSize="14sp"
-            android:text="팔로워"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-
-    <TextView
-            android:id="@+id/textChannelFollower"
-            app:layout_constraintStart_toEndOf="@+id/textFollower"
-            app:layout_constraintBaseline_toBaselineOf="@+id/textFollower"
-            android:layout_marginTop="20dp"
-            android:textColor="@color/white"
-            android:textSize="15sp"
-            android:textStyle="bold"
-            android:layout_marginStart="5dp"
-            android:text="15"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-
-    <TextView
-            android:background="@drawable/round_edittext"
-            android:textColor="@color/white"
-            android:text="+ Follow"
-            android:id="@+id/btn_follow"
-            android:gravity="center"
-            android:textSize="14sp"
-            android:textStyle="bold"
-            app:layout_constraintStart_toEndOf="@+id/textChannelFollower"
-            app:layout_constraintBaseline_toBaselineOf="@+id/textFollower"
-            android:layout_marginTop="10dp"
-            android:layout_marginStart="10dp"
-            android:layout_width="80dp"
-            android:layout_height="25dp"/>
-
-
-    <com.google.android.material.tabs.TabLayout
-            android:id="@+id/lytTab_channel"
-            app:layout_constraintTop_toBottomOf="@+id/imgChannelProfile"
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp"
-            android:layout_marginTop="30dp"
-            android:theme="@style/TabTheme"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:id="@+id/lytConst_Channel"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="0dp">
 
 
-    </com.google.android.material.tabs.TabLayout>
+        <ImageView
+                android:id="@+id/imgChannelProfile"
+                android:scaleType="fitXY"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginEnd="10dp"
+                android:layout_marginTop="10dp"
+                android:contentDescription="@string/app_name"
+                android:layout_width="100dp"
+                android:layout_height="100dp"/>
 
-    <androidx.viewpager.widget.ViewPager
-            android:id="@+id/channel_viewPager"
-            app:layout_constraintTop_toBottomOf="@+id/lytTab_channel"
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp"
-            android:layout_marginTop="10dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+        <TextView
+                android:id="@+id/textChannelName"
+                android:textColor="@color/white"
+                android:textSize="30sp"
+                android:textStyle="bold"
+                app:layout_constraintTop_toTopOf="@+id/imgChannelProfile"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginStart="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+        <TextView
+                android:id="@+id/textFollower"
+                app:layout_constraintTop_toBottomOf="@+id/textChannelName"
+                app:layout_constraintStart_toStartOf="@+id/textChannelName"
+                android:layout_marginTop="20dp"
+                android:textColor="@color/gray"
+                android:textSize="14sp"
+                android:text="팔로워"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+        <TextView
+                android:id="@+id/textChannelFollower"
+                app:layout_constraintStart_toEndOf="@+id/textFollower"
+                app:layout_constraintBaseline_toBaselineOf="@+id/textFollower"
+                android:layout_marginTop="20dp"
+                android:textColor="@color/white"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                android:layout_marginStart="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+        <TextView
+                android:background="@drawable/round_edittext"
+                android:textColor="@color/white"
+                android:text="+ Follow"
+                android:id="@+id/btn_follow"
+                android:gravity="center"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toEndOf="@+id/textChannelFollower"
+                app:layout_constraintBaseline_toBaselineOf="@+id/textFollower"
+                android:layout_marginTop="10dp"
+                android:layout_marginStart="10dp"
+                android:layout_width="80dp"
+                android:layout_height="25dp"/>
 
 
-    </androidx.viewpager.widget.ViewPager>
+        <com.google.android.material.tabs.TabLayout
+                android:id="@+id/lytTab_channel"
+                app:layout_constraintTop_toBottomOf="@+id/imgChannelProfile"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginTop="30dp"
+                android:theme="@style/TabTheme"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+
+        </com.google.android.material.tabs.TabLayout>
+
+        <androidx.viewpager.widget.ViewPager
+                android:id="@+id/channel_viewPager"
+                app:layout_constraintTop_toBottomOf="@+id/lytTab_channel"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+
+        </androidx.viewpager.widget.ViewPager>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <ProgressBar android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:id="@+id/progressBar_channel"
+                 style="?android:attr/progressBarStyleLarge"
+                 app:layout_constraintStart_toStartOf="parent"
+                 app:layout_constraintEnd_toEndOf="parent"
+                 app:layout_constraintTop_toTopOf="parent"
+                 app:layout_constraintBottom_toBottomOf="parent"
+                 android:visibility="gone"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -57,7 +57,7 @@ class LiveShopItemAdapter(
                     context.startActivity(intent)
                 }
 
-                // 장바구니 버튼
+                // 장바구니 버튼 -> Http 통신하기 POST
                 btn_cart.setOnClickListener {
                     Toast.makeText(context, "장바구니 추가", Toast.LENGTH_SHORT).show()
                 }

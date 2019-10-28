@@ -27,7 +27,6 @@
 
         <ImageView
                 android:id="@+id/LiveProfile"
-                android:src="@drawable/lamg_thunder"
                 android:scaleType="fitXY"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

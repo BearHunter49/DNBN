@@ -10,6 +10,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
+import com.squareup.picasso.Picasso
 import com.swma.dnbn.ChannelActivity
 import com.swma.dnbn.R
 import com.swma.dnbn.adapter.ShopPagerAdapter
@@ -21,6 +22,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
+import java.io.IOException
 
 class ShopFragment(private val product: ItemProduct) : Fragment() {
 
@@ -41,34 +43,36 @@ class ShopFragment(private val product: ItemProduct) : Fragment() {
         }
 
         // 넘어온 상품 정보
-        val imageList = arrayListOf<String>()
-        for (img in product.productImgList) {
-            imageList.add(img)
-        }
+        val imageList = product.productImgList
 
-        // Http 통신 (유저 프로필 사진도 받기!!)
+        // Http 통신
         val retrofit = Retrofit2Instance.getInstance()!!
-        CoroutineScope(Dispatchers.IO + job).launch {
-            retrofit.getProductFromId(product.productId).execute().body().let { product ->
-                userId = product!!.providerId
 
-                retrofit.getUserFromUserId(userId).execute().body().let { user ->
-                    // UI
-                    CoroutineScope(Dispatchers.Main + job).launch {
-                        rootView.apply {
-                            textShopUserName.text = user!!.name
+        try {
+            CoroutineScope(Dispatchers.IO + job).launch {
+                retrofit.getProductFromId(product.productId).execute().body().let { product ->
+                    userId = product!!.providerId
 
-                            progressBar_shop.visibility = View.GONE
-                            appBar_shop.visibility = View.VISIBLE
-                            shopDetailViewPager.visibility = View.VISIBLE
+                    retrofit.getUserFromUserId(userId).execute().body().let { user ->
+                        // UI
+                        CoroutineScope(Dispatchers.Main + job).launch {
+                            rootView.apply {
+                                textShopUserName.text = user!!.name
+                                Picasso.get().load(user.profileImage).into(shopUserProfile)
+
+                                progressBar_shop.visibility = View.GONE
+                                appBar_shop.visibility = View.VISIBLE
+                                shopDetailViewPager.visibility = View.VISIBLE
+                            }
+
                         }
-
                     }
+
                 }
-
             }
+        } catch (e: IOException) {
+            e.printStackTrace()
         }
-
 
         rootView.apply {
 

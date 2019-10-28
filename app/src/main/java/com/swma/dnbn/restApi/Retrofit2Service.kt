@@ -24,6 +24,10 @@ interface Retrofit2Service{
     @GET("/api/videos/{videoId}")
     fun getVideoFromId(@Path("videoId") videoId: Int): Call<VodData>
 
+    @GET("/api/videos/user/{userId}")
+    fun getVideosFromUserId(@Path("userId") userId: Int): Call<List<VodData>>
+
+
     // Schedules
     @GET("/api/broadcasts/schedules")
     fun getSchedules(@Query("year") year: Int,
@@ -34,9 +38,16 @@ interface Retrofit2Service{
     @GET("/api/products/{productId}")
     fun getProductFromId(@Path("productId") productId: Int): Call<ProductData>
 
+    @GET("/api/products/provider/{providerId}")
+    fun getProductsFromProviderId(@Path("providerId") providerId: Int): Call<List<ProductData>>
+
     // Channel
     @GET("/api/channels/{channelId}")
     fun getChannelFromChannelId(@Path("channelId") channelId: Int): Call<ChannelData>
+
+    @GET("/api/channels/user/{userId}")
+    fun getChannelFromUserId(@Path("userId") userId: Int): Call<ChannelData>
+
 
     // User
     @GET("/api/users/{userId}")

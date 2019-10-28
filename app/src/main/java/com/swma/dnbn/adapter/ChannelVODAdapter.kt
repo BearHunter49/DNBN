@@ -1,12 +1,14 @@
 package com.swma.dnbn.adapter
 
 import android.app.Activity
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
 import com.swma.dnbn.R
+import com.swma.dnbn.VODWatchActivity
 import com.swma.dnbn.item.ItemVOD
 import kotlinx.android.synthetic.main.row_channel_vod.view.*
 
@@ -25,8 +27,18 @@ class ChannelVODAdapter (private val context: Activity, private val items: Array
             with(holder){
                 Picasso.get().load(item.vodThumbnailUrl).into(img)
                 title.text = item.vodTitle
-                date.text = item.vodDate
+
+                val dateList = item.vodDate.split("T")
+                date.text = dateList[0]
+
                 viewer.text = item.vodViewer.toString()
+
+                constView.setOnClickListener {
+                    val intent = Intent(context, VODWatchActivity::class.java)
+                    intent.putExtra("vod", item)
+                    context.startActivity(intent)
+                }
+
             }
         }
     }
@@ -37,6 +49,7 @@ class ChannelVODAdapter (private val context: Activity, private val items: Array
         val title = view.channelVODTitle
         val date = view.channelVODDate
         val viewer = view.channelViewer
+        val constView = view.lytChannelVOD
     }
 
 }

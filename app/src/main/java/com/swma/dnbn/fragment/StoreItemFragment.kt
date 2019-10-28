@@ -31,8 +31,7 @@ class StoreItemFragment(private val category: String) : Fragment() {
                 storeItemList.add(
                     ItemProduct(
                         1,
-                        "신상 맨투맨1",
-                        "Fashion",
+                        "신상 맨투맨1", 0,
                         arrayListOf(
                             "http://takeastreet.com/web/product/big/201810/d6e010bb1e5c4b6981a7243d98f8e3c9.jpg",
                             "http://mitoshop.co.kr/web/product/medium/201802/13135_shop1_694780.jpg"
@@ -48,7 +47,7 @@ class StoreItemFragment(private val category: String) : Fragment() {
                     ItemProduct(
                         1,
                         "신상 맨투맨2",
-                        "Fashion",
+                        0,
                         arrayListOf(
                             "http://image.musinsa.com/images/goods_img/20170912/630262/630262_3_500.jpg",
                             "https://m.mutnam.com/web/product/big/201901/03df533b5a420017b3abdbf7420ef919.jpg"
@@ -70,7 +69,7 @@ class StoreItemFragment(private val category: String) : Fragment() {
                     ItemProduct(
                         1,
                         "신상 맨투맨1",
-                        "Fashion",
+                        0,
                         arrayListOf(
                             "http://takeastreet.com/web/product/big/201810/d6e010bb1e5c4b6981a7243d98f8e3c9.jpg",
                             "http://mitoshop.co.kr/web/product/medium/201802/13135_shop1_694780.jpg"
@@ -86,7 +85,7 @@ class StoreItemFragment(private val category: String) : Fragment() {
                     ItemProduct(
                         1,
                         "신상 맨투맨2",
-                        "Fashion",
+                        0,
                         arrayListOf(
                             "http://image.musinsa.com/images/goods_img/20170912/630262/630262_3_500.jpg",
                             "https://m.mutnam.com/web/product/big/201901/03df533b5a420017b3abdbf7420ef919.jpg"

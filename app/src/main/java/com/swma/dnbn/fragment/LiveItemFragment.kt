@@ -36,14 +36,14 @@ class LiveItemFragment(private val category: String) : Fragment() {
                         1,
                         "푸드 테스트",
                         "https://post-phinf.pstatic.net/MjAxODEyMjFfMTE1/MDAxNTQ1Mzc1OTYyMTA2.44XiN6bbRHARoIMgxjWXbcJE258lTS5tInlEaS_wojkg.JBkuyi7ruzEl772YoQCwKYjlhMvuslD93T7WWUD2v4wg.JPEG/%EC%B5%9C%EB%AF%B8%EC%9E%90%EC%86%8C%EB%A8%B8%EB%A6%AC%EA%B5%AD%EB%B0%A5_%281%29_woooo__jung2_%EB%8B%98_%EC%9D%B8%EC%8A%A4%ED%83%80%EA%B7%B8%EB%9E%A8.jpg?type=w1200",
-                        "Food",
+                        0,
                         "",
                         100,
                         arrayListOf(
                             ItemProduct(
                                 1,
                                 "TestName",
-                                "Cate1",
+                                0,
                                 arrayListOf("https://pbs.twimg.com/media/C5WybhRVMAAfBUF.jpg"),
                                 "Test Description",
                                 12000,
