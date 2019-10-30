@@ -14,13 +14,24 @@ import com.squareup.picasso.Picasso
 import com.swma.dnbn.R
 import com.swma.dnbn.ShopActivity
 import com.swma.dnbn.item.ItemProduct
+import com.swma.dnbn.restApi.Retrofit2Instance
+import com.swma.dnbn.restApiData.CartData
+import com.swma.dnbn.util.MyApplication
 import kotlinx.android.synthetic.main.row_live_shopping_item.view.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
+import retrofit2.Response
+import java.io.IOException
 
 class LiveShopItemAdapter(
     private val context: Activity,
     private val items: ArrayList<ItemProduct>
 ) : RecyclerView.Adapter<LiveShopItemAdapter.ItemRowHolder>() {
 
+    private val retrofit = Retrofit2Instance.getInstance()!!
+    private val job = Job()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemRowHolder {
         val v = LayoutInflater.from(parent.context).inflate(R.layout.row_live_shopping_item, parent, false)
@@ -59,7 +70,22 @@ class LiveShopItemAdapter(
 
                 // 장바구니 버튼 -> Http 통신하기 POST
                 btn_cart.setOnClickListener {
-                    Toast.makeText(context, "장바구니 추가", Toast.LENGTH_SHORT).show()
+                    try {
+                        CoroutineScope(Dispatchers.Default + job).launch {
+                            val response = retrofit.addCart(MyApplication.userId, item.productId, 1).execute()
+                            if (response.isSuccessful){
+                                // UI
+                                CoroutineScope(Dispatchers.Main + job).launch {
+                                    Toast.makeText(context, "${item.productName}\n장바구니 추가!", Toast.LENGTH_SHORT).show()
+                                }
+                            }
+                        }
+
+                    }catch (e: IOException){
+                        e.printStackTrace()
+                        Toast.makeText(context, "장바구니 추가 실패..", Toast.LENGTH_SHORT).show()
+                    }
+
                 }
 
 

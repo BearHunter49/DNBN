@@ -1,6 +1,7 @@
 package com.swma.dnbn
 
 import android.content.Intent
+import android.content.pm.PackageManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
@@ -15,6 +16,8 @@ import com.swma.dnbn.fragment.StoreFragment
 import com.swma.dnbn.fragment.UserFragment
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.row_toolbar.*
+import java.security.MessageDigest
+import java.util.*
 
 class MainActivity : AppCompatActivity() {
 

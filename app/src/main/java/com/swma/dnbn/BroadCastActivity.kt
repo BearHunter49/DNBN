@@ -23,7 +23,13 @@ import com.swma.dnbn.util.KeyboardHeightProvider
 import kotlinx.android.synthetic.main.activity_broad_cast.*
 import net.ossrs.rtmp.ConnectCheckerRtmp
 import androidx.core.view.ViewCompat.setY
-
+import com.swma.dnbn.restApi.Retrofit2Instance
+import com.swma.dnbn.util.MyApplication
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
+import java.io.IOException
 
 
 class BroadCastActivity : AppCompatActivity(), ConnectCheckerRtmp, SurfaceHolder.Callback, KeyboardHeightProvider.KeyboardHeightObserver {
@@ -34,6 +40,7 @@ class BroadCastActivity : AppCompatActivity(), ConnectCheckerRtmp, SurfaceHolder
     private var check = 0
     lateinit var handler: Handler
     private lateinit var chatList: ArrayList<ItemChat>
+    private val job = Job()
 
     // Keyboard part
     private lateinit var keyboardHeightProvider: KeyboardHeightProvider
@@ -45,6 +52,9 @@ class BroadCastActivity : AppCompatActivity(), ConnectCheckerRtmp, SurfaceHolder
         super.onCreate(savedInstanceState)
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
         setContentView(R.layout.activity_broad_cast)
+
+        // Retrofit Instance
+        val retrofit = Retrofit2Instance.getInstance()!!
 
         // Keyboard part
         keyboardHeightProvider = KeyboardHeightProvider(this)
@@ -92,11 +102,28 @@ class BroadCastActivity : AppCompatActivity(), ConnectCheckerRtmp, SurfaceHolder
         //
 
 
-
-
         // 방송 버튼
         btn_broadcastStart.setOnClickListener {
             if (!rtmpCamera2.isStreaming) {
+
+                // 프로그래스 바
+                progressBar_broadcast.visibility = View.VISIBLE
+
+                // Http 통신
+                try {
+//                    CoroutineScope(Dispatchers.Default + job).launch {
+//                        retrofit.getChannelFromUserId(MyApplication.userId).execute().body().let { channel ->
+//                            retrofit.getBroadcastByChannelId(channel!!.id).execute().body().let { broadcast ->
+//                                retrofit.onBroadcast(broadcast!!.id, )
+//                            }
+//                        }
+//
+//
+//                    }
+                }catch (e: IOException){
+                    e.printStackTrace()
+                }
+
                 if (rtmpCamera2.prepareAudio() and rtmpCamera2.prepareVideo()) {
                     rtmpCamera2.startStream(streamUrl)
                 } else {
@@ -265,6 +292,7 @@ class BroadCastActivity : AppCompatActivity(), ConnectCheckerRtmp, SurfaceHolder
     override fun onDestroy() {
         super.onDestroy()
         keyboardHeightProvider.close()
+        job.cancel()
     }
 
 

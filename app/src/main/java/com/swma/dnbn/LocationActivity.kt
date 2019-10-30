@@ -8,18 +8,22 @@ import android.util.Log
 import android.view.MenuItem
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
+import com.swma.dnbn.restApi.Retrofit2Instance
 import kotlinx.android.synthetic.main.activity_location.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import net.daum.mf.map.api.MapPoint
 import net.daum.mf.map.api.MapReverseGeoCoder
 import net.daum.mf.map.api.MapView
+import java.io.IOException
 
 class LocationActivity : AppCompatActivity(), MapView.CurrentLocationEventListener,
     MapReverseGeoCoder.ReverseGeoCodingResultListener {
 
     private lateinit var mapPoint: MapPoint
-
+    private val retrofit = Retrofit2Instance.getInstance()!!
     private val PERMISSIONS = arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION)
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,7 +52,6 @@ class LocationActivity : AppCompatActivity(), MapView.CurrentLocationEventListen
                 setZoomLevelFloat(0.5f, false)
             }
         }
-
 
         // 위치 지정 버튼
         btn_location.setOnClickListener {
@@ -97,8 +100,8 @@ class LocationActivity : AppCompatActivity(), MapView.CurrentLocationEventListen
     }
 
     override fun onDestroy() {
-        super.onDestroy()
 
+        super.onDestroy()
     }
 
     override fun onCurrentLocationUpdateFailed(p0: MapView?) {
@@ -118,10 +121,21 @@ class LocationActivity : AppCompatActivity(), MapView.CurrentLocationEventListen
 
 
     override fun onReverseGeoCoderFailedToFindAddress(p0: MapReverseGeoCoder?) {
+        Toast.makeText(this, "주소 변환 실패!", Toast.LENGTH_SHORT).show()
     }
 
     // 주소 변환 성공
     override fun onReverseGeoCoderFoundAddress(p0: MapReverseGeoCoder?, p1: String?) {
+
+        // Http 통신으로 유저 위치 정보 수정
+        try {
+            CoroutineScope(Dispatchers.Default).launch {
+//                retrofit
+            }
+        }catch (e: IOException){
+            e.printStackTrace()
+        }
+
         Toast.makeText(this, p1, Toast.LENGTH_SHORT).show()
     }
 

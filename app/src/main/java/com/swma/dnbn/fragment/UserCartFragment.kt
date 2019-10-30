@@ -11,11 +11,21 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.swma.dnbn.R
 import com.swma.dnbn.adapter.UserCartAdapter
 import com.swma.dnbn.item.ItemCart
+import com.swma.dnbn.item.ItemProduct
+import com.swma.dnbn.restApi.Retrofit2Instance
+import com.swma.dnbn.util.MyApplication
 import kotlinx.android.synthetic.main.fragment_user_cart.view.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
+import java.io.IOException
 
 class UserCartFragment : Fragment() {
 
-    lateinit var cartList: ArrayList<ItemCart>
+    lateinit var cartList: ArrayList<ItemProduct>
+    private val job = Job()
+    private var totalPrice = 0
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -23,33 +33,67 @@ class UserCartFragment : Fragment() {
     ): View? {
         val rootView = inflater.inflate(R.layout.fragment_user_cart, container, false)
 
-        cartList = ArrayList()
+        cartList = arrayListOf()
         // Http 통신 데이터 받기
-        cartList.add(ItemCart(1, "자연산 도토리", "https://img-s-msn-com.akamaized.net/tenant/amp/entityid/BBNBQK1.img?h=338&w=530&m=6&q=60&o=f&l=f",
-            11900, 0))
-        cartList.add(ItemCart(1, "그냥 도토리", "https://pbs.twimg.com/profile_images/779566054389317632/nf8zQ8tR_400x400.jpg",
-            8900, 0))
-        cartList.add(ItemCart(1, "고오급 도토리", "https://t1.daumcdn.net/cfile/tistory/993F40405A6E911428",
-            30900, 0))
-        cartList.add(ItemCart(1, "중급 도토리", "https://pbs.twimg.com/profile_images/779566054389317632/nf8zQ8tR_400x400.jpg",
-            21900, 0))
-        cartList.add(ItemCart(1, "싸구려 도토리", "https://pbs.twimg.com/profile_images/779566054389317632/nf8zQ8tR_400x400.jpg",
-            5900, 0))
+        val retrofit = Retrofit2Instance.getInstance()!!
+        try {
+            CoroutineScope(Dispatchers.Default + job).launch {
+                retrofit.getCartFromUserId(MyApplication.userId).execute().body().let { cart ->
+
+                    // product01
+                    val product01 = cart!!.product01
+                    if (product01 != null) {
+                        val productImgList = product01.imageUrl.split("**") as ArrayList<String>
+
+                        cartList.add(
+                            ItemProduct(
+                                product01.id, product01.name, product01.categoryId, productImgList,
+                                product01.description, product01.price, product01.changedPrice,
+                                product01.detailImageUrl, null
+                            )
+                        )
+                    }
+
+                    val product02 = cart.product02
+                    if (product02 != null) {
+                        val productImgList = product02.imageUrl.split("**") as ArrayList<String>
+
+                        cartList.add(
+                            ItemProduct(
+                                product02.id, product02.name, product02.categoryId, productImgList,
+                                product02.description, product02.price, product02.changedPrice,
+                                product02.detailImageUrl, null
+                            )
+                        )
+                    }
+                }
+
+                for (cart in cartList) {
+                    totalPrice += when (cart.productChangedPrice) {
+                        -1 -> cart.productPrice
+                        else -> cart.productChangedPrice
+                    }
+                }
+
+                // UI
+                CoroutineScope(Dispatchers.Main + job).launch {
+                    rootView.apply {
+                        rv_cart.adapter = UserCartAdapter(requireActivity(), cartList)
+                        textTotalPrice.text = String.format("%,d원", totalPrice)
+                    }
+                }
+
+            }
+        } catch (e: IOException) {
+            e.printStackTrace()
+        }
 
         rootView.apply {
             rv_cart.apply {
                 setHasFixedSize(true)
                 layoutManager = LinearLayoutManager(activity)
                 focusable = View.NOT_FOCUSABLE
-                adapter = UserCartAdapter(requireActivity(), cartList)
             }
-
-            var totalPrice = 0
-            for (cart in cartList){
-                totalPrice += cart.productPrice.toInt()
-            }
-
-            textTotalPrice.text = String.format("%,d원", totalPrice)
 
             btn_totalBuy.setOnClickListener {
                 Toast.makeText(context, "전체 구매하러 가기", Toast.LENGTH_SHORT).show()
@@ -59,6 +103,11 @@ class UserCartFragment : Fragment() {
 
 
         return rootView
+    }
+
+    override fun onDestroy() {
+        job.cancel()
+        super.onDestroy()
     }
 
 }

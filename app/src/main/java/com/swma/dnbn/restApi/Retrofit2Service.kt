@@ -6,16 +6,21 @@ import retrofit2.http.*
 import java.time.LocalDate
 
 interface Retrofit2Service{
-//    @GET("/posts/{userId}")
-//    fun getData(@Path("userId") userId: String): Call<TestData>
-//
-//    @FormUrlEncoded
-//    @POST("/posts")
-//    fun postData(@FieldMap param: HashMap<String, Any>): Call<TestData>
 
     // BroadCast
     @GET("/api/broadcasts/number/{number}")
     fun getBroadcasts(@Path("number") number: Int): Call<List<BroadcastData>>
+
+//    @FormUrlEncoded
+//    @POST("/api/broadcasts/on/{broadCastId}")
+//    fun onBroadcast(@Path("broadCastId") broadcastId: Int, @FieldMap param: HashMap<String, Any>): Call<>
+
+    @GET("/api/broadcasts/{broadCastId}")
+    fun getBroadcastById(@Path("broadCastId") broadcastId: Int): Call<BroadcastData>
+
+    @GET("/api/broadcasts/channel/{channelId}")
+    fun getBroadcastByChannelId(@Path("channelId") channelId: Int): Call<BroadcastData>
+
 
     // Video
     @GET("/api/videos/number/{number}")
@@ -48,10 +53,21 @@ interface Retrofit2Service{
     @GET("/api/channels/user/{userId}")
     fun getChannelFromUserId(@Path("userId") userId: Int): Call<ChannelData>
 
-
     // User
     @GET("/api/users/{userId}")
     fun getUserFromUserId(@Path("userId") userId: Int): Call<UserData>
+
+//    @PUT("/api/users/{userId}")
+//    fun reviseUserData()
+
+    // Cart
+    @GET("/api/carts/{userId}")
+    fun getCartFromUserId(@Path("userId") userId: Int): Call<CartData>
+
+    @POST("/api/carts/adding")
+    fun addCart(@Query("parameters") userId: Int,
+                @Query("parameters") productId: Int,
+                @Query("parameters") productQ: Int): Call<CartData>
 
 
 }
