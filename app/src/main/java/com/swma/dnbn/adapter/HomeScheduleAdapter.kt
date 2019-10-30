@@ -28,7 +28,7 @@ class HomeScheduleAdapter(private val context: Context, private val items:ArrayL
                 user.text = item.scheduleUserName
 
                 // '2019-09-25 23:25:00' 형식
-                val dateAndTime = item.scheduleDate.split(" ")
+                val dateAndTime = item.scheduleDate.split("T")
                 val time = LocalTime.parse(dateAndTime[1])
                 date.text = time.format(DateTimeFormatter.ofPattern("HH시 mm분"))
 

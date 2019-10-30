@@ -11,9 +11,14 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.swma.dnbn.R
 import com.swma.dnbn.adapter.ScheduleItemAdapter
 import com.swma.dnbn.item.ItemSchedule
+import com.swma.dnbn.restApi.Retrofit2Instance
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_schedule.view.*
 import kotlinx.android.synthetic.main.row_toolbar.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
@@ -21,6 +26,8 @@ class ScheduleFragment : Fragment() {
 
     private lateinit var scheduleList: ArrayList<ItemSchedule>
     private lateinit var rootView: View
+    private val job = Job()
+    private val retrofit = Retrofit2Instance.getInstance()!!
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -74,36 +81,37 @@ class ScheduleFragment : Fragment() {
 
     // 날짜로 서버에서 편성표 리스트 받아오기 'year-month-day'
     private fun loadData(date: LocalDate) {
-//        scheduleList.clear()
+        scheduleList.clear()
 
-//        val now = date.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))
+        CoroutineScope(Dispatchers.Default + job).launch {
+            retrofit.getSchedules(date.year, date.monthValue, date.dayOfMonth).execute().body()?.forEach { broadcast ->
+                retrofit.getChannelFromChannelId(broadcast.channelId).execute().body().let { channel ->
+                    retrofit.getUserFromUserId(channel!!.userId).execute().body().let { user ->
 
-        // Http 통신
-//        scheduleList.add(
-//            ItemSchedule(
-//                "1", "자연산 도토리", "100", "베어헌터1",
-//                "2020", "2019-10-02 19:15:00",
-//                "https://img-s-msn-com.akamaized.net/tenant/amp/entityid/BBNBQK1.img?h=338&w=530&m=6&q=60&o=f&l=f"
-//            )
-//        )
-//        scheduleList.add(
-//            ItemSchedule(
-//                "2", "비싼 도토리", "100", "베어헌터2", "2020", "2019-10-02 20:00:00",
-//                "https://t1.daumcdn.net/cfile/tistory/993F40405A6E911428"
-//            )
-//        )
-//        scheduleList.add(
-//            ItemSchedule(
-//                "3", "잣같은 잣", "100", "베어헌터3", "2020", "2019-10-02 21:00:00",
-//                "http://cfile223.uf.daum.net/image/223870385583895A32CC51"
-//            )
-//        )
+                        scheduleList.add(
+                            ItemSchedule(broadcast.id, broadcast.title, user!!.id, user.name, broadcast.productId,
+                                broadcast.broadcastDate, broadcast.thumbnailUrl))
 
-        if (scheduleList.isEmpty()){
-            rootView.textScheduleNoData.visibility = View.VISIBLE
+                    }
+                }
+            }
+
+            // UI
+            CoroutineScope(Dispatchers.Main + job).launch {
+                if (scheduleList.isEmpty()){
+                    rootView.textScheduleNoData.visibility = View.VISIBLE
+                }
+                rootView.rv_scheduleList.adapter!!.notifyDataSetChanged()
+            }
+
+
         }
 
-        rootView.rv_scheduleList.adapter!!.notifyDataSetChanged()
+    }
+
+    override fun onDestroy() {
+        job.cancel()
+        super.onDestroy()
     }
 
 }

@@ -1,6 +1,7 @@
 package com.swma.dnbn.adapter
 
 import android.app.Activity
+import android.content.Intent
 import android.graphics.Paint
 import android.view.LayoutInflater
 import android.view.View
@@ -10,6 +11,7 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
 import com.swma.dnbn.R
+import com.swma.dnbn.VODWatchActivity
 import com.swma.dnbn.item.ItemVOD
 import kotlinx.android.synthetic.main.row_vod_item.view.*
 
@@ -46,7 +48,9 @@ class VodItemAdapter(private val context: Activity, private val items: ArrayList
 
                 // 클릭 리스너
                 cardView.setOnClickListener {
-                    Toast.makeText(context, item.vodTitle + " Clicked!", Toast.LENGTH_SHORT).show()
+                    val intent = Intent(context, VODWatchActivity::class.java)
+                    intent.putExtra("vod", item)
+                    context.startActivity(intent)
                 }
 
 

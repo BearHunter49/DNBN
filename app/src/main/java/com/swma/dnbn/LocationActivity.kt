@@ -100,7 +100,6 @@ class LocationActivity : AppCompatActivity(), MapView.CurrentLocationEventListen
     }
 
     override fun onDestroy() {
-
         super.onDestroy()
     }
 
@@ -127,10 +126,17 @@ class LocationActivity : AppCompatActivity(), MapView.CurrentLocationEventListen
     // 주소 변환 성공
     override fun onReverseGeoCoderFoundAddress(p0: MapReverseGeoCoder?, p1: String?) {
 
+        // 주소 없으면
+        if (p1.isNullOrEmpty()){
+            Toast.makeText(this, "현 위치 구 주소가 없습니다...", Toast.LENGTH_SHORT).show()
+            return
+        }
+
         // Http 통신으로 유저 위치 정보 수정
         try {
             CoroutineScope(Dispatchers.Default).launch {
-//                retrofit
+//                val addressList = p1.split(" ")
+//                0 = 시, 1 = 구, 2 = 동, 3 = 지번
             }
         }catch (e: IOException){
             e.printStackTrace()

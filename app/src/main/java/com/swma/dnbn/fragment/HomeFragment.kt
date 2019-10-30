@@ -112,6 +112,10 @@ class HomeFragment : Fragment() {
             )
         )
 
+        liveList = arrayListOf()
+        vodList = arrayListOf()
+        scheduleList = arrayListOf()
+
         getHome()
 
         return rootView
@@ -132,9 +136,9 @@ class HomeFragment : Fragment() {
 
         // Retrofit2 로 HTTP 통신 하기
         // 리스트 초기화
-        liveList = arrayListOf()
-        vodList = arrayListOf()
-        scheduleList = arrayListOf()
+        liveList.clear()
+        vodList.clear()
+        scheduleList.clear()
 
         // Retrofit2 비동기 코루틴으로 처리
         CoroutineScope(Dispatchers.IO + job).launch {
@@ -199,7 +203,7 @@ class HomeFragment : Fragment() {
                         vodList.add(
                             ItemVOD(
                                 it.id, it.name, it.thumbnailUrl, it.categoryId, it.url, it.uploaderId,
-                                productList, "", 100
+                                productList, it.uploadAt, 100
                             )
                         )
                     }
@@ -218,13 +222,13 @@ class HomeFragment : Fragment() {
                     // channelId 로 채 정보 조회
                     retrofit.getChannelFromChannelId(it.channelId).execute().body().let { channel ->
 
-                        // userId 로 유저 정보 조
+                        // userId 로 유저 정보 조회
                         retrofit.getUserFromUserId(channel!!.userId).execute().body().let { user ->
 
                             scheduleList.add(
                                 ItemSchedule(
-                                    it.id, it.title, channel.userId,
-                                    user!!.name, it.productId, it.broadcastDate, it.thumbnailUrl
+                                    it.id, it.title, user!!.id,
+                                    user.name, it.productId, it.broadcastDate, it.thumbnailUrl
                                 )
                             )
 
@@ -251,12 +255,12 @@ class HomeFragment : Fragment() {
             else {
                 CoroutineScope(Dispatchers.Main + job).launch {
                     rootView.apply {
-                        rv_live.adapter = HomeLiveAdapter(requireActivity(), liveList)
-                        rv_vod.adapter = HomeVODAdapter(requireActivity(), vodList)
-                        rv_schedule.adapter = HomeScheduleAdapter(requireActivity(), scheduleList)
-//                        rv_live.adapter?.notifyDataSetChanged()
-//                        rv_vod.adapter?.notifyDataSetChanged()
-//                        rv_schedule.adapter?.notifyDataSetChanged()
+//                        rv_live.adapter = HomeLiveAdapter(requireActivity(), liveList)
+//                        rv_vod.adapter = HomeVODAdapter(requireActivity(), vodList)
+//                        rv_schedule.adapter = HomeScheduleAdapter(requireActivity(), scheduleList)
+                        rv_live.adapter!!.notifyDataSetChanged()
+                        rv_vod.adapter!!.notifyDataSetChanged()
+                        rv_schedule.adapter!!.notifyDataSetChanged()
                     }
                     rootView.refreshLayout.isRefreshing = false
                 }

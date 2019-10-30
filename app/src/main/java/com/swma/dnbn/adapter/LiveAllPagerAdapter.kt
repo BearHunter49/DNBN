@@ -7,7 +7,7 @@ import com.swma.dnbn.fragment.LiveItemFragment
 
 class LiveAllPagerAdapter(fm: FragmentManager): FragmentStatePagerAdapter(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT){
 
-    private val titleList = listOf("전체", "푸드", "패션", "뷰티", "반려동물", "디지털/가전", "여행")
+    private val titleList = listOf("푸드", "패션", "디지털/가전", "생활서비스", "미용", "스포츠오락", "교육")
 
     override fun getItem(position: Int): Fragment {
         return when(position){

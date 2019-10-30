@@ -1,6 +1,7 @@
 package com.swma.dnbn.adapter
 
 import android.app.Activity
+import android.content.Intent
 import android.graphics.Paint
 import android.view.LayoutInflater
 import android.view.View
@@ -9,6 +10,7 @@ import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
+import com.swma.dnbn.LiveWatchActivity
 import com.swma.dnbn.R
 import com.swma.dnbn.item.ItemLive
 import kotlinx.android.synthetic.main.row_live_item.view.*
@@ -46,7 +48,9 @@ class LiveItemAdapter(private val context: Activity, private val items: ArrayLis
 
                 // 클릭 리스너
                 cardView.setOnClickListener {
-                    Toast.makeText(context, item.liveTitle + " Clicked!", Toast.LENGTH_SHORT).show()
+                    val intent = Intent(context, LiveWatchActivity::class.java)
+                    intent.putExtra("live", item)
+                    context.startActivity(intent)
                 }
 
 

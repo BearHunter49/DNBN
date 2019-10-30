@@ -16,10 +16,18 @@ interface Retrofit2Service{
 //    fun onBroadcast(@Path("broadCastId") broadcastId: Int, @FieldMap param: HashMap<String, Any>): Call<>
 
     @GET("/api/broadcasts/{broadCastId}")
-    fun getBroadcastById(@Path("broadCastId") broadcastId: Int): Call<BroadcastData>
+    fun getBroadcastFromId(@Path("broadCastId") broadcastId: Int): Call<BroadcastData>
 
     @GET("/api/broadcasts/channel/{channelId}")
-    fun getBroadcastByChannelId(@Path("channelId") channelId: Int): Call<BroadcastData>
+    fun getBroadcastFromChannelId(@Path("channelId") channelId: Int): Call<BroadcastData>
+
+    @GET("/api/broadcasts/category/{categoryId}")
+    fun getBroadcastsFromCategoryId(@Path("categoryId") categoryId: Int): Call<List<BroadcastData>>
+
+    @GET("/api/broadcasts/schedules")
+    fun getSchedules(@Query("year") year: Int,
+                     @Query("month") month: Int,
+                     @Query("day") day: Int): Call<List<BroadcastData>>
 
 
     // Video
@@ -32,12 +40,10 @@ interface Retrofit2Service{
     @GET("/api/videos/user/{userId}")
     fun getVideosFromUserId(@Path("userId") userId: Int): Call<List<VodData>>
 
+    @GET("/api/videos/category/{categoryId}")
+    fun getVideosFromCategoryId(@Path("categoryId") categoryId: Int): Call<List<VodData>>
 
-    // Schedules
-    @GET("/api/broadcasts/schedules")
-    fun getSchedules(@Query("year") year: Int,
-                     @Query("month") month: Int,
-                     @Query("day") day: Int): Call<List<BroadcastData>>
+
 
     // Product
     @GET("/api/products/{productId}")
@@ -68,6 +74,10 @@ interface Retrofit2Service{
     fun addCart(@Query("parameters") userId: Int,
                 @Query("parameters") productId: Int,
                 @Query("parameters") productQ: Int): Call<CartData>
+
+    // GiftIcon
+    @GET("/api/gifticons/user/{userId}")
+    fun getGifticonFromUserId(@Path("userId") userId: Int): Call<List<GifticonData>>
 
 
 }

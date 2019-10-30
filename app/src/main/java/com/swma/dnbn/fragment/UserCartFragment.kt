@@ -1,6 +1,7 @@
 package com.swma.dnbn.fragment
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -36,36 +37,39 @@ class UserCartFragment : Fragment() {
         cartList = arrayListOf()
         // Http 통신 데이터 받기
         val retrofit = Retrofit2Instance.getInstance()!!
-        try {
             CoroutineScope(Dispatchers.Default + job).launch {
-                retrofit.getCartFromUserId(MyApplication.userId).execute().body().let { cart ->
+                try {
+                    retrofit.getCartFromUserId(MyApplication.userId).execute().body().let { cart ->
 
-                    // product01
-                    val product01 = cart!!.product01
-                    if (product01 != null) {
-                        val productImgList = product01.imageUrl.split("**") as ArrayList<String>
+                        // product01
+                        val product01 = cart!!.product01
+                        if (product01 != null) {
+                            val productImgList = product01.imageUrl.split("**") as ArrayList<String>
 
-                        cartList.add(
-                            ItemProduct(
-                                product01.id, product01.name, product01.categoryId, productImgList,
-                                product01.description, product01.price, product01.changedPrice,
-                                product01.detailImageUrl, null
+                            cartList.add(
+                                ItemProduct(
+                                    product01.id, product01.name, product01.categoryId, productImgList,
+                                    product01.description, product01.price, product01.changedPrice,
+                                    product01.detailImageUrl, null
+                                )
                             )
-                        )
-                    }
+                        }
 
-                    val product02 = cart.product02
-                    if (product02 != null) {
-                        val productImgList = product02.imageUrl.split("**") as ArrayList<String>
+                        val product02 = cart.product02
+                        if (product02 != null) {
+                            val productImgList = product02.imageUrl.split("**") as ArrayList<String>
 
-                        cartList.add(
-                            ItemProduct(
-                                product02.id, product02.name, product02.categoryId, productImgList,
-                                product02.description, product02.price, product02.changedPrice,
-                                product02.detailImageUrl, null
+                            cartList.add(
+                                ItemProduct(
+                                    product02.id, product02.name, product02.categoryId, productImgList,
+                                    product02.description, product02.price, product02.changedPrice,
+                                    product02.detailImageUrl, null
+                                )
                             )
-                        )
+                        }
                     }
+                }catch (e: IOException) {
+                    e.printStackTrace()
                 }
 
                 for (cart in cartList) {
@@ -84,9 +88,7 @@ class UserCartFragment : Fragment() {
                 }
 
             }
-        } catch (e: IOException) {
-            e.printStackTrace()
-        }
+
 
         rootView.apply {
             rv_cart.apply {

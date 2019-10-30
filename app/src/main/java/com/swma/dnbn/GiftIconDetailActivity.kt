@@ -25,8 +25,7 @@ class GiftIconDetailActivity : AppCompatActivity() {
         Picasso.get().load(gifticon.img).into(imgGifticon)
         Picasso.get().load(gifticon.barcodeImg).into(imgGifticonBarcode)
 
-        textGifticonNumber.text = gifticon.orderNumber
-        textGifticonBrand.text = gifticon.brand
+        textGifticonNumber.text = gifticon.orderNumber.toString()
         textGifticonDate.text = gifticon.getDate
 
         if (gifticon.isUse == 0){

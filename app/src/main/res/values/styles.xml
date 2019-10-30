@@ -7,20 +7,23 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/yellow</item>
+        <item name="android:datePickerDialogTheme">@style/MyDatePickerDialog</item>
         <item name="android:statusBarColor">#000000</item>
-        <!--<item name="bottomSheetDialogTheme">@style/AppBottomSheetDialogTheme</item>-->
     </style>
 
-    <!--<style name="AppBottomSheetDialogTheme"-->
-           <!--parent="Theme.Design.BottomSheetDialog">-->
-        <!--<item name="bottomSheetStyle">@style/AppModalStyle</item>-->
+    <style name="MyDatePickerDialog" parent="ThemeOverlay.AppCompat.Dialog.Alert">
+        <item name="android:colorAccent">@color/bg</item>
+    </style>
+
+    <!--<style name="MyDatePickerStyle" parent="@android:style/Widget.Material.Light.DatePicker">-->
+        <!--<item name="android:headerBackground">@color/bg</item>-->
+        <!--<item name="android:colorSecondary">@color/white</item>-->
+        <!--<item name="android:yearListSelectorColor">@color/yellow</item>-->
 
     <!--</style>-->
 
-    <!--<style name="AppModalStyle"-->
-           <!--parent="Widget.Design.BottomSheet.Modal">-->
-        <!--<item name="behavior_peekHeight">500dp</item>-->
-    <!--</style>-->
+
+    
 
     <style name="TabTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="colorPrimary">@color/bg</item>                                <!-- 배경 -->
