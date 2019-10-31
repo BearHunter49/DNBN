@@ -5,6 +5,7 @@ import android.content.pm.PackageManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -145,10 +146,23 @@ class MainActivity : AppCompatActivity() {
             R.id.menu_search -> {}
             R.id.menu_gps -> {
                 val intent = Intent(this, LocationActivity::class.java)
-                startActivity(intent)
+                startActivityForResult(intent, 25)
             }
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        Log.d("myTest", "MainActivity Result 호출")
+
+
+        if (requestCode == 25){
+            val homeFragment = supportFragmentManager.findFragmentByTag("HOME")
+            homeFragment?.onActivityResult(requestCode, resultCode, data)
+        }
+
+
     }
 
 

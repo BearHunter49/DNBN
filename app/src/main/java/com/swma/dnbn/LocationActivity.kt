@@ -1,6 +1,8 @@
 package com.swma.dnbn
 
+import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -9,6 +11,7 @@ import android.view.MenuItem
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import com.swma.dnbn.restApi.Retrofit2Instance
+import com.swma.dnbn.util.MyApplication
 import kotlinx.android.synthetic.main.activity_location.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -132,17 +135,34 @@ class LocationActivity : AppCompatActivity(), MapView.CurrentLocationEventListen
             return
         }
 
+        // 0 = 시, 1 = 구, 2 = 동, 3 = 지번
+        val addressList = p1.split(" ")
+        Log.d("myTest", addressList.toString())
+
         // Http 통신으로 유저 위치 정보 수정
         try {
             CoroutineScope(Dispatchers.Default).launch {
-//                val addressList = p1.split(" ")
-//                0 = 시, 1 = 구, 2 = 동, 3 = 지번
+                val response = retrofit.changeUserLocation(addressList[0], addressList[1], addressList[2], addressList[3], MyApplication.userId).execute()
+
+                if (response.isSuccessful){
+                    setResult(Activity.RESULT_OK)
+                    finish()
+
+                }
+                else{
+                    // UI
+                    CoroutineScope(Dispatchers.Main).launch {
+                        Toast.makeText(this@LocationActivity, "다시 시도 해 주세요!", Toast.LENGTH_SHORT).show()
+                    }
+                }
+
+
+
             }
         }catch (e: IOException){
             e.printStackTrace()
         }
 
-        Toast.makeText(this, p1, Toast.LENGTH_SHORT).show()
     }
 
 

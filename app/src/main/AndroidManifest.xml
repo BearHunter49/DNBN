@@ -15,13 +15,25 @@
             android:roundIcon="@mipmap/ic_launcher_round"
             android:supportsRtl="true"
             android:theme="@style/AppTheme">
-        <activity android:name=".LocationActivity">
+        <activity android:name=".LocationActivity"
+                  android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".ChannelActivity">
+        <activity android:name=".ChannelActivity"
+                  android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".GiftIconDetailActivity">
+        <activity android:name=".GiftIconDetailActivity"
+                  android:screenOrientation="portrait">
+            <!--<intent-filter>-->
+                <!--<action android:name="android.intent.action.VIEW"/>-->
+                <!--<category android:name="android.intent.category.DEFAULT"/>-->
+                <!--<category android:name="android.intent.category.BROWSABLE" />-->
+
+                <!--<data android:scheme="@string/kakao_scheme"-->
+                      <!--android:host="@string/kakaolink_host" />-->
+            <!--</intent-filter>-->
         </activity>
-        <activity android:name=".GiftIconActivity">
+        <activity android:name=".GiftIconActivity"
+                  android:screenOrientation="portrait">
         </activity>
         <activity
                 android:name=".BarcodeResultActivity"

@@ -35,36 +35,38 @@ class GiftIconActivity : AppCompatActivity() {
         // 기프티콘 함 정보 얻어오기
         val retrofit = Retrofit2Instance.getInstance()!!
 
-
         CoroutineScope(Dispatchers.Default + job).launch {
             try {
                 retrofit.getGifticonFromUserId(MyApplication.userId).execute().body()?.forEach { gifticon ->
 
-                    val productImgList = gifticon.product.imageUrl.split("**")
+                    retrofit.getProductFromId(gifticon.productId).execute().body().let { product ->
+                        val productImgList = product!!.imageUrl.split("**")
 
-                    if (gifticon.isUsing == 0) {
-                        noUseList.add(
-                            ItemGiftIcon(
-                                gifticon.product.name,
-                                productImgList[0],
-                                "",
-                                9999,
-                                gifticon.issueAt,
-                                gifticon.isUsing
+                        if (gifticon.isUsing == 0) {
+                            noUseList.add(
+                                ItemGiftIcon(
+                                    product.name,
+                                    productImgList[0],
+                                    gifticon.id,
+                                    gifticon.issueAt,
+                                    gifticon.isUsing
+                                )
                             )
-                        )
-                    } else {
-                        usedList.add(
-                            ItemGiftIcon(
-                                gifticon.product.name,
-                                productImgList[0],
-                                "",
-                                8888,
-                                gifticon.issueAt,
-                                gifticon.isUsing
+                        } else {
+                            usedList.add(
+                                ItemGiftIcon(
+                                    product.name,
+                                    productImgList[0],
+                                    gifticon.id,
+                                    gifticon.issueAt,
+                                    gifticon.isUsing
+                                )
                             )
-                        )
+                        }
+
                     }
+
+
                 }
             } catch (e: IOException) {
                 e.printStackTrace()

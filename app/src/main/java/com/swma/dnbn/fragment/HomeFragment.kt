@@ -1,14 +1,14 @@
 package com.swma.dnbn.fragment
 
+import android.app.Activity.RESULT_OK
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.swma.dnbn.R
 import com.swma.dnbn.adapter.HomeLiveAdapter
 import com.swma.dnbn.adapter.HomeScheduleAdapter
@@ -18,7 +18,6 @@ import com.swma.dnbn.item.*
 import com.swma.dnbn.restApi.Retrofit2Instance
 import com.swma.dnbn.restApi.Retrofit2Service
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.fragment_home.view.*
 import kotlinx.coroutines.*
 import java.io.IOException
@@ -148,20 +147,25 @@ class HomeFragment : Fragment() {
                 retrofit.getBroadcasts(2).execute().body()?.forEach {
 
                     // Product 정보
-                    val productList: ArrayList<ItemProduct>
+                    val productList: ArrayList<ItemProduct> = arrayListOf()
                     retrofit.getProductFromId(it.productId).execute().body().let { product ->
 
                         // 이미지 리스트 분리
                         val productImgList = product!!.imageUrl.split("**") as ArrayList<String>
 
-                        // 상품 리스트
-                        productList = arrayListOf(
-                            ItemProduct(
-                                product.id, product.name, product.categoryId,
-                                productImgList, product.description, product.price, product.changedPrice,
-                                product.detailImageUrl, null
+                        retrofit.getVideosFromProductId(product.id).execute().body()?.forEach { video ->
+
+                            // 상품 리스트
+                            productList.add(
+                                ItemProduct(
+                                    product.id, product.name, product.categoryId,
+                                    productImgList, product.description, product.price, product.changedPrice,
+                                    product.detailImageUrl, video.id
+                                )
                             )
-                        )
+
+                        }
+
                     }
 
                     // BroadCast 리스트
@@ -349,6 +353,21 @@ class HomeFragment : Fragment() {
     override fun onDestroy() {
         job.cancel()
         super.onDestroy()
+    }
+
+    // GPS 정보 수정 결과
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+//        super.onActivityResult(requestCode, resultCode, data)
+        Log.d("myTest", "HomeFragment Result")
+        if (requestCode == 25){
+            if (resultCode == RESULT_OK){
+                getHome()
+                Log.d("myTest", "HomeFragment Update 됨")
+            }
+        }
+
+
+
     }
 
 

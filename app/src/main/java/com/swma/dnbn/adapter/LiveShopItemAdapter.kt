@@ -43,7 +43,6 @@ class LiveShopItemAdapter(
     override fun onBindViewHolder(holder: ItemRowHolder, position: Int) {
         items[position].let { item ->
             with(holder) {
-                Log.d("myTest: LiveShopItemAdapter", item.toString())
                 Picasso.get().load(item.productImgList[0]).into(img)
                 productName.text = item.productName
                 deliveryPrice.text = "무료배송"

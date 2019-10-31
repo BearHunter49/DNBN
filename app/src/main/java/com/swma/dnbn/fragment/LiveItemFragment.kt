@@ -44,20 +44,25 @@ class LiveItemFragment(private val category: String) : Fragment() {
                 retrofit.getBroadcastsFromCategoryId(categoryNumber).execute().body()?.forEach { broadcast ->
 
                     // Product 정보
-                    val productList: ArrayList<ItemProduct>
+                    val productList: ArrayList<ItemProduct> = arrayListOf()
                     retrofit.getProductFromId(broadcast.productId).execute().body().let { product ->
 
                         // 이미지 리스트 분리
                         val productImgList = product!!.imageUrl.split("**") as ArrayList<String>
 
-                        // 상품 리스트
-                        productList = arrayListOf(
-                            ItemProduct(
-                                product.id, product.name, product.categoryId,
-                                productImgList, product.description, product.price, product.changedPrice,
-                                product.detailImageUrl, null
+                        retrofit.getVideosFromProductId(product.id).execute().body()?.forEach { video ->
+
+                            // 상품 리스트
+                            productList.add(
+                                ItemProduct(
+                                    product.id, product.name, product.categoryId,
+                                    productImgList, product.description, product.price, product.changedPrice,
+                                    product.detailImageUrl, video.id
+                                )
                             )
-                        )
+                        }
+
+
                     }
 
                     // BroadCast 리스트

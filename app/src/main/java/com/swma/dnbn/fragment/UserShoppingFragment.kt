@@ -86,6 +86,7 @@ class UserShoppingFragment : Fragment() {
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        Log.d("myTest", "UserShoppingFragment 의 result")
         val result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data)
         if (result != null){
             if (result.contents == null){
@@ -97,9 +98,7 @@ class UserShoppingFragment : Fragment() {
                 startActivity(intent)
             }
         }
-        else{
-            super.onActivityResult(requestCode, resultCode, data)
-        }
+
     }
 
 }

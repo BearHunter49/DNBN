@@ -1,7 +1,6 @@
 package com.swma.dnbn.fragment
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -11,7 +10,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 
 import com.swma.dnbn.R
 import com.swma.dnbn.adapter.UserCartAdapter
-import com.swma.dnbn.item.ItemCart
 import com.swma.dnbn.item.ItemProduct
 import com.swma.dnbn.restApi.Retrofit2Instance
 import com.swma.dnbn.util.MyApplication
@@ -46,26 +44,36 @@ class UserCartFragment : Fragment() {
                         if (product01 != null) {
                             val productImgList = product01.imageUrl.split("**") as ArrayList<String>
 
-                            cartList.add(
-                                ItemProduct(
-                                    product01.id, product01.name, product01.categoryId, productImgList,
-                                    product01.description, product01.price, product01.changedPrice,
-                                    product01.detailImageUrl, null
+                            retrofit.getVideosFromProductId(product01.id).execute().body()?.forEach { video ->
+
+                                cartList.add(
+                                    ItemProduct(
+                                        product01.id, product01.name, product01.categoryId, productImgList,
+                                        product01.description, product01.price, product01.changedPrice,
+                                        product01.detailImageUrl, video.id
+                                    )
                                 )
-                            )
+                            }
+
+
                         }
 
                         val product02 = cart.product02
                         if (product02 != null) {
                             val productImgList = product02.imageUrl.split("**") as ArrayList<String>
 
-                            cartList.add(
-                                ItemProduct(
-                                    product02.id, product02.name, product02.categoryId, productImgList,
-                                    product02.description, product02.price, product02.changedPrice,
-                                    product02.detailImageUrl, null
+                            retrofit.getVideosFromProductId(product02.id).execute().body()?.forEach { video ->
+
+                                cartList.add(
+                                    ItemProduct(
+                                        product02.id, product02.name, product02.categoryId, productImgList,
+                                        product02.description, product02.price, product02.changedPrice,
+                                        product02.detailImageUrl, video.id
+                                    )
                                 )
-                            )
+                            }
+
+
                         }
                     }
                 }catch (e: IOException) {

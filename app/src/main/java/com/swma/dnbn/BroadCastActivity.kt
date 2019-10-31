@@ -23,6 +23,7 @@ import com.swma.dnbn.util.KeyboardHeightProvider
 import kotlinx.android.synthetic.main.activity_broad_cast.*
 import net.ossrs.rtmp.ConnectCheckerRtmp
 import androidx.core.view.ViewCompat.setY
+import com.swma.dnbn.restApi.BroadcastInstance
 import com.swma.dnbn.restApi.Retrofit2Instance
 import com.swma.dnbn.util.MyApplication
 import kotlinx.coroutines.CoroutineScope
@@ -35,12 +36,18 @@ import java.io.IOException
 class BroadCastActivity : AppCompatActivity(), ConnectCheckerRtmp, SurfaceHolder.Callback, KeyboardHeightProvider.KeyboardHeightObserver {
 
     private lateinit var rtmpCamera2: RtmpCamera2
-    private val streamUrl = "rtmp://15.164.28.217:1935/bylive/stream"
+    private lateinit var streamUrl: String
+    private lateinit var mediaId: String
+    private lateinit var userName: String
+    private var broadcastId = 0
+
     private lateinit var animation: Animation
     private var check = 0
     lateinit var handler: Handler
     private lateinit var chatList: ArrayList<ItemChat>
     private val job = Job()
+    private val retrofit = Retrofit2Instance.getInstance()!!
+    private val broadcastRetrofit = BroadcastInstance.getInstance()!!
 
     // Keyboard part
     private lateinit var keyboardHeightProvider: KeyboardHeightProvider
@@ -52,9 +59,6 @@ class BroadCastActivity : AppCompatActivity(), ConnectCheckerRtmp, SurfaceHolder
         super.onCreate(savedInstanceState)
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
         setContentView(R.layout.activity_broad_cast)
-
-        // Retrofit Instance
-        val retrofit = Retrofit2Instance.getInstance()!!
 
         // Keyboard part
         keyboardHeightProvider = KeyboardHeightProvider(this)
@@ -105,33 +109,131 @@ class BroadCastActivity : AppCompatActivity(), ConnectCheckerRtmp, SurfaceHolder
         // 방송 버튼
         btn_broadcastStart.setOnClickListener {
             if (!rtmpCamera2.isStreaming) {
-
-                // 프로그래스 바
-                progressBar_broadcast.visibility = View.VISIBLE
-
-                // Http 통신
-                try {
-//                    CoroutineScope(Dispatchers.Default + job).launch {
-//                        retrofit.getChannelFromUserId(MyApplication.userId).execute().body().let { channel ->
-//                            retrofit.getBroadcastByChannelId(channel!!.id).execute().body().let { broadcast ->
-//                                retrofit.onBroadcast(broadcast!!.id, )
-//                            }
-//                        }
-//
-//
-//                    }
-                }catch (e: IOException){
-                    e.printStackTrace()
-                }
-
                 if (rtmpCamera2.prepareAudio() and rtmpCamera2.prepareVideo()) {
-                    rtmpCamera2.startStream(streamUrl)
+
+                    // 프로그래스 바
+                    progressBar_broadcast.visibility = View.VISIBLE
+
+                    // Http 통신 방송 켜기
+                    try {
+                        CoroutineScope(Dispatchers.Default + job).launch {
+
+                            // 서버에 정보 전달
+                            retrofit.getChannelFromUserId(MyApplication.userId).execute().body().let { channel ->
+                                retrofit.getBroadcastFromChannelId(channel!!.id).execute().body()!![0].let { broadcast ->
+
+                                    broadcastId = broadcast.id
+
+                                    // 방송 채널 꺼져있으면
+                                    if (broadcast.broadcastState == 1){
+
+                                        retrofit.getUserFromUserId(MyApplication.userId).execute().body().let { user ->
+
+                                            Log.d("myTest", "user 까지 받음")
+
+                                            userName = user!!.name
+
+                                            // 방송 시작
+                                            val input = HashMap<String, String>()
+                                            input["action"] = "start"
+                                            input["user"] = userName
+                                            input["channel_id"] = "0"
+
+                                            val onResponse = broadcastRetrofit.onBroadcast(input).execute()
+
+                                            // 성공
+                                            if (onResponse.isSuccessful){
+                                                Log.d("myTest", "on 성공")
+
+                                                onResponse.body()?.let { result ->
+
+                                                    Log.d("myTest", result.toString())
+
+                                                    mediaId = result.channel_id
+                                                    streamUrl = result.source_url
+
+                                                    // Live URL
+                                                    var liveURL = result.destination_url["live"]!!
+                                                    val liveBackURL = liveURL.split("//")[1]
+                                                    liveURL = String.format("https://%s.m3u8", liveBackURL)
+                                                    Log.d("myTest", liveURL)
+
+                                                    // VOD URL
+                                                    var vodURL = result.destination_url["vod"]
+                                                    val vodBackURL = vodURL!!.split("bylivetest")[1]
+                                                    vodURL = String.format("https://bylivetest.s3.ap-northeast-2.amazonaws.com%s.m3u8", vodBackURL)
+                                                    Log.d("myTest", vodURL)
+
+                                                    // Broadcast 테이블 데이터 수정
+                                                    // retrofit.changeBroadcastData(broadcastId, liveURL, channelId).execute()
+
+                                                    // retrofit.addVideoData(broadcast.id, broadcast.title, user.id, vodURL, broadcast.categoryId,
+                                                    //              "description", broadcast.thumbnailUrl).execute()
+
+
+
+                                                }
+                                            }
+                                            Log.d("myTest", "on 바깥 파트")
+                                        }
+                                    }
+                                }
+                            }
+
+                            // UI
+                            CoroutineScope(Dispatchers.Main + job).launch {
+
+                                // 방송 시작
+                                rtmpCamera2.startStream(streamUrl)
+                                progressBar_broadcast.visibility = View.GONE
+                            }
+
+
+                        }
+                    }catch (e: IOException){
+                        e.printStackTrace()
+                    }
+
+
                 } else {
                     Toast.makeText(this, "다시 시도 해 주세요!", Toast.LENGTH_SHORT).show()
                 }
             } else {
                 btn_broadcastStart.text = "촬영시작"
-                rtmpCamera2.stopStream()
+
+                // Http 통신 방송 끄기
+                try {
+                    CoroutineScope(Dispatchers.Default + job).launch {
+                        val input = HashMap<String, String>()
+                        input["action"] = "stop"
+                        input["user"] = userName
+                        input["channel_id"] = mediaId
+
+                        val stopResponse = broadcastRetrofit.stopBroadcast(input).execute()
+                        // 성공 시
+                        if (stopResponse.isSuccessful) {
+                            Log.d("myTest", stopResponse.body().toString())
+
+                            // Broadcast 서버로 정보 수정하기
+                            // retrofit.changeBroadcastState(broadcastId).execute()
+                        }
+
+                        // UI
+                        CoroutineScope(Dispatchers.Main + job).launch {
+
+                            // 방송 끄기
+                            rtmpCamera2.stopStream()
+                        }
+
+
+                    }
+                }catch (e: IOException){
+                    e.printStackTrace()
+                }
+
+
+
+
             }
         }
 

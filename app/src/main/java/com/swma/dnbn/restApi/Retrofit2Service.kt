@@ -19,7 +19,7 @@ interface Retrofit2Service{
     fun getBroadcastFromId(@Path("broadCastId") broadcastId: Int): Call<BroadcastData>
 
     @GET("/api/broadcasts/channel/{channelId}")
-    fun getBroadcastFromChannelId(@Path("channelId") channelId: Int): Call<BroadcastData>
+    fun getBroadcastFromChannelId(@Path("channelId") channelId: Int): Call<List<BroadcastData>>
 
     @GET("/api/broadcasts/category/{categoryId}")
     fun getBroadcastsFromCategoryId(@Path("categoryId") categoryId: Int): Call<List<BroadcastData>>
@@ -43,6 +43,9 @@ interface Retrofit2Service{
     @GET("/api/videos/category/{categoryId}")
     fun getVideosFromCategoryId(@Path("categoryId") categoryId: Int): Call<List<VodData>>
 
+    @GET("/api/videos/product/{productId}")
+    fun getVideosFromProductId(@Path("productId") productId: Int): Call<List<VodData>>
+
 
 
     // Product
@@ -51,6 +54,11 @@ interface Retrofit2Service{
 
     @GET("/api/products/provider/{providerId}")
     fun getProductsFromProviderId(@Path("providerId") providerId: Int): Call<List<ProductData>>
+
+    @GET("/api/products/category/{categoryId}")
+    fun getProductsFromCategoryId(@Path("categoryId") categoryId: Int): Call<List<ProductData>>
+
+
 
     // Channel
     @GET("/api/channels/{channelId}")
@@ -63,8 +71,12 @@ interface Retrofit2Service{
     @GET("/api/users/{userId}")
     fun getUserFromUserId(@Path("userId") userId: Int): Call<UserData>
 
-//    @PUT("/api/users/{userId}")
-//    fun reviseUserData()
+    @PUT("/api/users/")
+    fun changeUserLocation(@Query("city") city: String,
+                           @Query("gu") gu: String,
+                           @Query("dong") dong: String,
+                           @Query("detail") detail: String,
+                           @Query("userId") userId: Int): Call<UserData>
 
     // Cart
     @GET("/api/carts/{userId}")

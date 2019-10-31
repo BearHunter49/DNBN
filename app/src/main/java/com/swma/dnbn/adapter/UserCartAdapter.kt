@@ -5,12 +5,10 @@ import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
 import com.swma.dnbn.R
 import com.swma.dnbn.ShopActivity
-import com.swma.dnbn.item.ItemCart
 import com.swma.dnbn.item.ItemProduct
 import kotlinx.android.synthetic.main.row_cart_item.view.*
 

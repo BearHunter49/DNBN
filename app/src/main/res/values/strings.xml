@@ -6,4 +6,6 @@
     <string name="menu_schedule">편성표</string>
     <string name="view_all">전체보기</string>
     <string name="kakao_AppKey">5b9b0fb5f10063ec38e8be512f472872</string>
+    <string name="kakao_scheme">kakao5b9b0fb5f10063ec38e8be512f472872</string>
+    <string name="kakaolink_host">kakaolink</string>
 </resources>
