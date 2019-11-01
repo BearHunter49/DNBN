@@ -70,5 +70,6 @@ dependencies {
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.2.0-alpha'
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.2.0-alpha'
 //    implementation group: 'com.kakao.sdk', name: 'kakaolink', version: project.KAKAO_SDK_VERSION
+    implementation fileTree(include: ['*.jar'], dir: 'app/libs')
 
 }

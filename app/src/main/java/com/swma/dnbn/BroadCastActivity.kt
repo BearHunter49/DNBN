@@ -1,8 +1,5 @@
 package com.swma.dnbn
 
-import android.content.Context
-import android.content.DialogInterface
-import android.content.pm.PackageManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.CountDownTimer
@@ -13,18 +10,17 @@ import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
-import androidx.core.app.ActivityCompat
-import androidx.recyclerview.widget.LinearLayoutManager
+import com.amazonaws.mobileconnectors.apigateway.ApiClientFactory
 import com.pedro.encoder.input.video.CameraOpenException
 import com.pedro.rtplibrary.rtmp.RtmpCamera2
 import com.swma.dnbn.adapter.ChatAdapter
 import com.swma.dnbn.item.ItemChat
+import com.swma.dnbn.model.InputModel
 import com.swma.dnbn.util.KeyboardHeightProvider
 import kotlinx.android.synthetic.main.activity_broad_cast.*
 import net.ossrs.rtmp.ConnectCheckerRtmp
-import androidx.core.view.ViewCompat.setY
-import com.swma.dnbn.restApi.BroadcastInstance
 import com.swma.dnbn.restApi.Retrofit2Instance
+import com.swma.dnbn.restApiData.BroadcastData
 import com.swma.dnbn.util.MyApplication
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -32,14 +28,11 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import java.io.IOException
 
-
-class BroadCastActivity : AppCompatActivity(), ConnectCheckerRtmp, SurfaceHolder.Callback, KeyboardHeightProvider.KeyboardHeightObserver {
+class BroadCastActivity : AppCompatActivity(), ConnectCheckerRtmp, SurfaceHolder.Callback,
+    KeyboardHeightProvider.KeyboardHeightObserver {
 
     private lateinit var rtmpCamera2: RtmpCamera2
-    private lateinit var streamUrl: String
-    private lateinit var mediaId: String
-    private lateinit var userName: String
-    private var broadcastId = 0
+    private var broadcastData: BroadcastData? = null
 
     private lateinit var animation: Animation
     private var check = 0
@@ -47,7 +40,10 @@ class BroadCastActivity : AppCompatActivity(), ConnectCheckerRtmp, SurfaceHolder
     private lateinit var chatList: ArrayList<ItemChat>
     private val job = Job()
     private val retrofit = Retrofit2Instance.getInstance()!!
-    private val broadcastRetrofit = BroadcastInstance.getInstance()!!
+
+    // API Gateway Instance
+    private val factory = ApiClientFactory()
+    private val client = factory.build(MedialiveapiClient::class.java)
 
     // Keyboard part
     private lateinit var keyboardHeightProvider: KeyboardHeightProvider
@@ -75,7 +71,7 @@ class BroadCastActivity : AppCompatActivity(), ConnectCheckerRtmp, SurfaceHolder
         // Fade-out Animation
         handler = Handler()
         animation = AnimationUtils.loadAnimation(this, R.anim.fadeout)
-        animation.setAnimationListener(object: Animation.AnimationListener{
+        animation.setAnimationListener(object : Animation.AnimationListener {
             override fun onAnimationRepeat(p0: Animation?) {
             }
 
@@ -108,89 +104,82 @@ class BroadCastActivity : AppCompatActivity(), ConnectCheckerRtmp, SurfaceHolder
 
         // 방송 버튼
         btn_broadcastStart.setOnClickListener {
+
+            if (btn_broadcastStart.text == "초기화"){
+                btn_broadcastStart.text = "촬영시작"
+                rtmpCamera2.stopStream()
+                return@setOnClickListener
+            }
+
             if (!rtmpCamera2.isStreaming) {
                 if (rtmpCamera2.prepareAudio() and rtmpCamera2.prepareVideo()) {
 
                     // 프로그래스 바
                     progressBar_broadcast.visibility = View.VISIBLE
 
-                    // Http 통신 방송 켜기
+                    // Http 통신
+                    // 서버에 방송 정보 저장
                     try {
                         CoroutineScope(Dispatchers.Default + job).launch {
 
                             // 서버에 정보 전달
                             retrofit.getChannelFromUserId(MyApplication.userId).execute().body().let { channel ->
-                                retrofit.getBroadcastFromChannelId(channel!!.id).execute().body()!![0].let { broadcast ->
+                                retrofit.getBroadcastFromChannelId(channel!!.id).execute().body()
+                                    ?.forEach { broadcast ->
 
-                                    broadcastId = broadcast.id
-
-                                    // 방송 채널 꺼져있으면
-                                    if (broadcast.broadcastState == 1){
-
-                                        retrofit.getUserFromUserId(MyApplication.userId).execute().body().let { user ->
-
-                                            Log.d("myTest", "user 까지 받음")
-
-                                            userName = user!!.name
-
-                                            // 방송 시작
-                                            val input = HashMap<String, String>()
-                                            input["action"] = "start"
-                                            input["user"] = userName
-                                            input["channel_id"] = "0"
-
-                                            val onResponse = broadcastRetrofit.onBroadcast(input).execute()
-
-                                            // 성공
-                                            if (onResponse.isSuccessful){
-                                                Log.d("myTest", "on 성공")
-
-                                                onResponse.body()?.let { result ->
-
-                                                    Log.d("myTest", result.toString())
-
-                                                    mediaId = result.channel_id
-                                                    streamUrl = result.source_url
-
-                                                    // Live URL
-                                                    var liveURL = result.destination_url["live"]!!
-                                                    val liveBackURL = liveURL.split("//")[1]
-                                                    liveURL = String.format("https://%s.m3u8", liveBackURL)
-                                                    Log.d("myTest", liveURL)
-
-                                                    // VOD URL
-                                                    var vodURL = result.destination_url["vod"]
-                                                    val vodBackURL = vodURL!!.split("bylivetest")[1]
-                                                    vodURL = String.format("https://bylivetest.s3.ap-northeast-2.amazonaws.com%s.m3u8", vodBackURL)
-                                                    Log.d("myTest", vodURL)
-
-                                                    // Broadcast 테이블 데이터 수정
-                                                    // retrofit.changeBroadcastData(broadcastId, liveURL, channelId).execute()
-
-                                                    // retrofit.addVideoData(broadcast.id, broadcast.title, user.id, vodURL, broadcast.categoryId,
-                                                    //              "description", broadcast.thumbnailUrl).execute()
-
-
-
-                                                }
-                                            }
-                                            Log.d("myTest", "on 바깥 파트")
+                                        // broadcastId 찾기
+                                        // 0: 방송 전 1: 방송 중 2: 방송 끝
+                                        if (broadcast.broadcastState == 1) {
+                                            broadcastData = broadcast
+                                            return@forEach
                                         }
                                     }
+
+
+                                // 가능한 방송을 찾으면
+                                if (broadcastData != null && MyApplication.mediaOutput != null) {
+
+                                    // Live URL
+                                    var liveURL = MyApplication.mediaOutput!!.destinationUrl.live
+                                    val liveBackURL = liveURL.split("//")[1]
+                                    liveURL = String.format("https://%s.m3u8", liveBackURL)
+                                    Log.d("myTest", liveURL)
+
+                                    // VOD URL
+                                    var vodURL = MyApplication.mediaOutput!!.destinationUrl.vod
+                                    val vodBackURL = vodURL!!.split("bylivetest")[1]
+                                    vodURL = String.format(
+                                        "https://bylivetest.s3.ap-northeast-2.amazonaws.com%s.m3u8",
+                                        vodBackURL
+                                    )
+                                    Log.d("myTest", vodURL)
+
+                                    // Broadcast 테이블 데이터 수정
+                                    // retrofit.changeBroadcastData(broadcastData.id, liveURL, MyApplication.mediaOutput.channel_id).execute()
+
+                                    // retrofit.addVideoData(broadcastData.id, broadcastData.title, user.id, vodURL, broadcastData.categoryId,
+                                    //              "description", broadcastData.thumbnailUrl).execute()
+
+
                                 }
                             }
 
                             // UI
                             CoroutineScope(Dispatchers.Main + job).launch {
 
-                                // 방송 시작
-                                rtmpCamera2.startStream(streamUrl)
+                                // 방송 가능한게 없다면
+                                if (broadcastData == null && MyApplication.mediaOutput == null) {
+                                    Toast.makeText(this@BroadCastActivity, "진행 가능한 방송이 없습니다!", Toast.LENGTH_SHORT)
+                                        .show()
+                                } else {
+                                    rtmpCamera2.startStream(MyApplication.mediaOutput!!.sourceUrl)
+                                }
                                 progressBar_broadcast.visibility = View.GONE
                             }
 
 
                         }
-                    }catch (e: IOException){
+                    } catch (e: IOException) {
                         e.printStackTrace()
                     }
 
@@ -200,40 +189,7 @@ class BroadCastActivity : AppCompatActivity(), ConnectCheckerRtmp, SurfaceHolder
                 }
             } else {
                 btn_broadcastStart.text = "촬영시작"
-
-                // Http 통신 방송 끄기
-                try {
-                    CoroutineScope(Dispatchers.Default + job).launch {
-                        val input = HashMap<String, String>()
-                        input["action"] = "stop"
-                        input["user"] = userName
-                        input["channel_id"] = mediaId
-
-                        val stopResponse = broadcastRetrofit.stopBroadcast(input).execute()
-                        // 성공 시
-                        if (stopResponse.isSuccessful) {
-                            Log.d("myTest", stopResponse.body().toString())
-
-                            // Broadcast 서버로 정보 수정하기
-                            // retrofit.changeBroadcastState(broadcastId).execute()
-                        }
-
-                        // UI
-                        CoroutineScope(Dispatchers.Main + job).launch {
-
-                            // 방송 끄기
-                            rtmpCamera2.stopStream()
-                        }
-
-
-                    }
-                }catch (e: IOException){
-                    e.printStackTrace()
-                }
-
-
-
-
+                stopStreaming()
             }
         }
 
@@ -252,7 +208,7 @@ class BroadCastActivity : AppCompatActivity(), ConnectCheckerRtmp, SurfaceHolder
                 Toast.makeText(this, "방송을 먼저 종료 해 주세요!", Toast.LENGTH_SHORT).show()
             } else {
                 AlertDialog.Builder(this).setTitle("경고!").setMessage("정말로 종료 하시겠습니까?")
-                    .setPositiveButton("확인"){ _, _ -> finish() }
+                    .setPositiveButton("확인") { _, _ -> finish() }
                     .setNegativeButton("취소", null)
                     .show()
             }
@@ -260,7 +216,7 @@ class BroadCastActivity : AppCompatActivity(), ConnectCheckerRtmp, SurfaceHolder
 
         // 채팅 입력 버튼
         btn_send.setOnClickListener {
-            if (edit_chat.text.isNotEmpty()){
+            if (edit_chat.text.isNotEmpty()) {
                 val adapter = rv_chat.adapter as ChatAdapter
 
                 adapter.addItem(ItemChat(1, edit_chat.text.toString()))
@@ -270,20 +226,57 @@ class BroadCastActivity : AppCompatActivity(), ConnectCheckerRtmp, SurfaceHolder
         }
 
 
+    }
+
+    private fun stopStreaming(){
+
+        // Http 통신 방송 끄기
+        try {
+            CoroutineScope(Dispatchers.Default + job).launch {
+
+                if (rtmpCamera2.isStreaming && broadcastData != null && MyApplication.mediaOutput != null) {
+
+                    // 방송 끄기
+                    val body = InputModel()
+                    body.action = "stop"
+                    body.user = MyApplication.userId.toString()
+                    body.channelId = MyApplication.mediaOutput!!.channelId
+
+                    val output = client.byliveStopPost(body)
+
+                    Log.d("myTest", output.state)
+                    Log.d("myTest", output.channelId)
+
+                    // Broadcast 서버로 정보 수정하기
+                    // retrofit.changeBroadcastState(broadcastData.id).execute()
+
+
+                    // UI
+                    CoroutineScope(Dispatchers.Main + job).launch {
+                        // 방송 끄기
+                        rtmpCamera2.stopStream()
+                    }
+
+                }
+
+            }
+        } catch (e: IOException) {
+            e.printStackTrace()
+        }
 
     }
 
     // 터치 이벤트
     override fun onTouchEvent(event: MotionEvent?): Boolean {
-        if (event?.action == MotionEvent.ACTION_DOWN){
+        if (event?.action == MotionEvent.ACTION_DOWN) {
             // 레이아웃 떠 있을 시
-            if (check == 1){
+            if (check == 1) {
                 handler.removeMessages(0)
                 lytBroadCast.startAnimation(animation)
                 check = 0
             }
             // 레이아웃 없을 시
-            else{
+            else {
                 displayLayout()
             }
         }
@@ -292,7 +285,7 @@ class BroadCastActivity : AppCompatActivity(), ConnectCheckerRtmp, SurfaceHolder
 
     // 레이아웃 관리
     private fun displayLayout() {
-        if (check == 0){
+        if (check == 0) {
             check = 1
             lytBroadCast.visibility = View.VISIBLE
             handler.postDelayed({
@@ -335,8 +328,8 @@ class BroadCastActivity : AppCompatActivity(), ConnectCheckerRtmp, SurfaceHolder
 
     override fun onConnectionFailedRtmp(reason: String?) {
         runOnUiThread {
-            Toast.makeText(this, "다시 시도 해 주세요!", Toast.LENGTH_SHORT).show()
-            btn_broadcastStart.text = "촬영시작"
+            Toast.makeText(this, "아직 준비가 안됐습니다!", Toast.LENGTH_SHORT).show()
+            btn_broadcastStart.text = "초기화"
         }
     }
 
@@ -392,11 +385,11 @@ class BroadCastActivity : AppCompatActivity(), ConnectCheckerRtmp, SurfaceHolder
     }
 
     override fun onDestroy() {
-        super.onDestroy()
+        stopStreaming()
         keyboardHeightProvider.close()
         job.cancel()
+        super.onDestroy()
     }
-
 
 
 }

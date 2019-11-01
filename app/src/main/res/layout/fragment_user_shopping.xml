@@ -274,11 +274,35 @@
                     android:layout_marginBottom="100dp"
             />
 
+            <Button
+                    android:background="@drawable/roundbutton"
+                    android:textColor="@color/white"
+                    android:text="방송\n생성하기"
+                    android:id="@+id/btn_create_broadcast"
+                    android:textSize="15sp"
+                    android:textStyle="bold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/imgKakao"
+                    android:layout_toEndOf="@+id/btn_scan_barcode"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginBottom="100dp"
+            />
+
 
 
         </RelativeLayout>
 
     </androidx.core.widget.NestedScrollView>
+
+    <ProgressBar android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:id="@+id/progressBar_create_broadcast"
+                 style="?android:attr/progressBarStyleLarge"
+                 android:layout_centerVertical="true"
+                 android:layout_centerHorizontal="true"
+                 android:visibility="gone"/>
 
 
 </RelativeLayout>

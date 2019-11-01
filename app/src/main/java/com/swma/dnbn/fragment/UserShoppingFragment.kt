@@ -11,13 +11,21 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
+import com.amazonaws.mobileconnectors.apigateway.ApiClientFactory
 import com.google.zxing.integration.android.IntentIntegrator
 import com.swma.dnbn.*
+import com.swma.dnbn.model.InputModel
+import com.swma.dnbn.util.MyApplication
 import kotlinx.android.synthetic.main.fragment_user_shopping.view.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 
 class UserShoppingFragment : Fragment() {
 
     private val PERMISSIONS = arrayOf(android.Manifest.permission.RECORD_AUDIO, android.Manifest.permission.CAMERA)
+    private val job = Job()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -56,6 +64,44 @@ class UserShoppingFragment : Fragment() {
             // 기프티콘함 버튼
             lytUserGifticon.setOnClickListener {
                 startActivity(Intent(requireContext(), GiftIconActivity::class.java))
+            }
+
+            // 방송 생성 버튼
+            btn_create_broadcast.setOnClickListener {
+                Toast.makeText(requireContext(), "방송 채널 생성을 시작합니다!", Toast.LENGTH_SHORT).show()
+                rootView.progressBar_create_broadcast.visibility = View.VISIBLE
+
+                // API Gateway Instance
+                val factory = ApiClientFactory()
+                val client = factory.build(MedialiveapiClient::class.java)
+
+                CoroutineScope(Dispatchers.Default + job).launch {
+
+                    // Input 정보
+                    val body = InputModel()
+                    body.action = "start"
+                    body.user = MyApplication.userId.toString()
+                    body.channelId = "0"
+
+                    // 방송 정보 저장
+                    MyApplication.mediaOutput = client.bylivePost(body)
+
+                    Log.d("myTest", MyApplication.mediaOutput!!.state)
+                    Log.d("myTest", MyApplication.mediaOutput!!.channelId)
+                    Log.d("myTest", MyApplication.mediaOutput!!.sourceUrl)
+                    Log.d("myTest", MyApplication.mediaOutput!!.destinationUrl.live)
+                    Log.d("myTest", MyApplication.mediaOutput!!.destinationUrl.vod)
+
+                    // UI
+                    CoroutineScope(Dispatchers.Main + job).launch {
+                        Toast.makeText(requireContext(), "약 2분 뒤에 방송 해 주세요!", Toast.LENGTH_SHORT).show()
+                        rootView.progressBar_create_broadcast.visibility = View.GONE
+                    }
+
+                }
+
+
+
             }
 
         }
@@ -99,6 +145,11 @@ class UserShoppingFragment : Fragment() {
             }
         }
 
+    }
+
+    override fun onDestroy() {
+        job.cancel()
+        super.onDestroy()
     }
 
 }
