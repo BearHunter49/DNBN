@@ -49,7 +49,8 @@ class GiftIconActivity : AppCompatActivity() {
                                     productImgList[0],
                                     gifticon.id,
                                     gifticon.issueAt,
-                                    gifticon.isUsing
+                                    gifticon.isUsing,
+                                    gifticon.usedAt
                                 )
                             )
                         } else {
@@ -59,7 +60,8 @@ class GiftIconActivity : AppCompatActivity() {
                                     productImgList[0],
                                     gifticon.id,
                                     gifticon.issueAt,
-                                    gifticon.isUsing
+                                    gifticon.isUsing,
+                                    gifticon.usedAt
                                 )
                             )
                         }

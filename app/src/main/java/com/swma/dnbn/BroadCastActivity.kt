@@ -105,7 +105,7 @@ class BroadCastActivity : AppCompatActivity(), ConnectCheckerRtmp, SurfaceHolder
         // 방송 버튼
         btn_broadcastStart.setOnClickListener {
 
-            if (btn_broadcastStart.text == "초기화"){
+            if (btn_broadcastStart.text == "초기화") {
                 btn_broadcastStart.text = "촬영시작"
                 rtmpCamera2.stopStream()
                 return@setOnClickListener
@@ -122,6 +122,7 @@ class BroadCastActivity : AppCompatActivity(), ConnectCheckerRtmp, SurfaceHolder
                     try {
                         CoroutineScope(Dispatchers.Default + job).launch {
 
+                            Log.d("myTest", "0" + broadcastData.toString())
                             // 서버에 정보 전달
                             retrofit.getChannelFromUserId(MyApplication.userId).execute().body().let { channel ->
                                 retrofit.getBroadcastFromChannelId(channel!!.id).execute().body()
@@ -129,11 +130,13 @@ class BroadCastActivity : AppCompatActivity(), ConnectCheckerRtmp, SurfaceHolder
 
                                         // broadcastId 찾기
                                         // 0: 방송 전 1: 방송 중 2: 방송 끝
-                                        if (broadcast.broadcastState == 1) {
+                                        if (broadcast.broadcastState == 2) {
                                             broadcastData = broadcast
                                             return@forEach
                                         }
                                     }
+
+                                Log.d("myTest", "1" + broadcastData.toString())
 
 
                                 // 가능한 방송을 찾으면
@@ -155,11 +158,22 @@ class BroadCastActivity : AppCompatActivity(), ConnectCheckerRtmp, SurfaceHolder
                                     Log.d("myTest", vodURL)
 
                                     // Broadcast 테이블 데이터 수정
-                                    // retrofit.changeBroadcastData(broadcastData.id, liveURL, MyApplication.mediaOutput.channel_id).execute()
+                                    retrofit.onBroadcast(
+                                        broadcastData!!.id,
+                                        liveURL,
+                                        MyApplication.mediaOutput!!.channelId.toInt()
+                                    ).execute()
 
-                                    // retrofit.addVideoData(broadcastData.id, broadcastData.title, user.id, vodURL, broadcastData.categoryId,
-                                    //              "description", broadcastData.thumbnailUrl).execute()
-
+                                    // Video 테이블 튜플 추가
+                                    retrofit.addVideo(
+                                        broadcastData!!.productId,
+                                        broadcastData!!.title,
+                                        MyApplication.userId,
+                                        vodURL,
+                                        broadcastData!!.categoryId,
+                                        "",
+                                        broadcastData!!.thumbnailUrl
+                                    ).execute()
 
                                 }
                             }
@@ -168,7 +182,7 @@ class BroadCastActivity : AppCompatActivity(), ConnectCheckerRtmp, SurfaceHolder
                             CoroutineScope(Dispatchers.Main + job).launch {
 
                                 // 방송 가능한게 없다면
-                                if (broadcastData == null && MyApplication.mediaOutput == null) {
+                                if (broadcastData == null || MyApplication.mediaOutput == null) {
                                     Toast.makeText(this@BroadCastActivity, "진행 가능한 방송이 없습니다!", Toast.LENGTH_SHORT)
                                         .show()
                                 } else {
@@ -228,13 +242,13 @@ class BroadCastActivity : AppCompatActivity(), ConnectCheckerRtmp, SurfaceHolder
 
     }
 
-    private fun stopStreaming(){
+    private fun stopStreaming() {
 
         // Http 통신 방송 끄기
         try {
             CoroutineScope(Dispatchers.Default + job).launch {
 
-                if (rtmpCamera2.isStreaming && broadcastData != null && MyApplication.mediaOutput != null) {
+                if (rtmpCamera2.isStreaming && MyApplication.mediaOutput != null) {
 
                     // 방송 끄기
                     val body = InputModel()
@@ -248,8 +262,7 @@ class BroadCastActivity : AppCompatActivity(), ConnectCheckerRtmp, SurfaceHolder
                     Log.d("myTest", output.channelId)
 
                     // Broadcast 서버로 정보 수정하기
-                    // retrofit.changeBroadcastState(broadcastData.id).execute()
-
+                    retrofit.offBroadcast(broadcastData!!.id).execute()
 
                     // UI
                     CoroutineScope(Dispatchers.Main + job).launch {

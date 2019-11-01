@@ -11,10 +11,6 @@ interface Retrofit2Service{
     @GET("/api/broadcasts/number/{number}")
     fun getBroadcasts(@Path("number") number: Int): Call<List<BroadcastData>>
 
-//    @FormUrlEncoded
-//    @POST("/api/broadcasts/on/{broadCastId}")
-//    fun onBroadcast(@Path("broadCastId") broadcastId: Int, @FieldMap param: HashMap<String, Any>): Call<>
-
     @GET("/api/broadcasts/{broadCastId}")
     fun getBroadcastFromId(@Path("broadCastId") broadcastId: Int): Call<BroadcastData>
 
@@ -28,6 +24,14 @@ interface Retrofit2Service{
     fun getSchedules(@Query("year") year: Int,
                      @Query("month") month: Int,
                      @Query("day") day: Int): Call<List<BroadcastData>>
+
+    @PUT("/api/broadcasts/on")
+    fun onBroadcast(@Query("broadcastId") broadcastId: Int,
+                    @Query("url") url: String,
+                    @Query("mediaId") mediaId: Int): Call<Void>
+
+    @PUT("/api/broadcasts/off/{broadcastId}")
+    fun offBroadcast(@Path("broadcastId") broadcastId: Int): Call<Void>
 
 
     // Video
@@ -46,6 +50,14 @@ interface Retrofit2Service{
     @GET("/api/videos/product/{productId}")
     fun getVideosFromProductId(@Path("productId") productId: Int): Call<List<VodData>>
 
+    @POST("/api/videos")
+    fun addVideo(@Query("productId") productId: Int,
+                 @Query("name") name: String,
+                 @Query("uploaderId") uploaderId: Int,
+                 @Query("url") url: String,
+                 @Query("categoryId") categoryId: Int,
+                 @Query("description") description: String,
+                 @Query("thumbnailUrl") thumbnailUrl: String): Call<VodData>
 
 
     // Product
@@ -90,6 +102,12 @@ interface Retrofit2Service{
     // GiftIcon
     @GET("/api/gifticons/user/{userId}")
     fun getGifticonFromUserId(@Path("userId") userId: Int): Call<List<GifticonData>>
+
+    @GET("/api/gifticons/{gifticonId}")
+    fun getGifticonFromId(@Path("gifticonId") gifticonId: Int): Call<GifticonData>
+
+    @PUT("/api/gifticons/{gifticonId}")
+    fun useGifticon(@Path("gifticonId") gifticonId: Int): Call<GifticonData>
 
 
 }

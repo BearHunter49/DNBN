@@ -1,29 +1,23 @@
 package com.swma.dnbn
 
+import android.content.Context
 import android.content.Intent
-import android.graphics.Bitmap
+import android.content.pm.PackageManager
 import android.graphics.drawable.BitmapDrawable
-import android.graphics.drawable.Drawable
-import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.Environment
 import android.provider.MediaStore
 import android.view.MenuItem
-import androidx.core.content.FileProvider
+import android.view.View
+import android.widget.Toast
+import androidx.core.app.ActivityCompat
 import com.squareup.picasso.Picasso
-import com.squareup.picasso.Target
 import com.swma.dnbn.item.ItemGiftIcon
 import kotlinx.android.synthetic.main.activity_gift_icon_detail.*
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import java.io.File
-import java.io.FileOutputStream
-import java.io.IOException
-import java.lang.Exception
 
 class GiftIconDetailActivity : AppCompatActivity() {
+
+    private val PERMISSIONS = arrayOf(android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,12 +40,19 @@ class GiftIconDetailActivity : AppCompatActivity() {
 
         if (gifticon.isUse == 0) {
             textGifticonIsUse.text = "사용안함"
+            lyt_isUsed.visibility = View.GONE
         } else {
             textGifticonIsUse.text = "사용함"
+            lytTab_gifticon.visibility = View.GONE
+            if (gifticon.usedDate == null){
+                textGifticonUsedDate.text = ""
+            }else{
+                textGifticonUsedDate.text = gifticon.usedDate.split("T")[0]
+            }
         }
 
-        // 선물하기 버튼
-        btn_gifticon_present.setOnClickListener {
+        // 저장하기 버튼
+        btn_gifticon_save.setOnClickListener {
             // sms
 //            val intent = Intent(Intent.ACTION_VIEW)
 //            intent.putExtra("sms_body", message)
@@ -68,16 +69,49 @@ class GiftIconDetailActivity : AppCompatActivity() {
 ////            intent.`package` = "com.kakao.talk"
 
 //            startActivity(Intent.createChooser(intent, "뭐 선택..."))
+
+            // 저장 권한
+            if (!hasPermission(this, PERMISSIONS)) {
+                ActivityCompat.requestPermissions(this, PERMISSIONS, 100)
+                return@setOnClickListener
+            }
+
+            val drawable: BitmapDrawable = imgGifticon.drawable as BitmapDrawable
+            val bitmap = drawable.bitmap
+
+            MediaStore.Images.Media.insertImage(contentResolver, bitmap, gifticon.name, gifticon.name)
+            Toast.makeText(this, "저장되었습니다.", Toast.LENGTH_SHORT).show()
+
         }
 
         // 취소/환불 버튼
         btn_gifticon_cancel.setOnClickListener {
-
+            Toast.makeText(this, "미구현", Toast.LENGTH_SHORT).show()
         }
 
 
     }
 
+    // Permit 확인
+    private fun hasPermission(context: Context, permissions: Array<String>): Boolean {
+        for (permit in permissions) {
+            if (ActivityCompat.checkSelfPermission(context, permit) != PackageManager.PERMISSION_GRANTED)
+                return false
+        }
+        return true
+    }
+
+    // Permit 결과
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        if (requestCode == 100) {
+            // 권한 허용 시
+            if (grantResults.isNotEmpty() and (grantResults[0] == PackageManager.PERMISSION_GRANTED)) { }
+            // 권한 거부 시
+            else {
+                Toast.makeText(this, "저장하시려면 허용해야 합니다.", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
 
 
 
