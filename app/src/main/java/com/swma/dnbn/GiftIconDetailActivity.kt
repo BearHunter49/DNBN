@@ -11,6 +11,7 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
+import com.google.firebase.analytics.FirebaseAnalytics
 import com.squareup.picasso.Picasso
 import com.swma.dnbn.item.ItemGiftIcon
 import kotlinx.android.synthetic.main.activity_gift_icon_detail.*
@@ -18,6 +19,7 @@ import kotlinx.android.synthetic.main.activity_gift_icon_detail.*
 class GiftIconDetailActivity : AppCompatActivity() {
 
     private val PERMISSIONS = arrayOf(android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
+    private lateinit var firebaseAnalytics: FirebaseAnalytics
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,6 +28,9 @@ class GiftIconDetailActivity : AppCompatActivity() {
         setSupportActionBar(toolbar_gifticonDetail)
         supportActionBar?.setDisplayShowTitleEnabled(false)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
+        // FireBase Analytics
+        firebaseAnalytics = FirebaseAnalytics.getInstance(this)
 
         // 넘어온 기프티콘 정보
         val gifticon = intent.getSerializableExtra("gifticon") as ItemGiftIcon
@@ -43,7 +48,7 @@ class GiftIconDetailActivity : AppCompatActivity() {
             lyt_isUsed.visibility = View.GONE
         } else {
             textGifticonIsUse.text = "사용함"
-            lytTab_gifticon.visibility = View.GONE
+//            lytTab_gifticon.visibility = View.GONE
             if (gifticon.usedDate == null){
                 textGifticonUsedDate.text = ""
             }else{
@@ -86,7 +91,13 @@ class GiftIconDetailActivity : AppCompatActivity() {
 
         // 취소/환불 버튼
         btn_gifticon_cancel.setOnClickListener {
-            Toast.makeText(this, "미구현", Toast.LENGTH_SHORT).show()
+//            Toast.makeText(this, "미구현", Toast.LENGTH_SHORT).show()
+            val bundle = Bundle()
+            bundle.putString(FirebaseAnalytics.Param.ITEM_ID, "bearhunter")
+            bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, "Test")
+            bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "string")
+            firebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle)
+
         }
 
 

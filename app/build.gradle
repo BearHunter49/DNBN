@@ -71,5 +71,10 @@ dependencies {
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.2.0-alpha'
 //    implementation group: 'com.kakao.sdk', name: 'kakaolink', version: project.KAKAO_SDK_VERSION
     implementation fileTree(include: ['*.jar'], dir: 'app/libs')
+    implementation 'com.google.firebase:firebase-analytics:17.2.0'
+    implementation 'com.google.firebase:firebase-core:17.0.0'
+    implementation 'com.google.android.gms:play-services-tagmanager:17.0.0'
 
 }
+
+apply plugin: 'com.google.gms.google-services'
