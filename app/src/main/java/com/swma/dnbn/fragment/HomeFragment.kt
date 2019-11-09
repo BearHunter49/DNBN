@@ -259,12 +259,12 @@ class HomeFragment : Fragment() {
             else {
                 CoroutineScope(Dispatchers.Main + job).launch {
                     rootView.apply {
-//                        rv_live.adapter = HomeLiveAdapter(requireActivity(), liveList)
-//                        rv_vod.adapter = HomeVODAdapter(requireActivity(), vodList)
-//                        rv_schedule.adapter = HomeScheduleAdapter(requireActivity(), scheduleList)
-                        rv_live.adapter!!.notifyDataSetChanged()
-                        rv_vod.adapter!!.notifyDataSetChanged()
-                        rv_schedule.adapter!!.notifyDataSetChanged()
+                        rv_live.adapter = HomeLiveAdapter(requireActivity(), liveList)
+                        rv_vod.adapter = HomeVODAdapter(requireActivity(), vodList)
+                        rv_schedule.adapter = HomeScheduleAdapter(requireActivity(), scheduleList)
+//                        rv_live.adapter!!.notifyDataSetChanged()
+//                        rv_vod.adapter!!.notifyDataSetChanged()
+//                        rv_schedule.adapter!!.notifyDataSetChanged()
                     }
                     rootView.refreshLayout.isRefreshing = false
                 }
@@ -289,18 +289,10 @@ class HomeFragment : Fragment() {
             indicator_unselected_background.setViewPager(viewPager)
 
             // Live
-            if (liveList.isEmpty()) {
-                lytHomeLive.visibility = View.GONE
-            } else {
-                rv_live.adapter = HomeLiveAdapter(requireActivity(), liveList)
-            }
+            rv_live.adapter = HomeLiveAdapter(requireActivity(), liveList)
 
             // VOD
-            if (vodList.isEmpty()) {
-                lytHomeVOD.visibility = View.GONE
-            } else {
-                rv_vod.adapter = HomeVODAdapter(requireActivity(), vodList)
-            }
+            rv_vod.adapter = HomeVODAdapter(requireActivity(), vodList)
 
             // 편성표
             rv_schedule.adapter = HomeScheduleAdapter(requireActivity(), scheduleList)

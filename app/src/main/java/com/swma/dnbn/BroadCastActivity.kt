@@ -130,7 +130,7 @@ class BroadCastActivity : AppCompatActivity(), ConnectCheckerRtmp, SurfaceHolder
 
                                         // broadcastId 찾기
                                         // 0: 방송 전 1: 방송 중 2: 방송 끝
-                                        if (broadcast.broadcastState == 2) {
+                                        if (broadcast.broadcastState == 0) {
                                             broadcastData = broadcast
                                             return@forEach
                                         }

@@ -137,7 +137,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             android:orientation="horizontal"
             android:id="@+id/lytChatInput"
-            android:layout_marginBottom="10dp"
+            android:layout_marginBottom="60dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
