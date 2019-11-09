@@ -21,6 +21,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
+import java.io.IOException
 
 class UserShoppingFragment : Fragment() {
 
@@ -50,15 +51,14 @@ class UserShoppingFragment : Fragment() {
                 // 영상 촬영 권한
                 if (!hasPermission(requireContext(), PERMISSIONS)) {
                     ActivityCompat.requestPermissions(requireActivity(), PERMISSIONS, 49)
-                }
-                else{
+                } else {
                     startActivity(Intent(requireContext(), BroadCastActivity::class.java))
                 }
             }
 
             // 바코드 스캔 버튼
             btn_scan_barcode.setOnClickListener {
-                 integrator.initiateScan()
+                integrator.initiateScan()
             }
 
             // 기프티콘함 버튼
@@ -75,31 +75,34 @@ class UserShoppingFragment : Fragment() {
                 val factory = ApiClientFactory()
                 val client = factory.build(MedialiveapiClient::class.java)
 
-                CoroutineScope(Dispatchers.Default + job).launch {
+                try {
+                    CoroutineScope(Dispatchers.Default + job).launch {
 
-                    // Input 정보
-                    val body = InputModel()
-                    body.action = "start"
-                    body.user = MyApplication.userId.toString()
-                    body.channelId = "0"
+                        // Input 정보
+                        val body = InputModel()
+                        body.action = "start"
+                        body.user = MyApplication.userId.toString()
+                        body.channelId = "0"
 
-                    // 방송 정보 저장
-                    MyApplication.mediaOutput = client.bylivePost(body)
+                        // 방송 정보 저장
+                        MyApplication.mediaOutput = client.bylivePost(body)
 
-                    Log.d("myTest", MyApplication.mediaOutput!!.state)
-                    Log.d("myTest", MyApplication.mediaOutput!!.channelId)
-                    Log.d("myTest", MyApplication.mediaOutput!!.sourceUrl)
-                    Log.d("myTest", MyApplication.mediaOutput!!.destinationUrl.live)
-                    Log.d("myTest", MyApplication.mediaOutput!!.destinationUrl.vod)
+                        Log.d("myTest", MyApplication.mediaOutput!!.state)
+                        Log.d("myTest", MyApplication.mediaOutput!!.channelId)
+                        Log.d("myTest", MyApplication.mediaOutput!!.sourceUrl)
+                        Log.d("myTest", MyApplication.mediaOutput!!.destinationUrl.live)
+                        Log.d("myTest", MyApplication.mediaOutput!!.destinationUrl.vod)
 
-                    // UI
-                    CoroutineScope(Dispatchers.Main + job).launch {
-                        Toast.makeText(requireContext(), "약 2분 뒤에 방송 해 주세요!", Toast.LENGTH_SHORT).show()
-                        rootView.progressBar_create_broadcast.visibility = View.GONE
+                        // UI
+                        CoroutineScope(Dispatchers.Main + job).launch {
+                            Toast.makeText(requireContext(), "약 2분 뒤에 방송 해 주세요!", Toast.LENGTH_SHORT).show()
+                            rootView.progressBar_create_broadcast.visibility = View.GONE
+                        }
+
                     }
-
+                } catch (e: IOException) {
+                    e.printStackTrace()
                 }
-
 
 
             }
@@ -134,9 +137,9 @@ class UserShoppingFragment : Fragment() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         Log.d("myTest", "UserShoppingFragment 의 result")
         val result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data)
-        if (result != null){
-            if (result.contents == null){
-            }else{
+        if (result != null) {
+            if (result.contents == null) {
+            } else {
                 Log.d("myTest", result.contents)
                 // 결과 화면 보여주기
                 val intent = Intent(requireContext(), BarcodeResultActivity::class.java)
