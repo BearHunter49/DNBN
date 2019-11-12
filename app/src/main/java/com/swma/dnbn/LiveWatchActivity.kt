@@ -225,7 +225,7 @@ class LiveWatchActivity : AppCompatActivity(), KeyboardHeightProvider.KeyboardHe
         exoPlayerView.player = player
 
         // Size, Start Point
-        exoPlayerView.resizeMode = AspectRatioFrameLayout.RESIZE_MODE_ZOOM
+        exoPlayerView.resizeMode = AspectRatioFrameLayout.RESIZE_MODE_FILL
         player.seekTo(currentWindow, playbackPosition)
 
         val mediaSource = buildMediaSource(Uri.parse(Url))

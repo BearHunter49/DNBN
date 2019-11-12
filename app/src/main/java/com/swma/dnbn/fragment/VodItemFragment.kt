@@ -23,8 +23,6 @@ import java.io.IOException
 
 class VodItemFragment(private val category: String) : Fragment() {
 
-    //  Category: "전체", "푸드", "패션", "뷰티", "반려동물", "디지털/가전", "여행"
-
     lateinit var vodList: ArrayList<ItemVOD>
     private val job = Job()
 

@@ -149,7 +149,7 @@ class VODWatchActivity : AppCompatActivity() {
         vodExoPlayerView.player = player
 
         // Size, Start Point
-        vodExoPlayerView.resizeMode = AspectRatioFrameLayout.RESIZE_MODE_ZOOM
+        vodExoPlayerView.resizeMode = AspectRatioFrameLayout.RESIZE_MODE_FILL
         player.seekTo(currentWindow, playbackPosition)
 
         val mediaSource = buildMediaSource(Uri.parse(url))

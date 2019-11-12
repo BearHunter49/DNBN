@@ -11,6 +11,7 @@ import android.view.animation.AnimationUtils
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import com.amazonaws.mobileconnectors.apigateway.ApiClientFactory
+import com.pedro.encoder.input.video.CameraHelper
 import com.pedro.encoder.input.video.CameraOpenException
 import com.pedro.rtplibrary.rtmp.RtmpCamera2
 import com.swma.dnbn.adapter.ChatAdapter
@@ -112,7 +113,8 @@ class BroadCastActivity : AppCompatActivity(), ConnectCheckerRtmp, SurfaceHolder
             }
 
             if (!rtmpCamera2.isStreaming) {
-                if (rtmpCamera2.prepareAudio() and rtmpCamera2.prepareVideo()) {
+                if (rtmpCamera2.prepareAudio() and rtmpCamera2.prepareVideo(1920, 1080,
+                        30, 4700000, false, CameraHelper.getCameraOrientation(this))) {
 
                     // 프로그래스 바
                     progressBar_broadcast.visibility = View.VISIBLE
