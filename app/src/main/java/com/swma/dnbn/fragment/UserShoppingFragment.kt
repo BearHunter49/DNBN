@@ -14,6 +14,7 @@ import androidx.core.app.ActivityCompat
 import com.amazonaws.mobileconnectors.apigateway.ApiClientFactory
 import com.google.zxing.integration.android.IntentIntegrator
 import com.swma.dnbn.*
+import com.swma.dnbn.model.HlsToMp4Model
 import com.swma.dnbn.model.InputModel
 import com.swma.dnbn.util.MyApplication
 import kotlinx.android.synthetic.main.fragment_user_shopping.view.*
@@ -104,6 +105,19 @@ class UserShoppingFragment : Fragment() {
                     e.printStackTrace()
                 }
 
+
+            }
+
+            // 모자이크 변환 시작
+            btn_start_mosaic.setOnClickListener {
+                // API Gateway Instance
+                val factory = ApiClientFactory()
+                val client = factory.build(MedialiveapiClient::class.java)
+
+                val body = HlsToMp4Model()
+                body.url = MyApplication.vodHlsUrl
+                val response = client.byliveConvertPost(body)
+                Log.d("myTest", response.toString())
 
             }
 

@@ -113,8 +113,11 @@ class BroadCastActivity : AppCompatActivity(), ConnectCheckerRtmp, SurfaceHolder
             }
 
             if (!rtmpCamera2.isStreaming) {
-                if (rtmpCamera2.prepareAudio() and rtmpCamera2.prepareVideo(1920, 1080,
-                        30, 4700000, false, CameraHelper.getCameraOrientation(this))) {
+                if (rtmpCamera2.prepareAudio() and rtmpCamera2.prepareVideo(
+                        1920, 1080,
+                        30, 4700000, false, CameraHelper.getCameraOrientation(this)
+                    )
+                ) {
 
                     // 프로그래스 바
                     progressBar_broadcast.visibility = View.VISIBLE
@@ -151,13 +154,18 @@ class BroadCastActivity : AppCompatActivity(), ConnectCheckerRtmp, SurfaceHolder
                                     Log.d("myTest", liveURL)
 
                                     // VOD URL
-                                    var vodURL = MyApplication.mediaOutput!!.destinationUrl.vod
-                                    val vodBackURL = vodURL!!.split("bylivetest")[1]
-                                    vodURL = String.format(
+                                    var vodHlsUrl = MyApplication.mediaOutput!!.destinationUrl.vod
+                                    val vodBackURL = vodHlsUrl!!.split("bylivetest")[1]
+                                    vodHlsUrl = String.format(
                                         "https://bylivetest.s3.ap-northeast-2.amazonaws.com%s.m3u8",
                                         vodBackURL
                                     )
-                                    Log.d("myTest", vodURL)
+                                    MyApplication.vodHlsUrl = vodHlsUrl
+                                    Log.d("myTest", vodHlsUrl)
+                                    val vodMp4Url = String.format(
+                                        "https://bylivetest.s3.ap-northeast-2.amazonaws.com/video%s_result_.mp4",
+                                        vodBackURL
+                                    )
 
                                     // Broadcast 테이블 데이터 수정
                                     retrofit.onBroadcast(
@@ -171,7 +179,7 @@ class BroadCastActivity : AppCompatActivity(), ConnectCheckerRtmp, SurfaceHolder
                                         broadcastData!!.productId,
                                         broadcastData!!.title,
                                         MyApplication.userId,
-                                        vodURL,
+                                        vodMp4Url,
                                         broadcastData!!.categoryId,
                                         "",
                                         broadcastData!!.thumbnailUrl

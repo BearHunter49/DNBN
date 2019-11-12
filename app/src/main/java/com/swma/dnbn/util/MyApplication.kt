@@ -7,5 +7,6 @@ class MyApplication : Application(){
     companion object{
         const val userId = 1
         var mediaOutput: OutputStartModel? = null
+        var vodHlsUrl: String? = null
     }
 }
