@@ -38,6 +38,7 @@
 ### ISSUE
 #### rtmp-rtsp camera Resolution Issue
 - Width와 Height이 실제 스마트폰의 가로 세로 순서로 넣으면 안됨(1080x1920 폰이라면 width:1920 height:1080으로 지정해야 함)
+- 스마트폰의 API 버전에 따라 맞는 preview가 있음(API 28의 경우 lightopengl)
 
 #### RecylcerView NotifyDataChange
 - 데이터셋이 그대로일 경우, 에러를 띄움
