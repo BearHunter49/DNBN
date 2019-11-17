@@ -47,6 +47,7 @@ class GiftIconActivity : AppCompatActivity() {
                                 ItemGiftIcon(
                                     product.name,
                                     productImgList[0],
+                                    gifticon.image,
                                     gifticon.id,
                                     gifticon.issueAt,
                                     gifticon.isUsing,
@@ -58,6 +59,7 @@ class GiftIconActivity : AppCompatActivity() {
                                 ItemGiftIcon(
                                     product.name,
                                     productImgList[0],
+                                    gifticon.image,
                                     gifticon.id,
                                     gifticon.issueAt,
                                     gifticon.isUsing,

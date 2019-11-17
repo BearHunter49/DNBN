@@ -25,7 +25,7 @@ class GiftIconAdapter(private val context: Activity, private val items: ArrayLis
         items[position].let { item ->
             with(holder){
                 name.text = item.name
-                Picasso.get().load(item.img).into(img)
+                Picasso.get().load(item.thumbnailImg).into(img)
 
 
                 cardView.setOnClickListener {

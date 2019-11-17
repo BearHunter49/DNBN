@@ -255,7 +255,7 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/imgKakao"
                     android:layout_marginTop="20dp"
-                    android:layout_marginBottom="100dp"
+
             />
 
             <Button
@@ -293,17 +293,14 @@
             <Button
                     android:background="@drawable/roundbutton"
                     android:textColor="@color/white"
-                    android:text="모자이크\n시작"
+                    android:text="모자이크\n변환"
                     android:id="@+id/btn_start_mosaic"
                     android:textSize="15sp"
                     android:textStyle="bold"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/imgKakao"
-                    android:layout_toEndOf="@+id/btn_create_broadcast"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginTop="20dp"
-                    android:layout_marginBottom="100dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_below="@+id/btn_broadcast"
             />
 
 

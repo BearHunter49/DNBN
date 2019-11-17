@@ -145,7 +145,9 @@ class LocationActivity : AppCompatActivity(), MapView.CurrentLocationEventListen
                 val response = retrofit.changeUserLocation(addressList[0], addressList[1], addressList[2], addressList[3], MyApplication.userId).execute()
 
                 if (response.isSuccessful){
-                    setResult(Activity.RESULT_OK)
+                    val intent = Intent()
+                    intent.putExtra("address", p1)
+                    setResult(Activity.RESULT_OK, intent)
                     finish()
 
                 }

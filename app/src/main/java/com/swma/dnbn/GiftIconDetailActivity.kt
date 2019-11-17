@@ -37,7 +37,7 @@ class GiftIconDetailActivity : AppCompatActivity() {
 
         toolbar_gifticonDetail_title.text = gifticon.name
 
-        Picasso.get().load(gifticon.img).into(imgGifticon)
+        Picasso.get().load(gifticon.detailImg).into(imgGifticon)
         textGifticonNumber.text = gifticon.orderNumber.toString()
 
         val dateList = gifticon.getDate.split("T")

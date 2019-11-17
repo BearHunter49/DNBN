@@ -31,6 +31,7 @@ import com.swma.dnbn.item.ItemLive
 import com.swma.dnbn.item.ItemProduct
 import com.swma.dnbn.restApi.Retrofit2Instance
 import com.swma.dnbn.util.KeyboardHeightProvider
+import com.swma.dnbn.util.MyApplication
 import kotlinx.android.synthetic.main.activity_live_watch.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -157,7 +158,7 @@ class LiveWatchActivity : AppCompatActivity(), KeyboardHeightProvider.KeyboardHe
             if (edit_chat.text.isNotEmpty()) {
                 val adapter = rv_chat.adapter as ChatAdapter
 
-                adapter.addItem(ItemChat(1, edit_chat.text.toString()))
+                adapter.addItem(ItemChat(MyApplication.userName!!, edit_chat.text.toString()))
                 edit_chat.text.clear()
                 rv_chat.smoothScrollToPosition(0)
             }

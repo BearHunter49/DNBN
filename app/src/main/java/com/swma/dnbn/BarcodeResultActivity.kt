@@ -56,9 +56,9 @@ class BarcodeResultActivity : AppCompatActivity() {
 
                         // UI
                         CoroutineScope(Dispatchers.Main).launch {
-                            // Picasso.get().load(gifticon.)
                             textGifticonNumber.text = gifticon.id.toString()
                             textGifticonDate.text = gifticon.issueAt.split("T")[0]
+                            Picasso.get().load(gifticon.image).into(barcode_gifticon_img)
                             if (gifticon.usedAt == null){
                                 textGifticonUsedDate.text = ""
                             }else{

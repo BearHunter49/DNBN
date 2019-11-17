@@ -154,17 +154,13 @@ class BroadCastActivity : AppCompatActivity(), ConnectCheckerRtmp, SurfaceHolder
                                     Log.d("myTest", liveURL)
 
                                     // VOD URL
-                                    var vodHlsUrl = MyApplication.mediaOutput!!.destinationUrl.vod
-                                    val vodBackURL = vodHlsUrl!!.split("bylivetest")[1]
-                                    vodHlsUrl = String.format(
-                                        "https://bylivetest.s3.ap-northeast-2.amazonaws.com%s.m3u8",
-                                        vodBackURL
-                                    )
-                                    MyApplication.vodHlsUrl = vodHlsUrl
-                                    Log.d("myTest", vodHlsUrl)
+                                    val vodHlsUrl = MyApplication.mediaOutput!!.destinationUrl.vod
+
+                                    val vodBackURL = vodHlsUrl!!.split("bylivetest/")[1]
+                                    val temp_list = vodBackURL.split("/")
                                     val vodMp4Url = String.format(
-                                        "https://bylivetest.s3.ap-northeast-2.amazonaws.com/video%s_result_.mp4",
-                                        vodBackURL
+                                        "https://bylivetest.s3.ap-northeast-2.amazonaws.com/rekognition/%s/%s/noSound.mp4",
+                                        temp_list[0], temp_list[1]
                                     )
 
                                     // Broadcast 테이블 데이터 수정
@@ -243,7 +239,7 @@ class BroadCastActivity : AppCompatActivity(), ConnectCheckerRtmp, SurfaceHolder
             if (edit_chat.text.isNotEmpty()) {
                 val adapter = rv_chat.adapter as ChatAdapter
 
-                adapter.addItem(ItemChat(1, edit_chat.text.toString()))
+                adapter.addItem(ItemChat(MyApplication.userName!!, edit_chat.text.toString()))
                 edit_chat.text.clear()
                 rv_chat.smoothScrollToPosition(0)
             }

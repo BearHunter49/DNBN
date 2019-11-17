@@ -35,6 +35,10 @@ class UserShoppingFragment : Fragment() {
     ): View? {
         val rootView = inflater.inflate(R.layout.fragment_user_shopping, container, false)
 
+        // API Gateway Instance
+        val factory = ApiClientFactory()
+        val client = factory.build(MedialiveapiClient::class.java)
+
         // Barcode
         val integrator = IntentIntegrator.forSupportFragment(this)
         integrator.apply {
@@ -72,10 +76,6 @@ class UserShoppingFragment : Fragment() {
                 Toast.makeText(requireContext(), "방송 채널 생성을 시작합니다!", Toast.LENGTH_SHORT).show()
                 rootView.progressBar_create_broadcast.visibility = View.VISIBLE
 
-                // API Gateway Instance
-                val factory = ApiClientFactory()
-                val client = factory.build(MedialiveapiClient::class.java)
-
                 try {
                     CoroutineScope(Dispatchers.Default + job).launch {
 
@@ -110,14 +110,28 @@ class UserShoppingFragment : Fragment() {
 
             // 모자이크 변환 시작
             btn_start_mosaic.setOnClickListener {
-                // API Gateway Instance
-                val factory = ApiClientFactory()
-                val client = factory.build(MedialiveapiClient::class.java)
 
-                val body = HlsToMp4Model()
-                body.url = MyApplication.vodHlsUrl
-                val response = client.byliveConvertPost(body)
-                Log.d("myTest", response.toString())
+                rootView.progressBar_create_broadcast.visibility = View.VISIBLE
+
+                try {
+                    CoroutineScope(Dispatchers.Default + job).launch {
+                        // s3://bylivetest/1/201911131638/main
+                        val body = HlsToMp4Model()
+                        body.url = MyApplication.mediaOutput!!.destinationUrl.vod
+//                        body.url = "s3://bylivetest/1/201911131638/main"
+                        Log.d("myTest", "vodHlsUrl: " + body.url)
+                        val response = client.byliveConvertPost(body)
+                        Log.d("myTest Convert", response.result)
+                    }
+
+                    // UI
+                    CoroutineScope(Dispatchers.Main + job).launch {
+                        Toast.makeText(requireContext(), "변환을 시작합니다.", Toast.LENGTH_SHORT).show()
+                        rootView.progressBar_create_broadcast.visibility = View.GONE
+                    }
+                } catch (e: IOException) {
+                    e.printStackTrace()
+                }
 
             }
 

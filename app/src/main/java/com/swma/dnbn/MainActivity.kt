@@ -15,8 +15,14 @@ import androidx.fragment.app.FragmentManager
 import com.swma.dnbn.fragment.HomeFragment
 import com.swma.dnbn.fragment.StoreFragment
 import com.swma.dnbn.fragment.UserFragment
+import com.swma.dnbn.restApi.Retrofit2Instance
+import com.swma.dnbn.util.MyApplication
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.row_toolbar.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import java.io.IOException
 import java.security.MessageDigest
 import java.util.*
 
@@ -49,6 +55,19 @@ class MainActivity : AppCompatActivity() {
         }
         loadFrag("HOME", fragmentManager)
         imgHome.isClickable = false
+
+        // Http 통신
+        // 유저 정보 받아오기
+        try {
+            CoroutineScope(Dispatchers.Default).launch {
+                val retrofit = Retrofit2Instance.getInstance()!!
+                retrofit.getUserFromUserId(MyApplication.userId).execute().body().let { user ->
+                    MyApplication.userName = user!!.name
+                }
+            }
+        }catch (e: IOException){
+            e.printStackTrace()
+        }
 
 
         // Click Event
@@ -156,8 +175,8 @@ class MainActivity : AppCompatActivity() {
         super.onActivityResult(requestCode, resultCode, data)
         Log.d("myTest", "MainActivity Result 호출")
 
-
         if (requestCode == 25){
+            Toast.makeText(this, data?.getStringExtra("address"), Toast.LENGTH_SHORT).show()
             val homeFragment = supportFragmentManager.findFragmentByTag("HOME")
             homeFragment?.onActivityResult(requestCode, resultCode, data)
         }
