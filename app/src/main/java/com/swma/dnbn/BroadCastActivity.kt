@@ -162,6 +162,7 @@ class BroadCastActivity : AppCompatActivity(), ConnectCheckerRtmp, SurfaceHolder
                                         "https://bylivetest.s3.ap-northeast-2.amazonaws.com/rekognition/%s/%s/noSound.mp4",
                                         temp_list[0], temp_list[1]
                                     )
+                                    //
 
                                     // Broadcast 테이블 데이터 수정
                                     retrofit.onBroadcast(
