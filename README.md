@@ -15,6 +15,8 @@
 - [Kakao Maps](http://apis.map.kakao.com/android/guide/)
 
 ### Preview
+#### Logo
+<img src="./image/logo.jpeg" width="30%" height="30%"></img>
 ##### Home
 <img src="./image/home.jpeg" width="30%" height="30%"></img>
 ##### Location
@@ -25,6 +27,8 @@
 <img src="./image/vod.jpeg" width="30%" height="30%"></img>
 #### User
 <img src="./image/personal.jpeg" width="30%" height="30%"></img>
+#### Etc.Btn
+<img src="./image/button.jpeg" width="30%" height="30%"></img>
 #### Channel
 <img src="./image/channel.jpg" width="30%" height="30%"></img>
 #### Gifticon
