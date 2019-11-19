@@ -101,6 +101,9 @@ class ScheduleFragment : Fragment() {
                 if (scheduleList.isEmpty()){
                     rootView.textScheduleNoData.visibility = View.VISIBLE
                 }
+                else {
+                    rootView.textScheduleNoData.visibility = View.GONE
+                }
                 rootView.rv_scheduleList.adapter!!.notifyDataSetChanged()
             }
 
