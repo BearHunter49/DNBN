@@ -42,7 +42,9 @@ class UserCartFragment : Fragment() {
                         // product01
                         val product01 = cart!!.product01
                         if (product01 != null) {
-                            val productImgList = product01.imageUrl.split("**") as ArrayList<String>
+                            val temp = product01.imageUrl.split("**")
+                            val productImgList = arrayListOf<String>()
+                            productImgList.addAll(temp)
 
                             retrofit.getVideosFromProductId(product01.id).execute().body()?.forEach { video ->
 

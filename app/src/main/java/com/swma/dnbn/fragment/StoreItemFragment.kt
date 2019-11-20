@@ -41,7 +41,9 @@ class StoreItemFragment(private val category: String) : Fragment() {
             try {
                 retrofit.getProductsFromCategoryId(categoryNumber).execute().body()?.forEach { product ->
 
-                    val productImgList = product.imageUrl.split("**") as ArrayList<String>
+                    val temp = product.imageUrl.split("**")
+                    val productImgList = arrayListOf<String>()
+                    productImgList.addAll(temp)
 
                     retrofit.getVideosFromProductId(product.id).execute().body()!![0].let { video ->
 

@@ -51,6 +51,7 @@ class LiveShoppingFragment(private val productList: ArrayList<ItemProduct>) : Bo
 
 
         rootView.apply {
+            Log.d("myTest2", productList.toString())
             rv_liveShopping.apply {
                 setHasFixedSize(true)
                 focusable = View.NOT_FOCUSABLE

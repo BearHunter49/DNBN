@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import com.swma.dnbn.fragment.ShopFragment
 import com.swma.dnbn.item.ItemProduct
 import com.swma.dnbn.item.ItemVOD
@@ -60,6 +61,14 @@ class ShopActivity : AppCompatActivity() {
                 e.printStackTrace()
                 Toast.makeText(this, "장바구니 추가 실패..", Toast.LENGTH_SHORT).show()
             }
+        }
+
+        btn_shop_buy.setOnClickListener {
+            val builder = AlertDialog.Builder(this)
+            builder.setMessage("구매되었습니다!")
+            val alertDialog = builder.create()
+            alertDialog.show()
+
         }
 
     }

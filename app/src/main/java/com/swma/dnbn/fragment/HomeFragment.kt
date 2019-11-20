@@ -145,14 +145,18 @@ class HomeFragment : Fragment() {
 
             try {
                 // BroadCast 통신
-                retrofit.getBroadcasts(2).execute().body()?.forEach {
+                retrofit.getBroadcasts(3).execute().body()?.forEach {
 
                     // Product 정보
                     val productList: ArrayList<ItemProduct> = arrayListOf()
                     retrofit.getProductFromId(it.productId).execute().body().let { product ->
 
                         // 이미지 리스트 분리
-                        val productImgList = product!!.imageUrl.split("**") as ArrayList<String>
+                        val temp = product!!.imageUrl.split("**")
+
+                        val productImgList = arrayListOf<String>()
+                        productImgList.addAll(temp)
+                        Log.d("myTest2", productList.toString())
 
                         retrofit.getVideosFromProductId(product.id).execute().body()?.forEach { video ->
 
@@ -184,8 +188,8 @@ class HomeFragment : Fragment() {
 
             try {
                 // Video 통신
-                // 5개 받아옴
-                retrofit.getVideos(2).execute().body()
+                // 3개 받아옴
+                retrofit.getVideos(3).execute().body()
                     ?.forEach {
                         val productList: ArrayList<ItemProduct>
 
@@ -193,7 +197,9 @@ class HomeFragment : Fragment() {
                         retrofit.getProductFromId(it.productId).execute().body().let { product ->
 
                             // 이미지 리스트로 분리
-                            val productImgList = product!!.imageUrl.split("**") as ArrayList<String>
+                            val temp = product!!.imageUrl.split("**")
+                            val productImgList = arrayListOf<String>()
+                            productImgList.addAll(temp)
 
                             // 각 영상에 묶인 Product 리스트
                             productList = arrayListOf(

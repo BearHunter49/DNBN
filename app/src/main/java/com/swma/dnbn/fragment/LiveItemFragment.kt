@@ -48,7 +48,9 @@ class LiveItemFragment(private val category: String) : Fragment() {
                     retrofit.getProductFromId(broadcast.productId).execute().body().let { product ->
 
                         // 이미지 리스트 분리
-                        val productImgList = product!!.imageUrl.split("**") as ArrayList<String>
+                        val temp = product!!.imageUrl.split("**")
+                        val productImgList = arrayListOf<String>()
+                        productImgList.addAll(temp)
 
                         retrofit.getVideosFromProductId(product.id).execute().body()?.forEach { video ->
 

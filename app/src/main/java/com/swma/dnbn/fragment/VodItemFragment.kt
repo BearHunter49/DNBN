@@ -47,7 +47,10 @@ class VodItemFragment(private val category: String) : Fragment() {
                     retrofit.getProductFromId(video.productId).execute().body().let { product ->
 
                         // 이미지 리스트로 분리
-                        val productImgList = product!!.imageUrl.split("**") as ArrayList<String>
+                        val temp = product!!.imageUrl.split("**")
+                        val productImgList = arrayListOf<String>()
+                        productImgList.addAll(temp)
+
 
                         // 각 영상에 묶인 Product 리스트
                         productList = arrayListOf(
