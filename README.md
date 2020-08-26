@@ -1,4 +1,8 @@
 # DNBN
+소프트웨어 마에스트로 10기
+<br>
+Team: 골목대장
+<br>
 동네방네 Mobile App
 
 ### IDE
