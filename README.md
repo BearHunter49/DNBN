@@ -3,7 +3,7 @@
 <br>
 Team: 골목대장
 <br>
-동네방네 Mobile App
+동네방네 Mobile App (소상공인을 위한 라이브 커머스 플랫폼)
 
 ### IDE
 - Android Studio 3
