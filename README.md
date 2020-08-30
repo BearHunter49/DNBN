@@ -4,6 +4,17 @@
 Team: 골목대장
 <br>
 동네방네 Mobile App (소상공인을 위한 라이브 커머스 플랫폼)
+<br>
+- [AWS Lambda Code](https://github.com/BearHunter49/DNBN_Lambda)
+- [Server](https://github.com/J0minsu/DongNeBangNe)
+- [Recommendation](https://github.com/mozza55/recommendation)
+<br>
+<br>
+
+## Team Members
+- [서주원](https://github.com/BearHunter49)
+- [조민수](https://github.com/J0minsu)
+- [정유미](https://github.com/mozza55)
 
 ### IDE
 - Android Studio 3
