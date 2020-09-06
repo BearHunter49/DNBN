@@ -16,6 +16,9 @@ Team: 골목대장
 - [조민수](https://github.com/J0minsu)
 - [정유미](https://github.com/mozza55)
 
+## Plan
+Trello: https://trello.com/silort
+
 ### IDE
 - Android Studio 3
 - API: 28(8.0)
