@@ -18,6 +18,8 @@ Team: 골목대장
 
 ## Plan
 Trello: https://trello.com/silort
+<br>
+<br>
 
 ### IDE
 - Android Studio 3
