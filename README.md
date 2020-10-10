@@ -9,16 +9,15 @@ Team: 골목대장
 - [Server](https://github.com/J0minsu/DongNeBangNe)
 - [Recommendation](https://github.com/mozza55/recommendation)
 <br>
+
+Notion: [Link](https://www.notion.so/bearhunter49/f1e0f35d4e404c998d18633e13f53053)
+
 <br>
 
 ## Team Members
 - [서주원](https://github.com/BearHunter49)
 - [조민수](https://github.com/J0minsu)
 - [정유미](https://github.com/mozza55)
-
-## Plan
-Trello: https://trello.com/silort
-<br>
 <br>
 
 ### IDE
@@ -33,31 +32,8 @@ Trello: https://trello.com/silort
 - [pedroSG94.rtmp-rtsp-stream-client-java:rtplibrary:1.6.8](https://github.com/pedroSG94/rtmp-rtsp-stream-client-java)
 - [com.google.zxing:core:3.2.1](https://github.com/zxing/zxing)
 - [Kakao Maps](http://apis.map.kakao.com/android/guide/)
-
-### Preview
-#### Logo
-<img src="./image/logo.jpeg" width="30%" height="30%"></img>
-##### Home
-<img src="./image/home.jpeg" width="30%" height="30%"></img>
-##### Location
-<img src="./image/location.jpeg" width="30%" height="30%"></img>
-#### Live
-<img src="./image/live.jpeg" width="30%" height="30%"></img>
-#### VOD
-<img src="./image/vod.jpeg" width="30%" height="30%"></img>
-#### User
-<img src="./image/personal.jpeg" width="30%" height="30%"></img>
-#### Etc.Btn
-<img src="./image/button.jpeg" width="30%" height="30%"></img>
-#### Channel
-<img src="./image/channel.jpg" width="30%" height="30%"></img>
-#### Gifticon
-<img src="./image/gifticon.jpg" width="30%" height="30%"></img>
-
-
-### Code Description
-- None
-
+<br>
+<br>
 
 ### ISSUE
 #### rtmp-rtsp camera Resolution Issue
