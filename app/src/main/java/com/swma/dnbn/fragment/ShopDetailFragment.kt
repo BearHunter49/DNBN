@@ -37,26 +37,32 @@ class ShopDetailFragment(private val product: ItemProduct) : Fragment() {
 
         // Http 통신
         // vodId를 통해 VOD 정보 얻기
-        val retrofit = Retrofit2Instance.getInstance()!!
+//        val retrofit = Retrofit2Instance.getInstance()!!
 
         // 영상 정보가 있는 상품일때만
         if (vodId != null) {
             try {
                 CoroutineScope(Dispatchers.IO + job).launch {
-                    retrofit.getVideoFromId(vodId).execute().body().let { video ->
-                        vod = ItemVOD(
-                            vodId, video!!.name, video.thumbnailUrl, video.categoryId,
-                            video.url, video.uploaderId, arrayListOf(product), video.uploadAt, 100
-                        )
+//                    retrofit.getVideoFromId(vodId).execute().body().let { video ->
+//                        vod = ItemVOD(
+//                            vodId, video!!.name, video.thumbnailUrl, video.categoryId,
+//                            video.url, video.uploaderId, arrayListOf(product), video.uploadAt, 100
+//                        )
 
                         // UI
                         CoroutineScope(Dispatchers.Main + job).launch {
                             rootView.apply {
-                                Picasso.get().load(video.thumbnailUrl).into(shopDetail_video)
+                                Picasso.get().load(getString(R.string.test_img)).into(shopDetail_video)
 
                             }
                         }
-                    }
+//                    }
+                    // 더미데이터
+                    vod = ItemVOD(
+                        vodId, "테스트", getString(R.string.test_img), 1,
+                        getString(R.string.test_video), 1, arrayListOf(product), "2019-10-25T23:25:00", 999
+                    )
+
                 }
             } catch (e: IOException) {
                 e.printStackTrace()

@@ -140,30 +140,35 @@ class LocationActivity : AppCompatActivity(), MapView.CurrentLocationEventListen
         Log.d("myTest", addressList.toString())
 
         // Http 통신으로 유저 위치 정보 수정
-        try {
-            CoroutineScope(Dispatchers.Default).launch {
-                val response = retrofit.changeUserLocation(addressList[0], addressList[1], addressList[2], addressList[3], MyApplication.userId).execute()
+//        try {
+//            CoroutineScope(Dispatchers.Default).launch {
+//                val response = retrofit.changeUserLocation(addressList[0], addressList[1], addressList[2], addressList[3], MyApplication.userId).execute()
+//
+//                if (response.isSuccessful){
+//                    val intent = Intent()
+//                    intent.putExtra("address", p1)
+//                    setResult(Activity.RESULT_OK, intent)
+//                    finish()
+//
+//                }
+//                else{
+//                    // UI
+//                    CoroutineScope(Dispatchers.Main).launch {
+//                        Toast.makeText(this@LocationActivity, "다시 시도 해 주세요!", Toast.LENGTH_SHORT).show()
+//                    }
+//                }
+//
+//
+//
+//            }
+//        }catch (e: IOException){
+//            e.printStackTrace()
+//        }
 
-                if (response.isSuccessful){
-                    val intent = Intent()
-                    intent.putExtra("address", p1)
-                    setResult(Activity.RESULT_OK, intent)
-                    finish()
-
-                }
-                else{
-                    // UI
-                    CoroutineScope(Dispatchers.Main).launch {
-                        Toast.makeText(this@LocationActivity, "다시 시도 해 주세요!", Toast.LENGTH_SHORT).show()
-                    }
-                }
-
-
-
-            }
-        }catch (e: IOException){
-            e.printStackTrace()
-        }
+        // 그냥 리턴
+        intent.putExtra("address", p1)
+        setResult(Activity.RESULT_OK, intent)
+        finish()
 
     }
 

@@ -46,19 +46,19 @@ class ShopFragment(private val product: ItemProduct) : Fragment() {
         val imageList = product.productImgList
 
         // Http 통신
-        val retrofit = Retrofit2Instance.getInstance()!!
+//        val retrofit = Retrofit2Instance.getInstance()!!
 
         try {
             CoroutineScope(Dispatchers.IO + job).launch {
-                retrofit.getProductFromId(product.productId).execute().body().let { product ->
-                    userId = product!!.providerId
+//                retrofit.getProductFromId(product.productId).execute().body().let { product ->
+//                    userId = product!!.providerId
 
-                    retrofit.getUserFromUserId(userId).execute().body().let { user ->
+//                    retrofit.getUserFromUserId(userId).execute().body().let { user ->
                         // UI
                         CoroutineScope(Dispatchers.Main + job).launch {
                             rootView.apply {
-                                textShopUserName.text = user!!.name
-                                Picasso.get().load(user.profileImage).into(shopUserProfile)
+                                textShopUserName.text = "테스트사람"
+                                Picasso.get().load(R.string.test_img.toString()).into(shopUserProfile)
 
                                 progressBar_shop.visibility = View.GONE
                                 appBar_shop.visibility = View.VISIBLE
@@ -66,9 +66,9 @@ class ShopFragment(private val product: ItemProduct) : Fragment() {
                             }
 
                         }
-                    }
+//                    }
 
-                }
+//                }
             }
         } catch (e: IOException) {
             e.printStackTrace()

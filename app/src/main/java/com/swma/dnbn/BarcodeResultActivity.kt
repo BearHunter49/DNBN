@@ -24,58 +24,58 @@ class BarcodeResultActivity : AppCompatActivity() {
         textCode.text = resultCode
 
         // Http 통신으로 상품 확인하기
-        val retrofit = Retrofit2Instance.getInstance()!!
+//        val retrofit = Retrofit2Instance.getInstance()!!
 
         val gifticonId = resultCode.toIntOrNull()
 
         // 기프티콘 형식이 맞다면
         if (gifticonId != null){
             CoroutineScope(Dispatchers.Default + job).launch {
-                val response = retrofit.getGifticonFromId(gifticonId).execute()
+//                val response = retrofit.getGifticonFromId(gifticonId).execute()
 
                 // 해당 기프티콘 존재
-                if (response.isSuccessful){
-                    response.body().let { gifticon ->
+//                if (response.isSuccessful){
+//                    response.body().let { gifticon ->
+//
+//                        // 미사용 제품일 시
+//                        if (gifticon!!.isUsing == 0){
+//                            retrofit.useGifticon(gifticonId).execute()
+//
+//                            // UI
+//                            CoroutineScope(Dispatchers.Main).launch {
+//                                Toast.makeText(this@BarcodeResultActivity, "결제 되었습니다!", Toast.LENGTH_SHORT).show()
+//                            }
+//                        }
+//                        // 이미 사용한 제품일 시
+//                        else{
+//                            // UI
+//                            CoroutineScope(Dispatchers.Main).launch {
+//                                Toast.makeText(this@BarcodeResultActivity, "이미 사용한 제품입니다.", Toast.LENGTH_SHORT).show()
+//                            }
+//                        }
+//
+//                        // UI
+//                        CoroutineScope(Dispatchers.Main).launch {
+//                            textGifticonNumber.text = gifticon.id.toString()
+//                            textGifticonDate.text = gifticon.issueAt.split("T")[0]
+//                            Picasso.get().load(gifticon.image).into(barcode_gifticon_img)
+//                            if (gifticon.usedAt == null){
+//                                textGifticonUsedDate.text = ""
+//                            }else{
+//                                textGifticonUsedDate.text = gifticon.usedAt.split("T")[0]
+//                            }
+//                        }
+//
+//                    }
 
-                        // 미사용 제품일 시
-                        if (gifticon!!.isUsing == 0){
-                            retrofit.useGifticon(gifticonId).execute()
-
-                            // UI
-                            CoroutineScope(Dispatchers.Main).launch {
-                                Toast.makeText(this@BarcodeResultActivity, "결제 되었습니다!", Toast.LENGTH_SHORT).show()
-                            }
-                        }
-                        // 이미 사용한 제품일 시
-                        else{
-                            // UI
-                            CoroutineScope(Dispatchers.Main).launch {
-                                Toast.makeText(this@BarcodeResultActivity, "이미 사용한 제품입니다.", Toast.LENGTH_SHORT).show()
-                            }
-                        }
-
-                        // UI
-                        CoroutineScope(Dispatchers.Main).launch {
-                            textGifticonNumber.text = gifticon.id.toString()
-                            textGifticonDate.text = gifticon.issueAt.split("T")[0]
-                            Picasso.get().load(gifticon.image).into(barcode_gifticon_img)
-                            if (gifticon.usedAt == null){
-                                textGifticonUsedDate.text = ""
-                            }else{
-                                textGifticonUsedDate.text = gifticon.usedAt.split("T")[0]
-                            }
-                        }
-
-                    }
-
-                }else{
+//                }else{
                     // UI
                     CoroutineScope(Dispatchers.Main).launch {
                         Toast.makeText(this@BarcodeResultActivity, "그러한 기프티콘은 존재하지 않습니다!", Toast.LENGTH_SHORT).show()
                         barcode_gifticon_img.visibility = View.GONE
                         lyt_barcode_result.visibility = View.GONE
                     }
-                }
+//                }
 
             }
         }

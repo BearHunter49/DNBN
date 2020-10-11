@@ -40,7 +40,7 @@ class BroadCastActivity : AppCompatActivity(), ConnectCheckerRtmp, SurfaceHolder
     lateinit var handler: Handler
     private lateinit var chatList: ArrayList<ItemChat>
     private val job = Job()
-    private val retrofit = Retrofit2Instance.getInstance()!!
+//    private val retrofit = Retrofit2Instance.getInstance()!!
 
     // API Gateway Instance
     private val factory = ApiClientFactory()
@@ -120,7 +120,7 @@ class BroadCastActivity : AppCompatActivity(), ConnectCheckerRtmp, SurfaceHolder
                 ) {
 
                     // 프로그래스 바
-                    progressBar_broadcast.visibility = View.VISIBLE
+//                    progressBar_broadcast.visibility = View.VISIBLE
 
                     // Http 통신
                     // 서버에 방송 정보 저장
@@ -129,61 +129,61 @@ class BroadCastActivity : AppCompatActivity(), ConnectCheckerRtmp, SurfaceHolder
 
                             Log.d("myTest", "0" + broadcastData.toString())
                             // 서버에 정보 전달
-                            retrofit.getChannelFromUserId(MyApplication.userId).execute().body().let { channel ->
-                                retrofit.getBroadcastFromChannelId(channel!!.id).execute().body()
-                                    ?.forEach { broadcast ->
-
-                                        // broadcastId 찾기
-                                        // 0: 방송 전 1: 방송 중 2: 방송 끝
-                                        if (broadcast.broadcastState == 0) {
-                                            broadcastData = broadcast
-                                            return@forEach
-                                        }
-                                    }
-
-                                Log.d("myTest", "1" + broadcastData.toString())
-
-
-                                // 가능한 방송을 찾으면
-                                if (broadcastData != null && MyApplication.mediaOutput != null) {
-
-                                    // Live URL
-                                    var liveURL = MyApplication.mediaOutput!!.destinationUrl.live
-                                    val liveBackURL = liveURL.split("//")[1]
-                                    liveURL = String.format("https://%s.m3u8", liveBackURL)
-                                    Log.d("myTest", liveURL)
-
-                                    // VOD URL
-                                    val vodHlsUrl = MyApplication.mediaOutput!!.destinationUrl.vod
-
-                                    val vodBackURL = vodHlsUrl!!.split("bylivetest/")[1]
-                                    val temp_list = vodBackURL.split("/")
-                                    val vodMp4Url = String.format(
-                                        "https://bylivetest.s3.ap-northeast-2.amazonaws.com/rekognition/%s/%s/noSound.mp4",
-                                        temp_list[0], temp_list[1]
-                                    )
-                                    //
-
-                                    // Broadcast 테이블 데이터 수정
-                                    retrofit.onBroadcast(
-                                        broadcastData!!.id,
-                                        liveURL,
-                                        MyApplication.mediaOutput!!.channelId.toInt()
-                                    ).execute()
-
-                                    // Video 테이블 튜플 추가
-                                    retrofit.addVideo(
-                                        broadcastData!!.productId,
-                                        broadcastData!!.title,
-                                        MyApplication.userId,
-                                        vodMp4Url,
-                                        broadcastData!!.categoryId,
-                                        "",
-                                        broadcastData!!.thumbnailUrl
-                                    ).execute()
-
-                                }
-                            }
+//                            retrofit.getChannelFromUserId(MyApplication.userId).execute().body().let { channel ->
+//                                retrofit.getBroadcastFromChannelId(channel!!.id).execute().body()
+//                                    ?.forEach { broadcast ->
+//
+//                                        // broadcastId 찾기
+//                                        // 0: 방송 전 1: 방송 중 2: 방송 끝
+//                                        if (broadcast.broadcastState == 0) {
+//                                            broadcastData = broadcast
+//                                            return@forEach
+//                                        }
+//                                    }
+//
+//                                Log.d("myTest", "1" + broadcastData.toString())
+//
+//
+//                                // 가능한 방송을 찾으면
+//                                if (broadcastData != null && MyApplication.mediaOutput != null) {
+//
+//                                    // Live URL
+//                                    var liveURL = MyApplication.mediaOutput!!.destinationUrl.live
+//                                    val liveBackURL = liveURL.split("//")[1]
+//                                    liveURL = String.format("https://%s.m3u8", liveBackURL)
+//                                    Log.d("myTest", liveURL)
+//
+//                                    // VOD URL
+//                                    val vodHlsUrl = MyApplication.mediaOutput!!.destinationUrl.vod
+//
+//                                    val vodBackURL = vodHlsUrl!!.split("bylivetest/")[1]
+//                                    val temp_list = vodBackURL.split("/")
+//                                    val vodMp4Url = String.format(
+//                                        "https://bylivetest.s3.ap-northeast-2.amazonaws.com/rekognition/%s/%s/noSound.mp4",
+//                                        temp_list[0], temp_list[1]
+//                                    )
+//                                    //
+//
+//                                    // Broadcast 테이블 데이터 수정
+//                                    retrofit.onBroadcast(
+//                                        broadcastData!!.id,
+//                                        liveURL,
+//                                        MyApplication.mediaOutput!!.channelId.toInt()
+//                                    ).execute()
+//
+//                                    // Video 테이블 튜플 추가
+//                                    retrofit.addVideo(
+//                                        broadcastData!!.productId,
+//                                        broadcastData!!.title,
+//                                        MyApplication.userId,
+//                                        vodMp4Url,
+//                                        broadcastData!!.categoryId,
+//                                        "",
+//                                        broadcastData!!.thumbnailUrl
+//                                    ).execute()
+//
+//                                }
+//                            }
 
                             // UI
                             CoroutineScope(Dispatchers.Main + job).launch {
@@ -195,7 +195,7 @@ class BroadCastActivity : AppCompatActivity(), ConnectCheckerRtmp, SurfaceHolder
                                 } else {
                                     rtmpCamera2.startStream(MyApplication.mediaOutput!!.sourceUrl)
                                 }
-                                progressBar_broadcast.visibility = View.GONE
+//                                progressBar_broadcast.visibility = View.GONE
                             }
 
 
@@ -240,7 +240,7 @@ class BroadCastActivity : AppCompatActivity(), ConnectCheckerRtmp, SurfaceHolder
             if (edit_chat.text.isNotEmpty()) {
                 val adapter = rv_chat.adapter as ChatAdapter
 
-                adapter.addItem(ItemChat(MyApplication.userName!!, edit_chat.text.toString()))
+                adapter.addItem(ItemChat(MyApplication.userName, edit_chat.text.toString()))
                 edit_chat.text.clear()
                 rv_chat.smoothScrollToPosition(0)
             }
@@ -255,21 +255,21 @@ class BroadCastActivity : AppCompatActivity(), ConnectCheckerRtmp, SurfaceHolder
         try {
             CoroutineScope(Dispatchers.Default + job).launch {
 
-                if (rtmpCamera2.isStreaming && MyApplication.mediaOutput != null) {
+//                if (rtmpCamera2.isStreaming && MyApplication.mediaOutput != null) {
 
                     // 방송 끄기
-                    val body = InputModel()
-                    body.action = "stop"
-                    body.user = MyApplication.userId.toString()
-                    body.channelId = MyApplication.mediaOutput!!.channelId
+//                    val body = InputModel()
+//                    body.action = "stop"
+//                    body.user = MyApplication.userId.toString()
+//                    body.channelId = MyApplication.mediaOutput!!.channelId
+//
+//                    val output = client.byliveStopPost(body)
 
-                    val output = client.byliveStopPost(body)
-
-                    Log.d("myTest", output.state)
-                    Log.d("myTest", output.channelId)
+//                    Log.d("myTest", output.state)
+//                    Log.d("myTest", output.channelId)
 
                     // Broadcast 서버로 정보 수정하기
-                    retrofit.offBroadcast(broadcastData!!.id).execute()
+//                    retrofit.offBroadcast(broadcastData!!.id).execute()
 
                     // UI
                     CoroutineScope(Dispatchers.Main + job).launch {
@@ -277,7 +277,7 @@ class BroadCastActivity : AppCompatActivity(), ConnectCheckerRtmp, SurfaceHolder
                         rtmpCamera2.stopStream()
                     }
 
-                }
+//                }
 
             }
         } catch (e: IOException) {

@@ -33,55 +33,76 @@ class GiftIconActivity : AppCompatActivity() {
 
         // Http 통신
         // 기프티콘 함 정보 얻어오기
-        val retrofit = Retrofit2Instance.getInstance()!!
+//        val retrofit = Retrofit2Instance.getInstance()!!
 
         CoroutineScope(Dispatchers.Default + job).launch {
-            try {
-                retrofit.getGifticonFromUserId(MyApplication.userId).execute().body()?.forEach { gifticon ->
-
-                    retrofit.getProductFromId(gifticon.productId).execute().body().let { product ->
-                        val productImgList = product!!.imageUrl.split("**")
-
-                        if (gifticon.isUsing == 0) {
-                            noUseList.add(
-                                ItemGiftIcon(
-                                    product.name,
-                                    productImgList[0],
-                                    gifticon.image,
-                                    gifticon.id,
-                                    gifticon.issueAt,
-                                    gifticon.isUsing,
-                                    gifticon.usedAt
-                                )
-                            )
-                        } else {
-                            usedList.add(
-                                ItemGiftIcon(
-                                    product.name,
-                                    productImgList[0],
-                                    gifticon.image,
-                                    gifticon.id,
-                                    gifticon.issueAt,
-                                    gifticon.isUsing,
-                                    gifticon.usedAt
-                                )
-                            )
-                        }
-
-                    }
-
-
-                }
-            } catch (e: IOException) {
-                e.printStackTrace()
-            }
+//            try {
+//                retrofit.getGifticonFromUserId(MyApplication.userId).execute().body()?.forEach { gifticon ->
+//
+//                    retrofit.getProductFromId(gifticon.productId).execute().body().let { product ->
+//                        val productImgList = product!!.imageUrl.split("**")
+//
+//                        if (gifticon.isUsing == 0) {
+//                            noUseList.add(
+//                                ItemGiftIcon(
+//                                    product.name,
+//                                    productImgList[0],
+//                                    gifticon.image,
+//                                    gifticon.id,
+//                                    gifticon.issueAt,
+//                                    gifticon.isUsing,
+//                                    gifticon.usedAt
+//                                )
+//                            )
+//                        } else {
+//                            usedList.add(
+//                                ItemGiftIcon(
+//                                    product.name,
+//                                    productImgList[0],
+//                                    gifticon.image,
+//                                    gifticon.id,
+//                                    gifticon.issueAt,
+//                                    gifticon.isUsing,
+//                                    gifticon.usedAt
+//                                )
+//                            )
+//                        }
+//
+//                    }
+//
+//
+//                }
+//            } catch (e: IOException) {
+//                e.printStackTrace()
+//            }
+            noUseList.add(
+                ItemGiftIcon(
+                    "테스트",
+                    R.string.test_img.toString(),
+                    R.string.test_img.toString(),
+                    100,
+                    "2019-10-25T23:25:00",
+                    0,
+                    ""
+                )
+            )
+            usedList.add(
+                ItemGiftIcon(
+                    "테스트2",
+                    R.string.test_img.toString(),
+                    R.string.test_img.toString(),
+                    101,
+                    "2019-10-25T23:25:00",
+                    1,
+                    "2019-11-30T23:25:00"
+                )
+            )
 
             // UI
             CoroutineScope(Dispatchers.Main + job).launch {
                 gifticon_viewPager.adapter = GiftIconPagerAdapter(supportFragmentManager, noUseList, usedList)
             }
         }
-
 
 
         gifticon_tabLayout.setupWithViewPager(gifticon_viewPager)

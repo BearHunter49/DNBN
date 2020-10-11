@@ -38,46 +38,61 @@ class LiveItemFragment(private val category: String) : Fragment() {
         liveList = arrayListOf()
         val categoryNumber = CategoryMap.categoryMap[category]!!
 
-        val retrofit = Retrofit2Instance.getInstance()!!
+//        val retrofit = Retrofit2Instance.getInstance()!!
         CoroutineScope(Dispatchers.Default + job).launch {
-            try {
-                retrofit.getBroadcastsFromCategoryId(categoryNumber).execute().body()?.forEach { broadcast ->
-
-                    // Product 정보
-                    val productList: ArrayList<ItemProduct> = arrayListOf()
-                    retrofit.getProductFromId(broadcast.productId).execute().body().let { product ->
-
-                        // 이미지 리스트 분리
-                        val temp = product!!.imageUrl.split("**")
-                        val productImgList = arrayListOf<String>()
-                        productImgList.addAll(temp)
-
-                        retrofit.getVideosFromProductId(product.id).execute().body()?.forEach { video ->
-
-                            // 상품 리스트
-                            productList.add(
-                                ItemProduct(
-                                    product.id, product.name, product.categoryId,
-                                    productImgList, product.description, product.price, product.changedPrice,
-                                    product.detailImageUrl, video.id
-                                )
-                            )
-                        }
-
-
-                    }
-
-                    // BroadCast 리스트
-                    liveList.add(
-                        ItemLive(
-                            broadcast.id, broadcast.title, broadcast.thumbnailUrl, broadcast.categoryId,
-                            broadcast.url, broadcast.channelId, productList, 100
-                        )
-                    )
-                }
-            }catch (e: IOException){
-                e.printStackTrace()
-            }
+//            try {
+//                retrofit.getBroadcastsFromCategoryId(categoryNumber).execute().body()?.forEach { broadcast ->
+//
+//                    // Product 정보
+//                    val productList: ArrayList<ItemProduct> = arrayListOf()
+//                    retrofit.getProductFromId(broadcast.productId).execute().body().let { product ->
+//
+//                        // 이미지 리스트 분리
+//                        val temp = product!!.imageUrl.split("**")
+//                        val productImgList = arrayListOf<String>()
+//                        productImgList.addAll(temp)
+//
+//                        retrofit.getVideosFromProductId(product.id).execute().body()?.forEach { video ->
+//
+//                            // 상품 리스트
+//                            productList.add(
+//                                ItemProduct(
+//                                    product.id, product.name, product.categoryId,
+//                                    productImgList, product.description, product.price, product.changedPrice,
+//                                    product.detailImageUrl, video.id
+//                                )
+//                            )
+//                        }
+//
+//
+//                    }
+//
+//                    // BroadCast 리스트
+//                    liveList.add(
+//                        ItemLive(
+//                            broadcast.id, broadcast.title, broadcast.thumbnailUrl, broadcast.categoryId,
+//                            broadcast.url, broadcast.channelId, productList, 100
+//                        )
+//                    )
+//                }
+//            }catch (e: IOException){
+//                e.printStackTrace()
+//            }
+            // 더미데이터
+            val productList: ArrayList<ItemProduct> = arrayListOf()
+            productList.add(
+                ItemProduct(
+                    100, "테스트1", 1,
+                    arrayListOf(getString(R.string.test_img)), "Test1", 9999, 7000,
+                    getString(R.string.test_img), 100
+                )
+            )
+            liveList.add(
+                ItemLive(
+                    100, "테스트Live", getString(R.string.test_img), 1,
+                    "", 100, productList, 999
+                )
+            )
 
             // UI
             CoroutineScope(Dispatchers.Main + job).launch {

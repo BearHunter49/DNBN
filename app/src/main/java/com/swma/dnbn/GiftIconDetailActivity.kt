@@ -91,12 +91,12 @@ class GiftIconDetailActivity : AppCompatActivity() {
 
         // 취소/환불 버튼
         btn_gifticon_cancel.setOnClickListener {
-//            Toast.makeText(this, "미구현", Toast.LENGTH_SHORT).show()
-            val bundle = Bundle()
-            bundle.putString(FirebaseAnalytics.Param.ITEM_ID, "bearhunter")
-            bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, "Test")
-            bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "string")
-            firebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle)
+            Toast.makeText(this, "준비중", Toast.LENGTH_SHORT).show()
+//            val bundle = Bundle()
+//            bundle.putString(FirebaseAnalytics.Param.ITEM_ID, "bearhunter")
+//            bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, "Test")
+//            bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "string")
+//            firebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle)
 
         }
 

@@ -50,22 +50,22 @@ class VODWatchActivity : AppCompatActivity() {
         url = vod.vodUrl
         val productList = vod.vodProduct
         VODWatchTitle.text = vod.vodTitle
-        VODWatchViews.text = "10,449"
+        VODWatchViews.text = "99,999"
 
         // HTTP 통신
         // VOD 방송 정보
-        val retrofit = Retrofit2Instance.getInstance()!!
+//        val retrofit = Retrofit2Instance.getInstance()!!
 
         try {
             CoroutineScope(Dispatchers.IO + job).launch {
                 // 유저 정보
-                retrofit.getUserFromUserId(vod.vodUserId).execute().body().let { user ->
+//                retrofit.getUserFromUserId(vod.vodUserId).execute().body().let { user ->
                     CoroutineScope(Dispatchers.Main + job).launch {
-                        VODWatchName.text = user!!.name
-                        Picasso.get().load(user.profileImage).into(VODProfile)
+                        VODWatchName.text = "User"
+                        Picasso.get().load(getString(R.string.test_img)).into(VODProfile)
 
                     }
-                }
+//                }
             }
         }catch (e: IOException){
             e.printStackTrace()
@@ -150,7 +150,7 @@ class VODWatchActivity : AppCompatActivity() {
         vodExoPlayerView.player = player
 
         // Size, Start Point
-        vodExoPlayerView.resizeMode = AspectRatioFrameLayout.RESIZE_MODE_FILL
+        vodExoPlayerView.resizeMode = AspectRatioFrameLayout.RESIZE_MODE_FIT
         player.seekTo(currentWindow, playbackPosition)
 
         val mediaSource = buildMediaSource(Uri.parse(url))
@@ -163,9 +163,9 @@ class VODWatchActivity : AppCompatActivity() {
         val userAgent = Util.getUserAgent(this, "BearHunter")
 
         // HLS
-//        return HlsMediaSource.Factory(DefaultHttpDataSourceFactory(userAgent)).createMediaSource(parse)
+        return HlsMediaSource.Factory(DefaultHttpDataSourceFactory(userAgent)).createMediaSource(parse)
         // MP4
-        return ExtractorMediaSource.Factory(DefaultHttpDataSourceFactory(userAgent)).createMediaSource(parse)
+//        return ExtractorMediaSource.Factory(DefaultHttpDataSourceFactory(userAgent)).createMediaSource(parse)
     }
 
     private fun releasePlayer() {

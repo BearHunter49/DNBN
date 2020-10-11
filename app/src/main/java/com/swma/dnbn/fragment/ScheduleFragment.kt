@@ -12,6 +12,7 @@ import com.swma.dnbn.R
 import com.swma.dnbn.adapter.ScheduleItemAdapter
 import com.swma.dnbn.item.ItemSchedule
 import com.swma.dnbn.restApi.Retrofit2Instance
+import com.swma.dnbn.util.MyApplication
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_schedule.view.*
 import kotlinx.android.synthetic.main.row_toolbar.*
@@ -27,7 +28,7 @@ class ScheduleFragment : Fragment() {
     private lateinit var scheduleList: ArrayList<ItemSchedule>
     private lateinit var rootView: View
     private val job = Job()
-    private val retrofit = Retrofit2Instance.getInstance()!!
+//    private val retrofit = Retrofit2Instance.getInstance()!!
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -84,17 +85,21 @@ class ScheduleFragment : Fragment() {
         scheduleList.clear()
 
         CoroutineScope(Dispatchers.Default + job).launch {
-            retrofit.getSchedules(date.year, date.monthValue, date.dayOfMonth).execute().body()?.forEach { broadcast ->
-                retrofit.getChannelFromChannelId(broadcast.channelId).execute().body().let { channel ->
-                    retrofit.getUserFromUserId(channel!!.userId).execute().body().let { user ->
-
-                        scheduleList.add(
-                            ItemSchedule(broadcast.id, broadcast.title, user!!.id, user.name, broadcast.productId,
-                                broadcast.broadcastDate, broadcast.thumbnailUrl))
-
-                    }
-                }
-            }
+//            retrofit.getSchedules(date.year, date.monthValue, date.dayOfMonth).execute().body()?.forEach { broadcast ->
+//                retrofit.getChannelFromChannelId(broadcast.channelId).execute().body().let { channel ->
+//                    retrofit.getUserFromUserId(channel!!.userId).execute().body().let { user ->
+//
+//                        scheduleList.add(
+//                            ItemSchedule(broadcast.id, broadcast.title, user!!.id, user.name, broadcast.productId,
+//                                broadcast.broadcastDate, broadcast.thumbnailUrl))
+//
+//                    }
+//                }
+//            }
+            // 더미데이터
+            scheduleList.add(
+                ItemSchedule(100, "테스트1", MyApplication.userId, MyApplication.userName, 100,
+                    "2019-10-25T23:25:00", getString(R.string.test_img)))
 
             // UI
             CoroutineScope(Dispatchers.Main + job).launch {

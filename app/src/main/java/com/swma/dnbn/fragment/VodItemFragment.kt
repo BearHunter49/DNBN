@@ -37,41 +37,54 @@ class VodItemFragment(private val category: String) : Fragment() {
         vodList = arrayListOf()
         val categoryNumber = CategoryMap.categoryMap[category]!!
 
-        val retrofit = Retrofit2Instance.getInstance()!!
+//        val retrofit = Retrofit2Instance.getInstance()!!
         CoroutineScope(Dispatchers.Default + job).launch {
-            try {
-                retrofit.getVideosFromCategoryId(categoryNumber).execute().body()?.forEach { video ->
-                    val productList: ArrayList<ItemProduct>
-
-                    // Product 정보
-                    retrofit.getProductFromId(video.productId).execute().body().let { product ->
-
-                        // 이미지 리스트로 분리
-                        val temp = product!!.imageUrl.split("**")
-                        val productImgList = arrayListOf<String>()
-                        productImgList.addAll(temp)
-
-
-                        // 각 영상에 묶인 Product 리스트
-                        productList = arrayListOf(
+//            try {
+//                retrofit.getVideosFromCategoryId(categoryNumber).execute().body()?.forEach { video ->
+//                    val productList: ArrayList<ItemProduct>
+//
+//                    // Product 정보
+//                    retrofit.getProductFromId(video.productId).execute().body().let { product ->
+//
+//                        // 이미지 리스트로 분리
+//                        val temp = product!!.imageUrl.split("**")
+//                        val productImgList = arrayListOf<String>()
+//                        productImgList.addAll(temp)
+//
+//
+//                        // 각 영상에 묶인 Product 리스트
+//                        productList = arrayListOf(
+//                            ItemProduct(
+//                                product.id, product.name, product.categoryId,
+//                                productImgList, product.description, product.price, product.changedPrice,
+//                                product.detailImageUrl, video.id
+//                            )
+//                        )
+//                    }
+//
+//                    vodList.add(
+//                        ItemVOD(
+//                            video.id, video.name, video.thumbnailUrl, video.categoryId, video.url, video.uploaderId,
+//                            productList, video.uploadAt, 100
+//                        )
+//                    )
+//                }
+//            }catch (e: IOException){
+//                e.printStackTrace()
+//            }
+            val productList = arrayListOf(
                             ItemProduct(
-                                product.id, product.name, product.categoryId,
-                                productImgList, product.description, product.price, product.changedPrice,
-                                product.detailImageUrl, video.id
+                                100, "테스트1", 1,
+                                arrayListOf(getString(R.string.test_img)), "Test1", 9999, 7000,
+                                getString(R.string.test_img), 100
                             )
                         )
-                    }
-
-                    vodList.add(
-                        ItemVOD(
-                            video.id, video.name, video.thumbnailUrl, video.categoryId, video.url, video.uploaderId,
-                            productList, video.uploadAt, 100
-                        )
-                    )
-                }
-            }catch (e: IOException){
-                e.printStackTrace()
-            }
+            vodList.add(
+                ItemVOD(
+                    100, "테스트1", getString(R.string.test_img), 1, getString(R.string.test_video), 100,
+                    productList, "2019-09-25T23:25:00", 999
+                )
+            )
 
             // UI
             CoroutineScope(Dispatchers.Main + job).launch {

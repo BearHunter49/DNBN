@@ -34,53 +34,68 @@ class UserCartFragment : Fragment() {
 
         cartList = arrayListOf()
         // Http 통신 데이터 받기
-        val retrofit = Retrofit2Instance.getInstance()!!
+//        val retrofit = Retrofit2Instance.getInstance()!!
             CoroutineScope(Dispatchers.Default + job).launch {
-                try {
-                    retrofit.getCartFromUserId(MyApplication.userId).execute().body().let { cart ->
-
-                        // product01
-                        val product01 = cart!!.product01
-                        if (product01 != null) {
-                            val temp = product01.imageUrl.split("**")
-                            val productImgList = arrayListOf<String>()
-                            productImgList.addAll(temp)
-
-                            retrofit.getVideosFromProductId(product01.id).execute().body()?.forEach { video ->
-
-                                cartList.add(
-                                    ItemProduct(
-                                        product01.id, product01.name, product01.categoryId, productImgList,
-                                        product01.description, product01.price, product01.changedPrice,
-                                        product01.detailImageUrl, video.id
-                                    )
-                                )
-                            }
-
-
-                        }
-
-                        val product02 = cart.product02
-                        if (product02 != null) {
-                            val productImgList = product02.imageUrl.split("**") as ArrayList<String>
-
-                            retrofit.getVideosFromProductId(product02.id).execute().body()?.forEach { video ->
-
-                                cartList.add(
-                                    ItemProduct(
-                                        product02.id, product02.name, product02.categoryId, productImgList,
-                                        product02.description, product02.price, product02.changedPrice,
-                                        product02.detailImageUrl, video.id
-                                    )
-                                )
-                            }
-
-
-                        }
-                    }
-                }catch (e: IOException) {
-                    e.printStackTrace()
-                }
+//                try {
+//                    retrofit.getCartFromUserId(MyApplication.userId).execute().body().let { cart ->
+//
+//                        // product01
+//                        val product01 = cart!!.product01
+//                        if (product01 != null) {
+//                            val temp = product01.imageUrl.split("**")
+//                            val productImgList = arrayListOf<String>()
+//                            productImgList.addAll(temp)
+//
+//                            retrofit.getVideosFromProductId(product01.id).execute().body()?.forEach { video ->
+//
+//                                cartList.add(
+//                                    ItemProduct(
+//                                        product01.id, product01.name, product01.categoryId, productImgList,
+//                                        product01.description, product01.price, product01.changedPrice,
+//                                        product01.detailImageUrl, video.id
+//                                    )
+//                                )
+//                            }
+//
+//
+//                        }
+//
+//                        val product02 = cart.product02
+//                        if (product02 != null) {
+//                            val productImgList = product02.imageUrl.split("**") as ArrayList<String>
+//
+//                            retrofit.getVideosFromProductId(product02.id).execute().body()?.forEach { video ->
+//
+//                                cartList.add(
+//                                    ItemProduct(
+//                                        product02.id, product02.name, product02.categoryId, productImgList,
+//                                        product02.description, product02.price, product02.changedPrice,
+//                                        product02.detailImageUrl, video.id
+//                                    )
+//                                )
+//                            }
+//
+//
+//                        }
+//                    }
+//                }catch (e: IOException) {
+//                    e.printStackTrace()
+//                }
+                val productImgList = arrayListOf(getString(R.string.test_img))
+                cartList.add(
+                    ItemProduct(
+                        100, "테스트1", 1, productImgList,
+                        "Test1", 9999, 7000,
+                        getString(R.string.test_img), 100
+                    )
+                )
+                cartList.add(
+                    ItemProduct(
+                        101, "테스트2", 2, productImgList,
+                        "Test2", 9999, 7000,
+                        getString(R.string.test_img), 101
+                    )
+                )
 
                 for (cart in cartList) {
                     totalPrice += when (cart.productChangedPrice) {

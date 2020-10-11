@@ -42,77 +42,114 @@ class ChannelActivity : AppCompatActivity() {
         val userId = intent.getIntExtra("userId", 0)
         vodList = arrayListOf()
         itemList = arrayListOf()
-        val retrofit = Retrofit2Instance.getInstance()!!
+//        val retrofit = Retrofit2Instance.getInstance()!!
 
 
         CoroutineScope(Dispatchers.Default + job).launch {
 
+//            try {
+//                // VOD List
+//                retrofit.getVideosFromUserId(userId).execute().body()?.forEach { video ->
+//                    val productList: ArrayList<ItemProduct>
+//
+//                    // Product 정보
+//                    retrofit.getProductFromId(video.productId).execute().body().let { product ->
+//
+//                        // 이미지 리스트 분리
+//                        val productImgList = product!!.imageUrl.split("**") as ArrayList<String>
+//
+//                        productList = arrayListOf(
+//                            ItemProduct(
+//                                product.id,
+//                                product.name,
+//                                product.categoryId,
+//                                productImgList,
+//                                product.description,
+//                                product.price,
+//                                product.changedPrice,
+//                                product.detailImageUrl,
+//                                video.id
+//                            )
+//                        )
+//
+//                    }
+//
+//                    vodList.add(
+//                        ItemVOD(
+//                            video.id, video.name, video.thumbnailUrl, video.categoryId, video.url, video.uploaderId,
+//                            productList, video.uploadAt, 100
+//                        )
+//                    )
+//
+//                }
+//            } catch (e: IOException) {
+//                e.printStackTrace()
+//            }
+            // 더미데이터
+            val productImgList = arrayListOf(R.string.test_img.toString())
+            val productList = arrayListOf(
+                ItemProduct(
+                    100,
+                    "테스트1",
+                    1,
+                    productImgList,
+                    "Test",
+                    9999,
+                    7000,
+                    R.string.test_img.toString(),
+                    100
+                )
+            )
+            vodList.add(
+                ItemVOD(
+                    100, "테스트VOD", R.string.test_img.toString(), 1, R.string.test_video.toString(), 1,
+                    productList, "2019-10-25 23:25:00", 999
+                )
+            )
+
+
+//            try {
+//                // Item List
+//                retrofit.getProductsFromProviderId(userId).execute().body()?.forEach { product ->
+//
+//                    val productImgList = product.imageUrl.split("**") as ArrayList<String>
+//
+//                    itemList.add(
+//                        ItemProduct(
+//                            product.id, product.name, product.categoryId, productImgList, product.description,
+//                            product.price, product.changedPrice, product.detailImageUrl, null
+//                        )
+//                    )
+//                }
+//            } catch (e: IOException) {
+//                e.printStackTrace()
+//            }
+
+            // 더미데이터
+            itemList.add(
+                ItemProduct(
+                    100,
+                    "테스트1",
+                    1,
+                    productImgList,
+                    "Test",
+                    9999,
+                    7000,
+                    R.string.test_img.toString(),
+                    100
+                )
+            )
+
+
             try {
-                // VOD List
-                retrofit.getVideosFromUserId(userId).execute().body()?.forEach { video ->
-                    val productList: ArrayList<ItemProduct>
-
-                    // Product 정보
-                    retrofit.getProductFromId(video.productId).execute().body().let { product ->
-
-                        // 이미지 리스트 분리
-                        val productImgList = product!!.imageUrl.split("**") as ArrayList<String>
-
-                        productList = arrayListOf(
-                            ItemProduct(
-                                product.id,
-                                product.name,
-                                product.categoryId,
-                                productImgList,
-                                product.description,
-                                product.price,
-                                product.changedPrice,
-                                product.detailImageUrl,
-                                video.id
-                            )
-                        )
-
-                    }
-
-                    vodList.add(
-                        ItemVOD(
-                            video.id, video.name, video.thumbnailUrl, video.categoryId, video.url, video.uploaderId,
-                            productList, video.uploadAt, 100
-                        )
-                    )
-
-                }
-            } catch (e: IOException) {
-                e.printStackTrace()
-            }
-
-            try {
-                // Item List
-                retrofit.getProductsFromProviderId(userId).execute().body()?.forEach { product ->
-
-                    val productImgList = product.imageUrl.split("**") as ArrayList<String>
-
-                    itemList.add(
-                        ItemProduct(
-                            product.id, product.name, product.categoryId, productImgList, product.description,
-                            product.price, product.changedPrice, product.detailImageUrl, null
-                        )
-                    )
-                }
-            } catch (e: IOException) {
-                e.printStackTrace()
-            }
-
-
-            try {
-                retrofit.getUserFromUserId(userId).execute().body().let { user ->
-                    retrofit.getChannelFromUserId(userId).execute().body().let { channel ->
+//                retrofit.getUserFromUserId(userId).execute().body().let { user ->
+//                    retrofit.getChannelFromUserId(userId).execute().body().let { channel ->
 
                         // UI
                         CoroutineScope(Dispatchers.Main + job).launch {
-                            Picasso.get().load(user!!.profileImage).into(imgChannelProfile)
-                            textChannelName.text = channel!!.description
-                            textChannelFollower.text = channel.followerNumber.toString()
+                            Picasso.get().load(R.string.test_img.toString()).into(imgChannelProfile)
+                            textChannelName.text = "테스트"
+                            textChannelFollower.text = "123"
 
                             channel_viewPager.adapter = ChannelPagerAdapter(supportFragmentManager, vodList, itemList)
 
@@ -120,8 +157,8 @@ class ChannelActivity : AppCompatActivity() {
                             lytConst_Channel.visibility = View.VISIBLE
                         }
 
-                    }
-                }
+//                    }
+//                }
             } catch (e: IOException) {
                 e.printStackTrace()
             }

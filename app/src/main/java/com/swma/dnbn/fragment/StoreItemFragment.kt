@@ -33,32 +33,45 @@ class StoreItemFragment(private val category: String) : Fragment() {
 
         // Http 통신
         storeItemList = ArrayList()
-        val retrofit = Retrofit2Instance.getInstance()!!
+//        val retrofit = Retrofit2Instance.getInstance()!!
 
         val categoryNumber = CategoryMap.categoryMap[category]!!
         CoroutineScope(Dispatchers.Default + job).launch {
 
-            try {
-                retrofit.getProductsFromCategoryId(categoryNumber).execute().body()?.forEach { product ->
-
-                    val temp = product.imageUrl.split("**")
-                    val productImgList = arrayListOf<String>()
-                    productImgList.addAll(temp)
-
-                    retrofit.getVideosFromProductId(product.id).execute().body()!![0].let { video ->
-
-                        storeItemList.add(
-                            ItemProduct(
-                                product.id, product.name, product.categoryId, productImgList, product.description,
-                                product.price, product.changedPrice, product.detailImageUrl, video.id
-                            )
-                        )
-                    }
-
-                }
-            }catch (e: IOException){
-                e.printStackTrace()
-            }
+//            try {
+//                retrofit.getProductsFromCategoryId(categoryNumber).execute().body()?.forEach { product ->
+//
+//                    val temp = product.imageUrl.split("**")
+//                    val productImgList = arrayListOf<String>()
+//                    productImgList.addAll(temp)
+//
+//                    retrofit.getVideosFromProductId(product.id).execute().body()!![0].let { video ->
+//
+//                        storeItemList.add(
+//                            ItemProduct(
+//                                product.id, product.name, product.categoryId, productImgList, product.description,
+//                                product.price, product.changedPrice, product.detailImageUrl, video.id
+//                            )
+//                        )
+//                    }
+//
+//                }
+//            }catch (e: IOException){
+//                e.printStackTrace()
+//            }
+            val productImgList = arrayListOf(getString(R.string.test_img), getString(R.string.test_img))
+            storeItemList.add(
+                ItemProduct(
+                    100, "테스트1", categoryNumber, productImgList, "Test1",
+                    9999, 7000, getString(R.string.test_img), 100
+                )
+            )
+            storeItemList.add(
+                ItemProduct(
+                    101, "테스트2", categoryNumber, productImgList, "Test2",
+                    9999, 7000, getString(R.string.test_img), 101
+                )
+            )
 
             // UI
             CoroutineScope(Dispatchers.Main + job).launch {

@@ -58,16 +58,16 @@ class MainActivity : AppCompatActivity() {
 
         // Http 통신
         // 유저 정보 받아오기
-        try {
-            CoroutineScope(Dispatchers.Default).launch {
-                val retrofit = Retrofit2Instance.getInstance()!!
-                retrofit.getUserFromUserId(MyApplication.userId).execute().body().let { user ->
-                    MyApplication.userName = user!!.name
-                }
-            }
-        }catch (e: IOException){
-            e.printStackTrace()
-        }
+//        try {
+//            CoroutineScope(Dispatchers.Default).launch {
+//                val retrofit = Retrofit2Instance.getInstance()!!
+//                retrofit.getUserFromUserId(MyApplication.userId).execute().body().let { user ->
+//                    MyApplication.userName = user!!.name
+//                }
+//            }
+//        }catch (e: IOException){
+//            e.printStackTrace()
+//        }
 
 
         // Click Event

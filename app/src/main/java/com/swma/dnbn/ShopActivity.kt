@@ -42,25 +42,27 @@ class ShopActivity : AppCompatActivity() {
         // Fragment 생성
         supportFragmentManager.beginTransaction().add(R.id.shopContainer, ShopFragment(product), "Shop").commit()
 
-        val retrofit = Retrofit2Instance.getInstance()!!
+//        val retrofit = Retrofit2Instance.getInstance()!!
 
         // 장바구니 추가 버튼
         btn_shop_cart.setOnClickListener {
-            try {
-                CoroutineScope(Dispatchers.Default + job).launch {
-                    val response = retrofit.addCart(MyApplication.userId, product.productId, 1).execute()
-                    if (response.isSuccessful){
-                        // UI
-                        CoroutineScope(Dispatchers.Main + job).launch {
-                            Toast.makeText(this@ShopActivity, "${product.productName}\n장바구니 추가!", Toast.LENGTH_SHORT).show()
-                        }
-                    }
-                }
+            Toast.makeText(this@ShopActivity, "현재는 지원이 안됩니다!", Toast.LENGTH_SHORT).show()
+//            try {
+//                CoroutineScope(Dispatchers.Default + job).launch {
+//                    val response = retrofit.addCart(MyApplication.userId, product.productId, 1).execute()
+//                    if (response.isSuccessful){
+//                        // UI
+//                        CoroutineScope(Dispatchers.Main + job).launch {
+//                            Toast.makeText(this@ShopActivity, "${product.productName}\n장바구니 추가!", Toast.LENGTH_SHORT).show()
+//                        }
+//                    }
 
-            }catch (e: IOException){
-                e.printStackTrace()
-                Toast.makeText(this, "장바구니 추가 실패..", Toast.LENGTH_SHORT).show()
-            }
+//                }
+
+//            }catch (e: IOException){
+//                e.printStackTrace()
+//                Toast.makeText(this, "장바구니 추가 실패..", Toast.LENGTH_SHORT).show()
+//            }
         }
 
         btn_shop_buy.setOnClickListener {

@@ -35,21 +35,21 @@ class UserFragment : Fragment() {
         val rootView = inflater.inflate(R.layout.fragment_user, container, false)
 
         // Http 서버로부터 User 데이터 받기
-        val retrofit = Retrofit2Instance.getInstance()!!
+//        val retrofit = Retrofit2Instance.getInstance()!!
 
         try {
             CoroutineScope(Dispatchers.Default + job).launch {
-                retrofit.getUserFromUserId(MyApplication.userId).execute().body().let { user ->
+//                retrofit.getUserFromUserId(MyApplication.userId).execute().body().let { user ->
 
                     // UI
                     CoroutineScope(Dispatchers.Main + job).launch {
                         rootView.apply {
-                            textUserName.text = user!!.name
-                            textUserFollower.text = String.format("팔로워 %d명", 59)
-                            Picasso.get().load(user.profileImage).into(imgUserProfile)
+                            textUserName.text = MyApplication.userName
+                            textUserFollower.text = String.format("팔로워 %d명", 999)
+                            Picasso.get().load(getString(R.string.test_img)).into(imgUserProfile)
                         }
                     }
-                }
+//                }
 
             }
         } catch (e: IOException) {

@@ -66,7 +66,8 @@ class LiveWatchActivity : AppCompatActivity(), KeyboardHeightProvider.KeyboardHe
 
         // 넘어온 Live 정보
         val live = intent.getSerializableExtra("live") as ItemLive
-        Url = live.liveUrl
+//        Url = live.liveUrl
+        Url = R.string.test_video.toString()  // 더미데이터
 
         // Keyboard part
         keyboardHeightProvider = KeyboardHeightProvider(this)
@@ -112,22 +113,21 @@ class LiveWatchActivity : AppCompatActivity(), KeyboardHeightProvider.KeyboardHe
         // HTTP 통신
         // 유저 정보 등 (프로필 사진 등)
 //        val liveId = live.liveId
-        val retrofit = Retrofit2Instance.getInstance()!!
+//        val retrofit = Retrofit2Instance.getInstance()!!
 
         try {
             CoroutineScope(Dispatchers.Default + job).launch {
-                retrofit.getChannelFromChannelId(live.liveChannelId).execute().body().let { channel ->
-                    userId = channel!!.userId
-                    retrofit.getUserFromUserId(channel.userId).execute().body().let { user ->
+//                retrofit.getChannelFromChannelId(live.liveChannelId).execute().body().let { channel ->
+//                    userId = channel!!.userId
+//                    retrofit.getUserFromUserId(channel.userId).execute().body().let { user ->
 
                         // UI
                         CoroutineScope(Dispatchers.Main + job).launch {
-                            Picasso.get().load(user!!.profileImage).into(LiveProfile)
-                            LiveWatchName.text = user.name
-
+                            Picasso.get().load(R.string.test_img.toString()).into(LiveProfile)
+                            LiveWatchName.text = "User"
                         }
-                    }
-                }
+//                    }
+//                }
 
             }
         }catch (e: IOException){
@@ -158,7 +158,7 @@ class LiveWatchActivity : AppCompatActivity(), KeyboardHeightProvider.KeyboardHe
             if (edit_chat.text.isNotEmpty()) {
                 val adapter = rv_chat.adapter as ChatAdapter
 
-                adapter.addItem(ItemChat(MyApplication.userName!!, edit_chat.text.toString()))
+                adapter.addItem(ItemChat(MyApplication.userName, edit_chat.text.toString()))
                 edit_chat.text.clear()
                 rv_chat.smoothScrollToPosition(0)
             }

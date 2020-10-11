@@ -36,8 +36,8 @@ class UserShoppingFragment : Fragment() {
         val rootView = inflater.inflate(R.layout.fragment_user_shopping, container, false)
 
         // API Gateway Instance
-        val factory = ApiClientFactory()
-        val client = factory.build(MedialiveapiClient::class.java)
+//        val factory = ApiClientFactory()
+//        val client = factory.build(MedialiveapiClient::class.java)
 
         // Barcode
         val integrator = IntentIntegrator.forSupportFragment(this)
@@ -73,65 +73,64 @@ class UserShoppingFragment : Fragment() {
 
             // 방송 생성 버튼
             btn_create_broadcast.setOnClickListener {
-                Toast.makeText(requireContext(), "방송 채널 생성을 시작합니다!", Toast.LENGTH_SHORT).show()
-                rootView.progressBar_create_broadcast.visibility = View.VISIBLE
+                Toast.makeText(requireContext(), "지금은 막혔습니다!", Toast.LENGTH_SHORT).show()
+//                Toast.makeText(requireContext(), "방송 채널 생성을 시작합니다!", Toast.LENGTH_SHORT).show()
+//                rootView.progressBar_create_broadcast.visibility = View.VISIBLE
 
-                try {
-                    CoroutineScope(Dispatchers.Default + job).launch {
-
-                        // Input 정보
-                        val body = InputModel()
-                        body.action = "start"
-                        body.user = MyApplication.userId.toString()
-                        body.channelId = "0"
-
-                        // 방송 정보 저장
-                        MyApplication.mediaOutput = client.bylivePost(body)
-
-                        Log.d("myTest", MyApplication.mediaOutput!!.state)
-                        Log.d("myTest", MyApplication.mediaOutput!!.channelId)
-                        Log.d("myTest", MyApplication.mediaOutput!!.sourceUrl)
-                        Log.d("myTest", MyApplication.mediaOutput!!.destinationUrl.live)
-                        Log.d("myTest", MyApplication.mediaOutput!!.destinationUrl.vod)
-
-                        // UI
-                        CoroutineScope(Dispatchers.Main + job).launch {
-                            Toast.makeText(requireContext(), "약 2분 뒤에 방송 해 주세요!", Toast.LENGTH_SHORT).show()
-                            rootView.progressBar_create_broadcast.visibility = View.GONE
-                        }
-
-                    }
-                } catch (e: IOException) {
-                    e.printStackTrace()
-                }
-
-
+//                try {
+//                    CoroutineScope(Dispatchers.Default + job).launch {
+//
+//                        // Input 정보
+//                        val body = InputModel()
+//                        body.action = "start"
+//                        body.user = MyApplication.userId.toString()
+//                        body.channelId = "0"
+//
+//                        // 방송 정보 저장
+//                        MyApplication.mediaOutput = client.bylivePost(body)
+//
+//                        Log.d("myTest", MyApplication.mediaOutput!!.state)
+//                        Log.d("myTest", MyApplication.mediaOutput!!.channelId)
+//                        Log.d("myTest", MyApplication.mediaOutput!!.sourceUrl)
+//                        Log.d("myTest", MyApplication.mediaOutput!!.destinationUrl.live)
+//                        Log.d("myTest", MyApplication.mediaOutput!!.destinationUrl.vod)
+//
+//                        // UI
+//                        CoroutineScope(Dispatchers.Main + job).launch {
+//                            Toast.makeText(requireContext(), "약 2분 뒤에 방송 해 주세요!", Toast.LENGTH_SHORT).show()
+//                            rootView.progressBar_create_broadcast.visibility = View.GONE
+//                        }
+//
+//                    }
+//                } catch (e: IOException) {
+//                    e.printStackTrace()
+//                }
             }
 
             // 모자이크 변환 시작
             btn_start_mosaic.setOnClickListener {
+                Toast.makeText(requireContext(), "지금은 막혔습니다!", Toast.LENGTH_SHORT).show()
+//                rootView.progressBar_create_broadcast.visibility = View.VISIBLE
 
-                rootView.progressBar_create_broadcast.visibility = View.VISIBLE
-
-                try {
-                    CoroutineScope(Dispatchers.Default + job).launch {
-                        // s3://bylivetest/1/201911131638/main
-                        val body = HlsToMp4Model()
-                        body.url = MyApplication.mediaOutput!!.destinationUrl.vod
-//                        body.url = "s3://bylivetest/1/201911131638/main"
-                        Log.d("myTest", "vodHlsUrl: " + body.url)
-                        val response = client.byliveConvertPost(body)
-                        Log.d("myTest Convert", response.result)
-                    }
-
-                    // UI
-                    CoroutineScope(Dispatchers.Main + job).launch {
-                        Toast.makeText(requireContext(), "변환을 시작합니다.", Toast.LENGTH_SHORT).show()
-                        rootView.progressBar_create_broadcast.visibility = View.GONE
-                    }
-                } catch (e: IOException) {
-                    e.printStackTrace()
-                }
+//                try {
+//                    CoroutineScope(Dispatchers.Default + job).launch {
+//                        // s3://bylivetest/1/201911131638/main
+//                        val body = HlsToMp4Model()
+//                        body.url = MyApplication.mediaOutput!!.destinationUrl.vod
+////                        body.url = "s3://bylivetest/1/201911131638/main"
+//                        Log.d("myTest", "vodHlsUrl: " + body.url)
+//                        val response = client.byliveConvertPost(body)
+//                        Log.d("myTest Convert", response.result)
+//                    }
+//
+//                    // UI
+//                    CoroutineScope(Dispatchers.Main + job).launch {
+//                        Toast.makeText(requireContext(), "변환을 시작합니다.", Toast.LENGTH_SHORT).show()
+//                        rootView.progressBar_create_broadcast.visibility = View.GONE
+//                    }
+//                } catch (e: IOException) {
+//                    e.printStackTrace()
+//                }
 
             }
 
