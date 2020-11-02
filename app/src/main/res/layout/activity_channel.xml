@@ -6,7 +6,7 @@
         android:background="@color/bg"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ChannelActivity">
+        tools:context=".view.activity.ChannelActivity">
 
     <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar_channel"

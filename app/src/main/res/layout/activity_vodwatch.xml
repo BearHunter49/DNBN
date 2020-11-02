@@ -9,7 +9,7 @@
         android:focusableInTouchMode="true"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".VODWatchActivity">
+        tools:context=".view.activity.VODWatchActivity">
 
     <com.google.android.exoplayer2.ui.PlayerView
             android:id="@+id/vodExoPlayerView"

@@ -4,7 +4,7 @@
               android:layout_width="match_parent"
               android:layout_height="match_parent"
               android:background="@color/bg"
-              tools:context=".fragment.GiftIconFragment">
+              tools:context=".view.fragment.GiftIconFragment">
 
     <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_giftIcon"

@@ -11,53 +11,53 @@
 
     <application
             android:allowBackup="true"
-            android:name=".util.MyApplication"
+            android:name=".utils.MyApplication"
             android:icon="@drawable/ic_dnbn"
             android:label="@string/app_name"
             android:roundIcon="@mipmap/ic_launcher_round"
             android:supportsRtl="true"
             android:theme="@style/AppTheme">
-        <activity android:name=".LocationActivity"
+        <activity android:name=".view.activity.LocationActivity"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".ChannelActivity"
+        <activity android:name=".view.activity.ChannelActivity"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".GiftIconDetailActivity"
+        <activity android:name=".view.activity.GiftIconDetailActivity"
                   android:screenOrientation="portrait">
 
         </activity>
-        <activity android:name=".GiftIconActivity"
+        <activity android:name=".view.activity.GiftIconActivity"
                   android:screenOrientation="portrait">
         </activity>
         <activity
-                android:name=".BarcodeResultActivity"
+                android:name=".view.activity.BarcodeResultActivity"
                 android:screenOrientation="portrait">
         </activity>
         <activity
-                android:name=".BarcodeActivity"
+                android:name=".view.activity.BarcodeActivity"
                 android:screenOrientation="portrait">
         </activity>
         <activity
-                android:name=".VODWatchActivity"
+                android:name=".view.activity.VODWatchActivity"
                 android:screenOrientation="portrait">
         </activity>
         <activity
-                android:name=".ShopActivity"
+                android:name=".view.activity.ShopActivity"
                 android:screenOrientation="portrait">
         </activity>
         <activity
-                android:name=".LiveWatchActivity"
+                android:name=".view.activity.LiveWatchActivity"
                 android:screenOrientation="portrait"
                 android:windowSoftInputMode="adjustNothing|stateHidden">
         </activity>
         <activity
-                android:name=".BroadCastActivity"
+                android:name=".view.activity.BroadCastActivity"
                 android:screenOrientation="portrait"
                 android:windowSoftInputMode="adjustNothing|stateHidden">
         </activity>
         <activity
-                android:name=".SplashActivity"
+                android:name=".view.activity.SplashActivity"
                 android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -67,7 +67,7 @@
             </intent-filter>
         </activity>
         <activity
-                android:name=".MainActivity"
+                android:name=".view.activity.MainActivity"
                 android:screenOrientation="portrait"
                 android:windowSoftInputMode="adjustPan">
         </activity>

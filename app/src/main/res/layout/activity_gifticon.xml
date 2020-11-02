@@ -6,7 +6,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/bg"
-        tools:context=".GiftIconActivity">
+        tools:context=".view.activity.GiftIconActivity">
 
     <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar_gifticon"
@@ -24,6 +24,7 @@
                 android:textColor="@color/white"
                 android:layout_gravity="center"
                 android:gravity="center"
+                android:text="@string/gifticon_title"
                 style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
         />
 

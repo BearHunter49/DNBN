@@ -6,7 +6,7 @@
         android:background="@color/yellow"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".GiftIconDetailActivity">
+        tools:context=".view.activity.GiftIconDetailActivity">
 
     <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar_gifticonDetail"

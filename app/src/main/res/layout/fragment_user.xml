@@ -5,7 +5,7 @@
                                                      android:layout_width="match_parent"
                                                      android:layout_height="match_parent"
                                                      android:background="@color/bg"
-                                                     tools:context=".fragment.UserFragment">
+                                                     tools:context=".view.fragment.UserFragment">
 
     <com.google.android.material.appbar.AppBarLayout
             android:background="@color/bg"
