@@ -32,7 +32,6 @@ import com.swma.dnbn.utils.KeyboardHeightProvider
 import com.swma.dnbn.utils.MyApplication
 import kotlinx.android.synthetic.main.activity_live_watch.*
 import kotlinx.android.synthetic.main.activity_live_watch.btn_follow
-import kotlinx.coroutines.Job
 
 class LiveWatchActivity : AppCompatActivity(), KeyboardHeightProvider.KeyboardHeightObserver {
 
@@ -43,7 +42,7 @@ class LiveWatchActivity : AppCompatActivity(), KeyboardHeightProvider.KeyboardHe
     lateinit var mHandler: Handler
     private lateinit var animation: Animation
     lateinit var player: SimpleExoPlayer
-    lateinit var Url: String
+    lateinit var url: String
     private var userId = 0
     lateinit var productList: ArrayList<ItemProduct>
 
@@ -58,17 +57,10 @@ class LiveWatchActivity : AppCompatActivity(), KeyboardHeightProvider.KeyboardHe
 
         // 넘어온 Live 정보
         val live = intent.getSerializableExtra("live") as ItemLive
-        Url = live.liveUrl
+        url = live.liveUrl
 
         // Calculate Keyboard Height
-        keyboardHeightProvider = KeyboardHeightProvider(this)
-
-        Handler().postDelayed({
-            initialY = lytChatInput.y
-            initialYofChat = rv_chat.y
-            lytLiveWatchFull.post { keyboardHeightProvider.start() }
-        }, 200)
-
+        calculateKeyboardHeight()
 
         //Animation
         mHandler = Handler()
@@ -83,6 +75,7 @@ class LiveWatchActivity : AppCompatActivity(), KeyboardHeightProvider.KeyboardHe
         bindChattingAdapter()
         makeProfileCircle()
         displayLayout()
+
 
 
         // 나가기 버튼
@@ -118,6 +111,22 @@ class LiveWatchActivity : AppCompatActivity(), KeyboardHeightProvider.KeyboardHe
             intent.putExtra("userId", userId)
             startActivity(intent)
         }
+    }
+
+
+
+    /**
+     * KeyboardHeightProvider Instance
+     * View가 만들어질 시간만큼 delay
+     */
+    private fun calculateKeyboardHeight() {
+        keyboardHeightProvider = KeyboardHeightProvider(this)
+
+        Handler().postDelayed({
+            initialY = lytChatInput.y
+            initialYofChat = rv_chat.y
+            lytLiveWatchFull.post { keyboardHeightProvider.start() }
+        }, 200)
     }
 
     /**
@@ -171,17 +180,6 @@ class LiveWatchActivity : AppCompatActivity(), KeyboardHeightProvider.KeyboardHe
         })
     }
 
-
-    override fun onStart() {
-        super.onStart()
-        initializePlayer()
-    }
-
-    override fun onStop() {
-        super.onStop()
-        releasePlayer()
-    }
-
     /**
      * Layout 보이기
      */
@@ -226,7 +224,7 @@ class LiveWatchActivity : AppCompatActivity(), KeyboardHeightProvider.KeyboardHe
         exoPlayerView.resizeMode = AspectRatioFrameLayout.RESIZE_MODE_FILL
         player.seekTo(currentWindow, playbackPosition)
 
-        val mediaSource = buildMediaSource(Uri.parse(Url))
+        val mediaSource = buildMediaSource(Uri.parse(url))
 
         player.prepare(mediaSource, true, true)
         player.playWhenReady = playWhenReady
@@ -247,19 +245,27 @@ class LiveWatchActivity : AppCompatActivity(), KeyboardHeightProvider.KeyboardHe
         player.release()
     }
 
+    /**
+     * Keyboard 높이 변경에 실행
+     * @param height = Keyboard 높이
+     * @param orientation = Portrait or Landscape
+     */
     override fun onKeyboardHeightChanged(height: Int, orientation: Int) {
         if (height == 0) {
             lytChatInput.y = initialY
             rv_chat.y = initialYofChat
-            Log.d("myTest", "")
+            Log.d("myTest", "KeyboardHeight Init Part")
+
+            // 레이아웃 사이즈 변경
             lytChatInput.requestLayout()
             rv_chat.requestLayout()
         } else {
             val newPosition = initialY - height
-            val newPositionofChat = initialYofChat - height
+            val newPositionOfChat = initialYofChat - height
             lytChatInput.y = newPosition
-            rv_chat.y = newPositionofChat
+            rv_chat.y = newPositionOfChat
 
+            // 레이아웃 사이즈 변경
             lytChatInput.requestLayout()
             rv_chat.requestLayout()
         }
@@ -278,6 +284,16 @@ class LiveWatchActivity : AppCompatActivity(), KeyboardHeightProvider.KeyboardHe
     override fun onDestroy() {
         super.onDestroy()
         keyboardHeightProvider.close()
+    }
+
+    override fun onStart() {
+        super.onStart()
+        initializePlayer()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        releasePlayer()
     }
 
 }

@@ -36,8 +36,9 @@ class HomeFragment : Fragment() {
     lateinit var scheduleList: ArrayList<ItemSchedule>
     lateinit var slideList: ArrayList<ItemSlide>
     lateinit var timer: Timer
+
     //    lateinit var rootView: View
-    private var shouldTimerGo = 0
+    private var shouldTimerGo = 1
     private val job = Job()
     private val today = LocalDate.now()
 
@@ -51,10 +52,10 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // 새로고침
-        refreshLayout.setOnRefreshListener {
-            loadData()
-        }
+        slideList = arrayListOf()
+        liveList = arrayListOf()
+        vodList = arrayListOf()
+        scheduleList = arrayListOf()
 
         // Progress
         visibleProgressBar(true)
@@ -63,6 +64,18 @@ class HomeFragment : Fragment() {
         setManagerToRecyclerView(rv_live)
         setManagerToRecyclerView(rv_vod)
         setManagerToRecyclerView(rv_schedule)
+
+        // 오늘 날짜
+        textToday.text = today.format(DateTimeFormatter.ofPattern("MM월 dd일"))
+
+        loadData()
+
+        visibleProgressBar(false)
+
+        // 새로고침 리스너
+        refreshLayout.setOnRefreshListener {
+            loadData()
+        }
 
         // 클릭 리스너
         textLiveViewAll.setOnClickListener {
@@ -74,11 +87,6 @@ class HomeFragment : Fragment() {
         textScheduleViewAll.setOnClickListener {
             changeFragment(ScheduleFragment(), SCHEDULE_TAG)
         }
-
-        // 편성표 날짜 설정
-        textToday.text = today.format(DateTimeFormatter.ofPattern("MM월 dd일"))
-
-        loadData()
     }
 
     private fun setManagerToRecyclerView(rView: RecyclerView?) {
@@ -126,12 +134,9 @@ class HomeFragment : Fragment() {
         vodList = VodDummy.vodData
         scheduleList = ScheduleDummy.scheduleData
 
-        // UI
-        CoroutineScope(Dispatchers.Main + job).launch {
-            displayData()
-            visibleProgressBar(false)
-            refreshLayout.isRefreshing = false
-        }
+        displayData()
+
+//        refreshLayout.isRefreshing = false
     }
 
 
@@ -155,6 +160,7 @@ class HomeFragment : Fragment() {
      */
     private fun startTimer() {
         if (shouldTimerGo == 1) {
+            Log.d("Timer", "startTimer: start")
             timer = Timer()
 
             val timerTask = (object : TimerTask() {
@@ -171,13 +177,17 @@ class HomeFragment : Fragment() {
             })
             timer.schedule(timerTask, 1000, 4500)
             shouldTimerGo = 0
+            Log.d("Timer", "startTimer: end")
         }
     }
 
 
     override fun onStop() {
-        shouldTimerGo = 1
-        timer.cancel()
+        if (shouldTimerGo == 0){
+            Log.d("Timer", "onStop: Timer before stop")
+            timer.cancel()
+            shouldTimerGo = 1
+        }
         super.onStop()
     }
 

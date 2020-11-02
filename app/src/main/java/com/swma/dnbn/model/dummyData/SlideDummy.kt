@@ -5,7 +5,7 @@ import com.swma.dnbn.model.item.ItemSlide
 object SlideDummy {
     val slideData = arrayListOf(
         ItemSlide(
-            1, "남자 맨투맨", 15000, 13900,
+            1, "후라이드 치킨", 15000, 13900,
             "https://img.khan.co.kr/news/2018/04/19/l_2018042001002453300196681.jpg"
         ),
         ItemSlide(

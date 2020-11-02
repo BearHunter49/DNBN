@@ -8,10 +8,13 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.GridLayoutManager
 
 import com.swma.dnbn.R
+import com.swma.dnbn.model.dummyData.LiveDummy
+import com.swma.dnbn.model.dummyData.ProductDummy
 import com.swma.dnbn.view.adapter.LiveItemAdapter
 import com.swma.dnbn.model.item.ItemLive
 import com.swma.dnbn.model.item.ItemProduct
-import com.swma.dnbn.utils.CategoryMap
+import com.swma.dnbn.utils.CategoryConverter
+import kotlinx.android.synthetic.main.fragment_live_item.*
 import kotlinx.android.synthetic.main.fragment_live_item.view.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -27,99 +30,43 @@ class LiveItemFragment(private val category: String) : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val rootView = inflater.inflate(R.layout.fragment_live_item, container, false)
+        return inflater.inflate(R.layout.fragment_live_item, container, false)
+    }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
-
-        // Http 통신
-        // 데이터 받기
+        // 더미데이터
+        val categoryNumber = CategoryConverter.categoryMap[category]!!
         liveList = arrayListOf()
-        val categoryNumber = CategoryMap.categoryMap[category]!!
-
-//        val retrofit = Retrofit2Instance.getInstance()!!
-        CoroutineScope(Dispatchers.Default + job).launch {
-//            try {
-//                retrofit.getBroadcastsFromCategoryId(categoryNumber).execute().body()?.forEach { broadcast ->
-//
-//                    // Product 정보
-//                    val productList: ArrayList<ItemProduct> = arrayListOf()
-//                    retrofit.getProductFromId(broadcast.productId).execute().body().let { product ->
-//
-//                        // 이미지 리스트 분리
-//                        val temp = product!!.imageUrl.split("**")
-//                        val productImgList = arrayListOf<String>()
-//                        productImgList.addAll(temp)
-//
-//                        retrofit.getVideosFromProductId(product.id).execute().body()?.forEach { video ->
-//
-//                            // 상품 리스트
-//                            productList.add(
-//                                ItemProduct(
-//                                    product.id, product.name, product.categoryId,
-//                                    productImgList, product.description, product.price, product.changedPrice,
-//                                    product.detailImageUrl, video.id
-//                                )
-//                            )
-//                        }
-//
-//
-//                    }
-//
-//                    // BroadCast 리스트
-//                    liveList.add(
-//                        ItemLive(
-//                            broadcast.id, broadcast.title, broadcast.thumbnailUrl, broadcast.categoryId,
-//                            broadcast.url, broadcast.channelId, productList, 100
-//                        )
-//                    )
-//                }
-//            }catch (e: IOException){
-//                e.printStackTrace()
-//            }
-            // 더미데이터
-            val productList: ArrayList<ItemProduct> = arrayListOf()
-            productList.add(
-                ItemProduct(
-                    100, "테스트1", 1,
-                    arrayListOf(getString(R.string.test_img)), "Test1", 9999, 7000,
-                    getString(R.string.test_img), 100
-                )
-            )
-            liveList.add(
-                ItemLive(
-                    100, "테스트Live", getString(R.string.test_img), 1,
-                    "", 100, productList, 999
-                )
-            )
-
-            // UI
-            CoroutineScope(Dispatchers.Main + job).launch {
-                // 데이터 존재 유무
-                if (liveList.isEmpty()) {
-                    rootView.textLiveNoData.visibility = View.VISIBLE
-                } else {
-                    rootView.rv_liveItem.adapter = LiveItemAdapter(requireActivity(), liveList)
-                }
+        LiveDummy.liveData.forEach {
+            if (it.liveCategory == categoryNumber){
+                liveList.add(it)
             }
         }
 
 
+        setManagerToRecyclerView()
+        bindLiveData()
+    }
 
-
-        // --------------------
-
-
-        rootView.apply {
-
-            rv_liveItem.apply {
-                setHasFixedSize(true)
-                layoutManager = GridLayoutManager(activity, 2)
-                focusable = View.NOT_FOCUSABLE
-            }
+    /**
+     * Bind Live Data
+     */
+    private fun bindLiveData() {
+        if (liveList.isEmpty()) {
+            textLiveNoData.visibility = View.VISIBLE
+        } else {
+            rv_liveItem.adapter = LiveItemAdapter(requireActivity(), liveList)
         }
+    }
 
-
-        return rootView
+    private fun setManagerToRecyclerView(){
+        rv_liveItem.apply {
+            setHasFixedSize(true)
+            layoutManager = GridLayoutManager(activity, 2)
+            focusable = View.NOT_FOCUSABLE
+        }
     }
 
     override fun onDestroy() {

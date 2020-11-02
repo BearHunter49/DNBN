@@ -9,8 +9,10 @@ import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 
 import com.swma.dnbn.R
+import com.swma.dnbn.model.dummyData.ProductDummy
 import com.swma.dnbn.view.adapter.UserCartAdapter
 import com.swma.dnbn.model.item.ItemProduct
+import kotlinx.android.synthetic.main.fragment_user_cart.*
 import kotlinx.android.synthetic.main.fragment_user_cart.view.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -27,106 +29,40 @@ class UserCartFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val rootView = inflater.inflate(R.layout.fragment_user_cart, container, false)
+        return inflater.inflate(R.layout.fragment_user_cart, container, false)
+    }
 
-        cartList = arrayListOf()
-        // Http 통신 데이터 받기
-//        val retrofit = Retrofit2Instance.getInstance()!!
-            CoroutineScope(Dispatchers.Default + job).launch {
-//                try {
-//                    retrofit.getCartFromUserId(MyApplication.userId).execute().body().let { cart ->
-//
-//                        // product01
-//                        val product01 = cart!!.product01
-//                        if (product01 != null) {
-//                            val temp = product01.imageUrl.split("**")
-//                            val productImgList = arrayListOf<String>()
-//                            productImgList.addAll(temp)
-//
-//                            retrofit.getVideosFromProductId(product01.id).execute().body()?.forEach { video ->
-//
-//                                cartList.add(
-//                                    ItemProduct(
-//                                        product01.id, product01.name, product01.categoryId, productImgList,
-//                                        product01.description, product01.price, product01.changedPrice,
-//                                        product01.detailImageUrl, video.id
-//                                    )
-//                                )
-//                            }
-//
-//
-//                        }
-//
-//                        val product02 = cart.product02
-//                        if (product02 != null) {
-//                            val productImgList = product02.imageUrl.split("**") as ArrayList<String>
-//
-//                            retrofit.getVideosFromProductId(product02.id).execute().body()?.forEach { video ->
-//
-//                                cartList.add(
-//                                    ItemProduct(
-//                                        product02.id, product02.name, product02.categoryId, productImgList,
-//                                        product02.description, product02.price, product02.changedPrice,
-//                                        product02.detailImageUrl, video.id
-//                                    )
-//                                )
-//                            }
-//
-//
-//                        }
-//                    }
-//                }catch (e: IOException) {
-//                    e.printStackTrace()
-//                }
-                val productImgList = arrayListOf(getString(R.string.test_img))
-                cartList.add(
-                    ItemProduct(
-                        100, "테스트1", 1, productImgList,
-                        "Test1", 9999, 7000,
-                        getString(R.string.test_img), 100
-                    )
-                )
-                cartList.add(
-                    ItemProduct(
-                        101, "테스트2", 2, productImgList,
-                        "Test2", 9999, 7000,
-                        getString(R.string.test_img), 101
-                    )
-                )
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
-                for (cart in cartList) {
-                    totalPrice += when (cart.productChangedPrice) {
-                        -1 -> cart.productPrice
-                        else -> cart.productChangedPrice
-                    }
-                }
+        // Dummy Data
+        cartList = ProductDummy.productFoodData
 
-                // UI
-                CoroutineScope(Dispatchers.Main + job).launch {
-                    rootView.apply {
-                        rv_cart.adapter = UserCartAdapter(requireActivity(), cartList)
-                        textTotalPrice.text = String.format("%,d원", totalPrice)
-                    }
-                }
+        calculateTotalPrice(cartList)
 
-            }
+        rv_cart.adapter = UserCartAdapter(requireActivity(), cartList)
+        textTotalPrice.text = String.format("%,d원", totalPrice)
 
-
-        rootView.apply {
-            rv_cart.apply {
-                setHasFixedSize(true)
-                layoutManager = LinearLayoutManager(activity)
-                focusable = View.NOT_FOCUSABLE
-            }
-
-            btn_totalBuy.setOnClickListener {
-                Toast.makeText(context, "전체 구매하러 가기", Toast.LENGTH_SHORT).show()
-            }
-
+        rv_cart.apply {
+            setHasFixedSize(true)
+            layoutManager = LinearLayoutManager(activity)
+            focusable = View.NOT_FOCUSABLE
         }
 
 
-        return rootView
+
+        btn_totalBuy.setOnClickListener {
+            Toast.makeText(context, "전체 구매하러 가기", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun calculateTotalPrice(carts: java.util.ArrayList<ItemProduct>) {
+        for (cart in carts) {
+            totalPrice += when (cart.productChangedPrice) {
+                -1 -> cart.productPrice
+                else -> cart.productChangedPrice
+            }
+        }
     }
 
     override fun onDestroy() {

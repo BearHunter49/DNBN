@@ -21,19 +21,14 @@ class GiftIconFragment(private val giftIconList: ArrayList<ItemGiftIcon>) : Frag
     ): View? {
         val rootView = inflater.inflate(R.layout.fragment_gift_icon, container, false)
 
-
         rootView.apply {
-
             rv_giftIcon.apply {
                 setHasFixedSize(true)
                 focusable = View.NOT_FOCUSABLE
                 layoutManager = GridLayoutManager(requireContext(), 2)
                 adapter = GiftIconAdapter(requireActivity(), giftIconList)
             }
-
-
         }
-
 
         return rootView
     }

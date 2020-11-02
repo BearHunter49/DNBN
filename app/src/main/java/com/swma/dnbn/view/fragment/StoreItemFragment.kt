@@ -8,9 +8,11 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.GridLayoutManager
 
 import com.swma.dnbn.R
+import com.swma.dnbn.model.dummyData.ProductDummy
 import com.swma.dnbn.view.adapter.StoreItemAdapter
 import com.swma.dnbn.model.item.ItemProduct
-import com.swma.dnbn.utils.CategoryMap
+import com.swma.dnbn.utils.CategoryConverter
+import kotlinx.android.synthetic.main.fragment_store_item.*
 import kotlinx.android.synthetic.main.fragment_store_item.view.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -26,76 +28,49 @@ class StoreItemFragment(private val category: String) : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val rootView = inflater.inflate(R.layout.fragment_store_item, container, false)
+        return inflater.inflate(R.layout.fragment_store_item, container, false)
+    }
 
-        // Http 통신
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
         storeItemList = ArrayList()
-//        val retrofit = Retrofit2Instance.getInstance()!!
+        val categoryNumber = CategoryConverter.categoryMap[category]
 
-        val categoryNumber = CategoryMap.categoryMap[category]!!
-        CoroutineScope(Dispatchers.Default + job).launch {
+        loadData(categoryNumber)
+        setManagerToRecyclerView()
+        displayData()
+    }
 
-//            try {
-//                retrofit.getProductsFromCategoryId(categoryNumber).execute().body()?.forEach { product ->
-//
-//                    val temp = product.imageUrl.split("**")
-//                    val productImgList = arrayListOf<String>()
-//                    productImgList.addAll(temp)
-//
-//                    retrofit.getVideosFromProductId(product.id).execute().body()!![0].let { video ->
-//
-//                        storeItemList.add(
-//                            ItemProduct(
-//                                product.id, product.name, product.categoryId, productImgList, product.description,
-//                                product.price, product.changedPrice, product.detailImageUrl, video.id
-//                            )
-//                        )
-//                    }
-//
-//                }
-//            }catch (e: IOException){
-//                e.printStackTrace()
-//            }
-            val productImgList = arrayListOf(getString(R.string.test_img), getString(R.string.test_img))
-            storeItemList.add(
-                ItemProduct(
-                    100, "테스트1", categoryNumber, productImgList, "Test1",
-                    9999, 7000, getString(R.string.test_img), 100
-                )
-            )
-            storeItemList.add(
-                ItemProduct(
-                    101, "테스트2", categoryNumber, productImgList, "Test2",
-                    9999, 7000, getString(R.string.test_img), 101
-                )
-            )
 
-            // UI
-            CoroutineScope(Dispatchers.Main + job).launch {
-                if (storeItemList.isEmpty()) {
-                    rootView.textStoreNoData.visibility = View.VISIBLE
-                } else {
-                    rootView.rv_storeItem.adapter = StoreItemAdapter(requireActivity(), storeItemList)
-                }
+    private fun displayData() {
+        if (storeItemList.isEmpty()) {
+            textStoreNoData.visibility = View.VISIBLE
+        } else {
+            rv_storeItem.adapter = StoreItemAdapter(requireActivity(), storeItemList)
+        }
+    }
+
+    private fun loadData(categoryNumber: Int?) {
+        ProductDummy.productFoodData.forEach {
+            if (it.productCategory == categoryNumber){
+                storeItemList.add(it)
             }
-
         }
 
-
-
-        // -----------------------
-
-        rootView.apply {
-
-            rv_storeItem.apply {
-                setHasFixedSize(true)
-                focusable = View.NOT_FOCUSABLE
-                layoutManager = GridLayoutManager(activity, 2)
+        ProductDummy.productClothData.forEach {
+            if (it.productCategory == categoryNumber){
+                storeItemList.add(it)
             }
-
         }
+    }
 
-        return rootView
+    private fun setManagerToRecyclerView(){
+        rv_storeItem.apply {
+            setHasFixedSize(true)
+            focusable = View.NOT_FOCUSABLE
+            layoutManager = GridLayoutManager(activity, 2)
+        }
     }
 
     override fun onDestroy() {

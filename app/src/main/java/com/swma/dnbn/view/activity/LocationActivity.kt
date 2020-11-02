@@ -21,7 +21,6 @@ class LocationActivity : AppCompatActivity(), MapView.CurrentLocationEventListen
     MapReverseGeoCoder.ReverseGeoCodingResultListener {
 
     private lateinit var mapPoint: MapPoint
-    private val retrofit = Retrofit2Instance.getInstance()!!
     private val PERMISSIONS = arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION)
 
     override fun onCreate(savedInstanceState: Bundle?) {

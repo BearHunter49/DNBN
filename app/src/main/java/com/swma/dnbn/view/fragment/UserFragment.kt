@@ -13,6 +13,7 @@ import com.swma.dnbn.R
 import com.swma.dnbn.view.adapter.UserPagerAdapter
 import com.swma.dnbn.model.item.ItemUser
 import com.swma.dnbn.utils.MyApplication
+import kotlinx.android.synthetic.main.fragment_user.*
 import kotlinx.android.synthetic.main.fragment_user.view.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -30,42 +31,27 @@ class UserFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val rootView = inflater.inflate(R.layout.fragment_user, container, false)
+        return inflater.inflate(R.layout.fragment_user, container, false)
+    }
 
-        // Http 서버로부터 User 데이터 받기
-//        val retrofit = Retrofit2Instance.getInstance()!!
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
-        try {
-            CoroutineScope(Dispatchers.Default + job).launch {
-//                retrofit.getUserFromUserId(MyApplication.userId).execute().body().let { user ->
+        // Dummy Data
+        textUserName.text = MyApplication.userName
+        textUserFollower.text = String.format("팔로워 %s명", getString(R.string.test_channel_follower))
+        Picasso.get().load(getString(R.string.test_profile_img)).into(imgUserProfile)
 
-                    // UI
-                    CoroutineScope(Dispatchers.Main + job).launch {
-                        rootView.apply {
-                            textUserName.text = MyApplication.userName
-                            textUserFollower.text = String.format("팔로워 %d명", 999)
-                            Picasso.get().load(getString(R.string.test_img)).into(imgUserProfile)
-                        }
-                    }
-//                }
+        makeProfileCircle()
 
-            }
-        } catch (e: IOException) {
-            e.printStackTrace()
-        }
+        // ViewPage + TabLayout
+        userViewPager.adapter = UserPagerAdapter(requireActivity().supportFragmentManager)
+        tabLayout.setupWithViewPager(userViewPager)
+    }
 
-        rootView.apply {
-            // 사진 원형으로
-            imgUserProfile.background = ShapeDrawable(OvalShape())
-            imgUserProfile.clipToOutline = true
-
-            // ViewPage + TabLayout
-            userViewPager.adapter = UserPagerAdapter(requireActivity().supportFragmentManager)
-            tabLayout.setupWithViewPager(userViewPager)
-        }
-
-
-        return rootView
+    private fun makeProfileCircle() {
+        imgUserProfile.background = ShapeDrawable(OvalShape())
+        imgUserProfile.clipToOutline = true
     }
 
     override fun onDestroy() {

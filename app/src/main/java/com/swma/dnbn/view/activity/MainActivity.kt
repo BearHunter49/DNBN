@@ -1,9 +1,11 @@
 package com.swma.dnbn.view.activity
 
 import android.content.Intent
+import android.content.pm.PackageManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
+import android.util.Base64
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
@@ -18,6 +20,7 @@ import com.swma.dnbn.view.fragment.UserFragment
 import com.swma.dnbn.utils.AppRequestCode
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.row_toolbar.*
+import java.security.MessageDigest
 
 const val HOME_TAG: String = "HOME"
 const val STORE_TAG: String = "STORE"

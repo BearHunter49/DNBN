@@ -16,12 +16,14 @@ import com.swma.dnbn.R
 import com.swma.dnbn.view.adapter.ShopPagerAdapter
 import com.swma.dnbn.view.adapter.SlideShopAdapter
 import com.swma.dnbn.model.item.ItemProduct
+import kotlinx.android.synthetic.main.fragment_shop.*
 import kotlinx.android.synthetic.main.fragment_shop.view.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import java.io.IOException
+import java.util.ArrayList
 
 class ShopFragment(private val product: ItemProduct) : Fragment() {
 
@@ -32,99 +34,101 @@ class ShopFragment(private val product: ItemProduct) : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val rootView = inflater.inflate(R.layout.fragment_shop, container, false)
+        return inflater.inflate(R.layout.fragment_shop, container, false)
+    }
 
-        // 프로그래스 바
-        rootView.apply {
-            progressBar_shop.visibility = View.VISIBLE
-            appBar_shop.visibility = View.GONE
-            shopDetailViewPager.visibility = View.GONE
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        visibleProgressBar(true)
+        makeProfileCircle()
+
+        bindProductData()
+
+        // 상단 이미지 슬라이드
+        setAdapterViewPager(product.productImgList)
+
+        // 하단 상세 페이지 탭
+        setAdapterTabLayout()
+
+        visibleProgressBar(false)
+
+        
+        // 프로필 사진 클릭 (채널로 이동)
+        shopUserProfile.setOnClickListener {
+            val intent = Intent(requireContext(), ChannelActivity::class.java)
+            intent.putExtra("userId", userId)
+            requireActivity().startActivity(intent)
         }
+    }
 
-        // 넘어온 상품 정보
-        val imageList = product.productImgList
+    private fun setAdapterTabLayout() {
+        shopDetailViewPager.adapter = ShopPagerAdapter(requireFragmentManager(), product)
+        shopTabLayout.setupWithViewPager(shopDetailViewPager)
+    }
 
-        // Http 통신
-//        val retrofit = Retrofit2Instance.getInstance()!!
-
-        try {
-            CoroutineScope(Dispatchers.IO + job).launch {
-//                retrofit.getProductFromId(product.productId).execute().body().let { product ->
-//                    userId = product!!.providerId
-
-//                    retrofit.getUserFromUserId(userId).execute().body().let { user ->
-                        // UI
-                        CoroutineScope(Dispatchers.Main + job).launch {
-                            rootView.apply {
-                                textShopUserName.text = "테스트사람"
-                                Picasso.get().load(R.string.test_img.toString()).into(shopUserProfile)
-
-                                progressBar_shop.visibility = View.GONE
-                                appBar_shop.visibility = View.VISIBLE
-                                shopDetailViewPager.visibility = View.VISIBLE
-                            }
-
-                        }
-//                    }
-
-//                }
-            }
-        } catch (e: IOException) {
-            e.printStackTrace()
+    private fun setAdapterViewPager(productImgList: ArrayList<String>) {
+        shopViewPager.apply {
+            adapter = SlideShopAdapter(requireActivity(), productImgList)
+            offscreenPageLimit = 2
+            currentItem = 0
         }
+        shopIndicator.setViewPager(shopViewPager)
+    }
 
-        rootView.apply {
+    private fun bindProductData() {
+        // Dummy Data
+        val shopUserName = getString(R.string.test_channel)
+        val profileImg = getString(R.string.test_profile_img)
 
-            // 상품 이미지 슬라이드
-            shopViewPager.apply {
-                adapter = SlideShopAdapter(requireActivity(), imageList)
-                offscreenPageLimit = 2
-                currentItem = 0
+
+        textShopUserName.text = shopUserName
+        Picasso.get().load(profileImg).into(shopUserProfile)
+        textShopTitle.text = product.productName
+        textShopDescription.text = product.productDescription
+
+        // 할인 가격 처리
+        val originalPrice = product.productPrice
+        val changedPrice = product.productChangedPrice
+        setChangedPrice(originalPrice, changedPrice)
+    }
+
+    private fun setChangedPrice(originalPrice: Int, changedPrice: Int) {
+        if (changedPrice != -1) {
+            textShopOriginalPrice.apply {
+                text = String.format("%,d", originalPrice)
+                paintFlags = paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
+                setTextColor(ContextCompat.getColor(context, R.color.dark_gray))
+                visibility = View.VISIBLE
             }
-            shopIndicator.setViewPager(shopViewPager)
-
-            // 프로필 사진 원형
-            shopUserProfile.apply {
-                background = ShapeDrawable(OvalShape())
-                clipToOutline = true
+            textShopPrice.apply {
+                text = String.format("%,d", changedPrice)
             }
-
-            textShopTitle.text = product.productName
-            textShopDescription.text = product.productDescription
-
-            // 할인 가격 처리
-            val originalPrice = product.productPrice
-            val changedPrice = product.productChangedPrice
-
-            if (changedPrice != -1) {
-                textShopOriginalPrice.apply {
-                    text = String.format("%,d", originalPrice)
-                    paintFlags = paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
-                    setTextColor(ContextCompat.getColor(context, R.color.dark_gray))
-                    visibility = View.VISIBLE
-                }
-                textShopPrice.apply {
-                    text = String.format("%,d", changedPrice)
-                }
-            } else {
-                textShopPrice.text = String.format("%,d", originalPrice)
-            }
-
-            // ViewPager + TabLayout
-            shopDetailViewPager.adapter = ShopPagerAdapter(requireFragmentManager(), product)
-            shopTabLayout.setupWithViewPager(shopDetailViewPager)
-
-            // 프로필 사진 클릭 (채널로 이동)
-            shopUserProfile.setOnClickListener {
-                val intent = Intent(requireContext(), ChannelActivity::class.java)
-                intent.putExtra("userId", userId)
-                requireActivity().startActivity(intent)
-            }
-
+        } else {
+            textShopPrice.text = String.format("%,d", originalPrice)
         }
+    }
 
+    private fun makeProfileCircle() {
+        shopUserProfile.apply {
+            background = ShapeDrawable(OvalShape())
+            clipToOutline = true
+        }
+    }
 
-        return rootView
+    private fun visibleProgressBar(valid: Boolean){
+        when (valid){
+            true -> {
+                progressBar_shop.visibility = View.VISIBLE
+                appBar_shop.visibility = View.GONE
+                shopDetailViewPager.visibility = View.GONE
+            }
+            else -> {
+                progressBar_shop.visibility = View.GONE
+                appBar_shop.visibility = View.VISIBLE
+                shopDetailViewPager.visibility = View.VISIBLE
+            }
+        }
     }
 
 }

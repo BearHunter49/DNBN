@@ -1,5 +1,6 @@
 package com.swma.dnbn.view.activity
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.graphics.drawable.ShapeDrawable
 import android.graphics.drawable.shapes.OvalShape
@@ -23,7 +24,12 @@ import com.squareup.picasso.Picasso
 import com.swma.dnbn.view.fragment.LiveShoppingFragment
 import com.swma.dnbn.model.item.ItemVOD
 import com.swma.dnbn.R
+import com.swma.dnbn.model.item.ItemProduct
+import kotlinx.android.synthetic.main.activity_live_watch.*
 import kotlinx.android.synthetic.main.activity_vodwatch.*
+import kotlinx.android.synthetic.main.activity_vodwatch.btn_allProduct
+import kotlinx.android.synthetic.main.activity_vodwatch.btn_close
+import kotlinx.android.synthetic.main.activity_vodwatch.btn_follow
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -38,47 +44,30 @@ class VODWatchActivity : AppCompatActivity() {
     private lateinit var url: String
     private lateinit var player: SimpleExoPlayer
     private val job = Job()
+    private lateinit var productList: ArrayList<ItemProduct>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
         setContentView(R.layout.activity_vodwatch)
 
-        // 넘어온 VOD 영상 정보
+        // Dummy Data
         val vod = intent.getSerializableExtra("vod") as ItemVOD
         url = vod.vodUrl
-        val productList = vod.vodProduct
-        VODWatchTitle.text = vod.vodTitle
-        VODWatchViews.text = "99,999"
+        productList = vod.vodProduct
+        val channelName = getString(R.string.test_channel)
+        val profileImg = getString(R.string.test_profile_img)
 
-        // HTTP 통신
-        // VOD 방송 정보
-//        val retrofit = Retrofit2Instance.getInstance()!!
-
-        try {
-            CoroutineScope(Dispatchers.IO + job).launch {
-                // 유저 정보
-//                retrofit.getUserFromUserId(vod.vodUserId).execute().body().let { user ->
-                    CoroutineScope(Dispatchers.Main + job).launch {
-                        VODWatchName.text = "User"
-                        Picasso.get().load(getString(R.string.test_img)).into(VODProfile)
-
-                    }
-//                }
-            }
-        }catch (e: IOException){
-            e.printStackTrace()
-        }
-
-        // 프로필 이미지
-        VODProfile.background = ShapeDrawable(OvalShape())
-        VODProfile.clipToOutline = true
+        // Layout
+        bindVodData(profileImg, channelName, vod.vodTitle, vod.vodViewer)
+        makeProfileCircle()
 
 
         // ExoPlayer Controller Touch 리스너
         val gestureDetector = GestureDetector(this, SingleTabConfirm())
         vodExoPlayerView.setOnTouchListener(object : View.OnTouchListener {
 
+            @SuppressLint("ClickableViewAccessibility")
             override fun onTouch(p0: View?, p1: MotionEvent?): Boolean {
                 if (gestureDetector.onTouchEvent(p1)) {
                     Log.d("myTest", "onTouch 됨")
@@ -112,8 +101,27 @@ class VODWatchActivity : AppCompatActivity() {
             intent.putExtra("userId", vod.vodUserId)
             startActivity(intent)
         }
+    }
+
+    /**
+     * Bind VOD Data
+     */
+    private fun bindVodData(
+        profileImg: String,
+        channelName: String,
+        vodTitle: String,
+        vodViewer: Int
+    ) {
+        VODWatchTitle.text = vodTitle
+        VODWatchViews.text = vodViewer.toString()
+        VODWatchName.text = channelName
+        Picasso.get().load(profileImg).into(VODProfile)
+    }
 
 
+    private fun makeProfileCircle() {
+        VODProfile.background = ShapeDrawable(OvalShape())
+        VODProfile.clipToOutline = true
     }
 
     private inner class SingleTabConfirm : GestureDetector.SimpleOnGestureListener() {
@@ -128,19 +136,8 @@ class VODWatchActivity : AppCompatActivity() {
                 lytVODWatch.visibility = View.VISIBLE
             }
 
-
             return true
         }
-    }
-
-    override fun onStart() {
-        super.onStart()
-        initializePlayer()
-    }
-
-    override fun onStop() {
-        super.onStop()
-        releasePlayer()
     }
 
 
@@ -162,7 +159,8 @@ class VODWatchActivity : AppCompatActivity() {
         val userAgent = Util.getUserAgent(this, "BearHunter")
 
         // HLS
-        return HlsMediaSource.Factory(DefaultHttpDataSourceFactory(userAgent)).createMediaSource(parse)
+        return HlsMediaSource.Factory(DefaultHttpDataSourceFactory(userAgent))
+            .createMediaSource(parse)
         // MP4
 //        return ExtractorMediaSource.Factory(DefaultHttpDataSourceFactory(userAgent)).createMediaSource(parse)
     }
@@ -179,6 +177,16 @@ class VODWatchActivity : AppCompatActivity() {
     override fun onDestroy() {
         job.cancel()
         super.onDestroy()
+    }
+
+    override fun onStart() {
+        super.onStart()
+        initializePlayer()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        releasePlayer()
     }
 
 

@@ -9,9 +9,11 @@ import android.view.ViewGroup
 import com.squareup.picasso.Picasso
 
 import com.swma.dnbn.R
+import com.swma.dnbn.model.dummyData.VodDummy
 import com.swma.dnbn.view.activity.VODWatchActivity
 import com.swma.dnbn.model.item.ItemProduct
 import com.swma.dnbn.model.item.ItemVOD
+import kotlinx.android.synthetic.main.fragment_shop_detail.*
 import kotlinx.android.synthetic.main.fragment_shop_detail.view.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -28,67 +30,38 @@ class ShopDetailFragment(private val product: ItemProduct) : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val rootView = inflater.inflate(R.layout.fragment_shop_detail, container, false)
+        return inflater.inflate(R.layout.fragment_shop_detail, container, false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
         // 넘어온 상품 정보
+        bindProductData(product)
+
+
+        // VOD 재생 버튼
+        btn_play.setOnClickListener {
+            val intent = Intent(requireContext(), VODWatchActivity::class.java)
+            intent.putExtra("vod", vod)
+            requireActivity().startActivity(intent)
+        }
+    }
+
+    private fun bindProductData(product: ItemProduct) {
         val vodId = product.productVODId
         val imgDetail = product.productDetailImg
 
-        // Http 통신
-        // vodId를 통해 VOD 정보 얻기
-//        val retrofit = Retrofit2Instance.getInstance()!!
-
         // 영상 정보가 있는 상품일때만
         if (vodId != null) {
-            try {
-                CoroutineScope(Dispatchers.IO + job).launch {
-//                    retrofit.getVideoFromId(vodId).execute().body().let { video ->
-//                        vod = ItemVOD(
-//                            vodId, video!!.name, video.thumbnailUrl, video.categoryId,
-//                            video.url, video.uploaderId, arrayListOf(product), video.uploadAt, 100
-//                        )
-
-                        // UI
-                        CoroutineScope(Dispatchers.Main + job).launch {
-                            rootView.apply {
-                                Picasso.get().load(getString(R.string.test_img)).into(shopDetail_video)
-
-                            }
-                        }
-//                    }
-                    // 더미데이터
-                    vod = ItemVOD(
-                        vodId, "테스트", getString(R.string.test_img), 1,
-                        getString(R.string.test_video), 1, arrayListOf(product), "2019-10-25T23:25:00", 999
-                    )
-
-                }
-            } catch (e: IOException) {
-                e.printStackTrace()
-            }
-        }
-        // 영상 정보가 없을 경우
-        else {
-            rootView.vodVideoLayout.visibility = View.GONE
+            // 더미데이터
+            vod = VodDummy.vodData[0]
+            Picasso.get().load(vod.vodThumbnailUrl).into(shopDetail_video)
+        } else {
+            vodVideoLayout.visibility = View.GONE
         }
 
-
-
-        rootView.apply {
-
-            // 상품지 상세정보 이미지
-            Picasso.get().load(imgDetail).into(ImgStoreDetail)
-
-            // VOD 재생 버튼
-            btn_play.setOnClickListener {
-                val intent = Intent(requireContext(), VODWatchActivity::class.java)
-                intent.putExtra("vod", vod)
-                requireActivity().startActivity(intent)
-            }
-
-        }
-
-        return rootView
+        Picasso.get().load(imgDetail).into(ImgStoreDetail)
     }
 
     override fun onDestroy() {
