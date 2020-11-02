@@ -5,7 +5,6 @@
     <string name="menu_vod">VOD</string>
     <string name="menu_schedule">편성표</string>
     <string name="view_all">전체보기</string>
-    <string name="kakao_AppKey">5b9b0fb5f10063ec38e8be512f472872</string>
-    <string name="kakao_scheme">kakao5b9b0fb5f10063ec38e8be512f472872</string>
-    <string name="kakaolink_host">kakaolink</string>
+    <string name="test_img">https://img.khan.co.kr/news/2018/04/19/l_2018042001002453300196681.jpg</string>
+    <string name="test_video">https://multiplatform-f.akamaihd.net/i/multi/will/bunny/big_buck_bunny_,640x360_400,640x360_700,640x360_1000,950x540_1500,.f4v.csmil/master.m3u8</string>
 </resources>

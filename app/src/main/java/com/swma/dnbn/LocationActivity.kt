@@ -11,6 +11,7 @@ import android.view.MenuItem
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import com.swma.dnbn.restApi.Retrofit2Instance
+import com.swma.dnbn.util.DebugApiKey
 import com.swma.dnbn.util.MyApplication
 import kotlinx.android.synthetic.main.activity_location.*
 import kotlinx.coroutines.CoroutineScope
@@ -59,7 +60,7 @@ class LocationActivity : AppCompatActivity(), MapView.CurrentLocationEventListen
         // 위치 지정 버튼
         btn_location.setOnClickListener {
             val mReverseGeocoder =
-                MapReverseGeoCoder(getString(R.string.kakao_AppKey), mapPoint, this, this)
+                MapReverseGeoCoder(DebugApiKey.getKaKaoMapKey(), mapPoint, this, this)
             mReverseGeocoder.startFindingAddress()
         }
 
